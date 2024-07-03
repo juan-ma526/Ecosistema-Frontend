@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import logo from "../images/logoLogin.png";
 import googleIcon from "../images/logoGoogleButtom.png";
-import "../auth.css";
+import "../Auth.css";
 
 export default function Register() {
   return (
