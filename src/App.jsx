@@ -1,11 +1,12 @@
 import { Typography } from '@mui/material'
 import './App.css'
+import ImpactCompanies from './pages/landing/components/ImpactCompanies/ImpactCompanies'
 
 function App() {
 
   return (
     <>
-      <Typography variant='h3' sx={{color: 'customColors.violeta' }}>Hola river plate</Typography>
+      <ImpactCompanies />
     </>
   )
 }
