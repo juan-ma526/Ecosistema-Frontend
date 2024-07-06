@@ -13,12 +13,8 @@ export default function Register() {
         <Box className="first-box">
           {/* Text box */}
           <Box className="text-box">
-            <Typography variant="h5" sx={{ fontWeight: 700 }}>
-              Registrate
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 500 }}>
-              Sumate a ECOSistema
-            </Typography>
+            <Typography sx={{ fontWeight: 700, fontSize: "28px" }}>Registrate</Typography>
+            <Typography sx={{ fontWeight: 600, fontSize: "18px" }}>Sumate a ECOSistema</Typography>
           </Box>
           {/* Box img */}
           <Box className="box-img" sx={{ width: "80px", height: "75px" }}>
@@ -27,7 +23,7 @@ export default function Register() {
         </Box>
         {/* Second Box*/}
         <Box className="second-box">
-          <Typography variant="subtitle1">Registrate con tu cuenta de Gmail</Typography>
+          <Typography sx={{ fontWeight: 500 }}>Registrate con tu cuenta de Gmail</Typography>
           <Button
             variant="contained"
             startIcon={
