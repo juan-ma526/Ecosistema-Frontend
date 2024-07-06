@@ -6,7 +6,7 @@
   opacity: 1;
 }
 .container-card {
-  background-color: white;
+  background-color: #fafafa;
   width: 328px;
   height: 352px;
   position: absolute;
@@ -51,4 +51,5 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 8px;
 }

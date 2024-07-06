@@ -13,12 +13,8 @@ export default function Login() {
         <Box className="first-box">
           {/* Text box */}
           <Box className="text-box" sx={{ width: "277px" }}>
-            <Typography variant="h5" sx={{ fontWeight: 700 }}>
-              Inicia Sesión
-            </Typography>
-            <Typography variant="h6" sx={{ fontWeight: 500 }}>
-              Seguí disfrutando de ECOSistema
-            </Typography>
+            <Typography sx={{ fontWeight: 700, fontSize: "28px" }}>Inicia Sesión</Typography>
+            <Typography sx={{ fontWeight: 600, fontSize: "18px" }}>Seguí disfrutando de ECOSistema</Typography>
           </Box>
           {/* Box img */}
           <Box className="box-img" sx={{ width: "80px", height: "75px" }}>
@@ -27,7 +23,7 @@ export default function Login() {
         </Box>
         {/* Second Box*/}
         <Box className="second-box">
-          <Typography variant="subtitle1">Ingresá con tu cuenta de Gmail</Typography>
+          <Typography sx={{ fontWeight: 500 }}>Ingresá con tu cuenta de Gmail</Typography>
           <Button
             variant="contained"
             startIcon={
