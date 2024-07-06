@@ -1,11 +1,11 @@
-import { Typography } from '@mui/material'
 import './App.css'
+import SearchBar from './components/Searchbar'
 
 function App() {
 
   return (
     <>
-      <Typography variant='h3' sx={{color: 'customColors.violeta' }}>Hola river plate</Typography>
+      <SearchBar />
     </>
   )
 }
