@@ -35,25 +35,39 @@ export const UserIn = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "start" }}>
+        <MenuItem
+          sx={{
+            width: "184px",
+            height: "95px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "start",
+          }}
+        >
           <Box sx={{ display: "flex", gap: 1 }}>
-            <Avatar sx={{ width: "22px", height: "22px" }} alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-            <Typography textAlign="center">Julieta Perez</Typography>
+            <Avatar sx={{ width: "32px", height: "32px" }} alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Typography sx={{ fontWeight: 600 }} textAlign="center">
+              Julieta Perez
+            </Typography>
           </Box>
-          <Typography sx={{ marginLeft: 4, fontWeight: 400 }} variant="subtitle2" textAlign="center">
+          <Typography sx={{ marginLeft: 5, fontWeight: 400, fontSize: "14px" }} variant="subtitle2" textAlign="center">
             JulietaPerez@gmail.com
           </Typography>
           <Typography
             onClick={handleCloseUserMenu}
-            sx={{ marginLeft: 4, marginTop: 2, color: "customColors.violeta" }}
-            variant="subtitle2"
+            sx={{ marginLeft: 5, marginTop: 2, color: "customColors.violeta", fontWeight: 700 }}
             textAlign="center"
           >
             Mi Perfil
           </Typography>
         </MenuItem>
-        <MenuItem>
-          <Typography onClick={handleCloseUserMenu} sx={{ marginLeft: 0 }} variant="subtitle1" textAlign="center">
+        <MenuItem sx={{ width: "84px", height: "25px" }}>
+          <Typography
+            onClick={handleCloseUserMenu}
+            sx={{ marginLeft: 0, fontWeight: 500, fontSize: "14px" }}
+            textAlign="center"
+          >
             Cerrar Sesion
           </Typography>
         </MenuItem>

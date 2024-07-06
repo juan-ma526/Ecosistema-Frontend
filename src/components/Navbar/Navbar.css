@@ -8,6 +8,10 @@
   top: 56px !important;
 }
 .MuiMenu-paper {
-  width: 200px;
-  height: 144px;
+  left: 104px;
+  width: 240px;
+  height: 150px;
+  border-radius: 0px 0px 4px 4px;
+  padding: 0px 8px 8px 8px;
+  gap: 12px;
 }
