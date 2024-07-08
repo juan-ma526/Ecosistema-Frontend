@@ -23,6 +23,15 @@ const theme = createTheme({
     fontWeightMedium: 600,
     fontWeightBold: 700,
   },
+  components: {
+    MuiCardHeader: {
+        styleOverrides: {
+            title: {
+                fontSize: '13px',  
+            },
+        },
+    },
+  },
 });
 
 export default theme;
