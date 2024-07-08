@@ -1,13 +1,19 @@
-import { Typography } from '@mui/material'
-import './App.css'
+//import { Typography } from '@mui/material'
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Login from "./pages/auth/login";
+import Register from "./pages/auth/register";
 
 function App() {
-
   return (
     <>
-      <Typography variant='h3' sx={{color: 'customColors.violeta' }}>Hola river plate</Typography>
+      <Routes>
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/register" element={<Register />} />
+      </Routes>
+      {/* <Typography variant='h3' sx={{color: 'customColors.violeta' }}>Hola river plate</Typography> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
