@@ -44,7 +44,7 @@ export default function SearchBar() {
       <Paper
         component="form"
         onSubmit={handleSearch}
-        sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 328, height: 56, borderRadius: 100 }}
+        sx={{ p: "0px 16px 0px 16px", display: "flex", alignItems: "center", width: 328, height: 56, borderRadius: 100 }}
       >
         <IconButton type="submit" sx={{ p: "16px" }} aria-label="search">
           <SearchIcon />
