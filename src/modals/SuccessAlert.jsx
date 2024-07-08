@@ -1,9 +1,8 @@
 import * as React from "react";
-import Slide from "@mui/material/Slide";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { DialogActions, Typography, Dialog, Button, Alert, Box } from "@mui/material";
 import "./modal.css";
+import Slide from "@mui/material/Slide";
+import CheckCircleOutlineIcon from "@mui/icons-material/HighlightOff";
+import { DialogActions, Dialog, Button, Alert, Typography, DialogContent } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -32,30 +31,41 @@ export default function SuccessAlert() {
         TransitionComponent={Transition}
         keepMounted
         aria-describedby="alert-dialog-slide-description"
+        sx={{height: "208px", top: "324px"}}
       >
-        <Box
-          height="hug"
-          width="fixed"
-          alignItems="center"
-          gap={4}
-          p={2}
-          mx={2}
-          sx={{borderRadius:"28px"}}
+        {/*Contenido icono*/}
+        <Alert
+          sx={{ justifyContent: "center", bgcolor: "background.paper", alignItems: "start", marginTop: "-16px" }}
+          icon={<CheckCircleOutlineIcon />}
+          severity="success"
+        />
+
+        {/*Contenido texto*/}
+        <DialogContent
+          sx={{
+            width: "328px",
+            height: "104px",
+            padding: "0px 24px",
+            gap: "14px",
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
-          <Alert
-            iconMapping={{
-              success: <CheckCircleOutlineIcon fontSize="large" />,
-              error: <HighlightOffIcon fontSize="large" />,
-            }}
-            sx={{ textAlign: "center", justifyContent: "center", bgcolor: "#FAFAFA" }}
-          />
-          <Typography variant="h6" sx={{ p: 0 }}>Cambios guardados con éxito</Typography>
-          <DialogActions>
-            <Button sx={{ color: "#4E169D" }} onClick={handleClose}>
-              <Typography sx={{fontWeight: 600, fontSize: 14}}>Aceptar</Typography>
-            </Button>
-          </DialogActions>
-        </Box>
+          <Typography sx={{ fontWeight: 400, fontSize: "18px", textAlign: "center" }}>
+            Cambios guardados con éxito.
+          </Typography>
+        </DialogContent>
+        {/*Contenido botones*/}
+        <DialogActions
+          sx={{ display: "flex", justifyContent: "end", width: "328px", height: "48px", paddingRight: "16px" }}
+        >
+          <Button
+            sx={{ color: "#4E169D", width: "80px", height: "40px", borderRadius: "100px", gap: "8px"}}
+            onClick={handleClose}
+          >
+            <Typography sx={{ fontWeight: 700, fontSize: "14px", textTransform: "none" }}>Aceptar</Typography>
+          </Button>
+        </DialogActions>
       </Dialog>
     </React.Fragment>
   );

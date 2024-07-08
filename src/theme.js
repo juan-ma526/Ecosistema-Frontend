@@ -17,11 +17,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Nunito",
-    fontWeightLight: 400,
-    fontWeightRegular: 500,
-    fontWeightMedium: 600,
-    fontWeightBold: 700,
+    fontFamily: "Nunito"
   },
 });
 
