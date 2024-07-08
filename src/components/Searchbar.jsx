@@ -53,7 +53,6 @@ export default function SearchBar() {
           id="filled-hidden-label-normal"
           variant="standard"
           color="primary"
-          focused
           placeholder="Buscar Proovedores"
           value={query}
           onChange={handleInputChange}
