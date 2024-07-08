@@ -1,13 +1,14 @@
-import { Typography } from '@mui/material'
-import './App.css'
+import { Typography } from "@mui/material";
+import "./App.css";
 
 function App() {
-
   return (
     <>
-      <Typography variant='h3' sx={{color: 'customColors.violeta' }}>Hola river plate</Typography>
+      <Typography variant="h3" sx={{ color: "customColors.violeta" }}>
+        Hola river plate
+      </Typography>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
