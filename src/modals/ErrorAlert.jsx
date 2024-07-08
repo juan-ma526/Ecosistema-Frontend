@@ -2,6 +2,7 @@ import * as React from "react";
 import Slide from "@mui/material/Slide";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { DialogActions, Dialog, Button, Alert, Box, Typography } from "@mui/material";
+import "./modal.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -33,7 +34,7 @@ export default function ErrorAlert() {
       >
         <Box height="hug" width="fixed" alignItems="center" p={2} mx={4}>
           <Alert
-            sx={{ textAlign: "center", justifyContent: "center", bgcolor: "#FAFAFA" }}
+            sx={{ textAlign: "center", justifyContent: "center", bgcolor: "background.paper" }}
             icon={<HighlightOffIcon fontSize="large" />}
             severity="error"
           />
@@ -46,8 +47,11 @@ export default function ErrorAlert() {
             Por favor, volvé a intentarlo.
           </Typography>
           <DialogActions>
-            <Button sx={{ color: "#4E169D" }} onClick={handleClose}>
-              Aceptar
+            <Button sx={{ color: "#4E169D"}} onClick={handleClose}>
+              Cancelar
+            </Button>
+            <Button sx={{ color: "#4E169D"}} onClick={handleClose}>
+              Intentar nuevamente
             </Button>
           </DialogActions>
         </Box>
