@@ -3,6 +3,8 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
+import CardProvider from "./pages/providers/components/CardProviders/CardProviders";
+
 
 function App() {
   return (
@@ -10,8 +12,8 @@ function App() {
       <Routes>
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
+        <Route path="/providers/provider" element={<CardProvider />} />
       </Routes>
-      {/* <Typography variant='h3' sx={{color: 'customColors.violeta' }}>Hola river plate</Typography> */}
     </>
   );
 }
