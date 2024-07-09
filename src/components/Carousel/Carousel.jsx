@@ -7,6 +7,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './Carousel.css';
 
+/*Recibe dos parametros, 
+elements: array para el slider, 
+styleradius: para el borderRadius en formato texto*/
 function Carousel( props ){
     return(
         <Swiper

@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from '@mui/material';
-import Carousel from '../Carousel/Carousel';
+import Carousel from '../../../../components/Carousel/Carousel';
 import lavanda1 from '../../images/lavanda1.png';
 import lavanda2 from '../../images/lavanda2.png';
 import lavanda3 from '../../images/lavanda3.png';
