@@ -8,7 +8,6 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
@@ -16,23 +15,24 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from '@mui/material';
-import lavanda1 from '../images/lavanda1.png';
-import lavanda2 from '../images/lavanda2.png';
-import lavanda3 from '../images/lavanda3.png';
+import Carousel from '../Carousel/Carousel';
+import lavanda1 from '../../images/lavanda1.png';
+import lavanda2 from '../../images/lavanda2.png';
+import lavanda3 from '../../images/lavanda3.png';
 import './CardProviders.css';
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
+})
+(({ theme, expand }) => ({
   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
   marginLeft: 'auto',
   transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-
-
 
 function CardProvider() {
 
@@ -41,7 +41,9 @@ function CardProvider() {
         image: lavanda1,
         nameProvider: 'Lavanda',
         typeProvider: 'Cosmetica Natural',
-        location: 'Godoy Cruz, Mendoza, Argentina',
+        ciudad: 'Godoy Cruz',
+        provincia: 'Mendoza',
+        pais: 'Argentina',
         description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
                         y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
                         al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
@@ -55,7 +57,9 @@ function CardProvider() {
         image: lavanda2,
         nameProvider: 'Lavanda',
         typeProvider: 'Cosmetica Natural',
-        location: 'Godoy Cruz, Mendoza, Argentina',
+        ciudad: 'Godoy Cruz',
+        provincia: 'Mendoza',
+        pais: 'Argentina',
         description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
                         y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
                         al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
@@ -69,7 +73,9 @@ function CardProvider() {
         image: lavanda3,
         nameProvider: 'Lavanda',
         typeProvider: 'Cosmetica Natural',
-        location: 'Godoy Cruz, Mendoza, Argentina',
+        ciudad: 'Godoy Cruz',
+        provincia: 'Mendoza',
+        pais: 'Argentina',
         description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
                         y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
                         al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
@@ -101,50 +107,22 @@ function CardProvider() {
       },[]);
   
     return (
-      <Card sx={{ 
-            width: 328,
-            borderRadius: 4,
-            margin: '0px 16px',
-            paddingTop: '16px',
-            paddingBottom: '8px',
+      <Card className='cardStyles' sx={{ 
             backgroundColor: 'customColors.grisClaro'
         }}>
         <Box sx={{margin: '0px 12px'}}>
             <Box sx={{textAlign:'-webkit-right'}}>
-                <CardHeader
+                <CardHeader className='cardHeaderStyles'
                 title={data.category}
                 sx={{
                     backgroundColor: 'customColors.blanco',
-                    width: 96,
-                    height: 24,
-                    borderTopLeftRadius: 4,
-                    borderTopRightRadius: 4,
-                    border: 1,
                     borderColor: 'customColors.verde',
                     color: 'customColors.violeta',
-                    padding: '4px 8px 4px 8px',
-                    boxShadow: '0px 4px 4px 0px rgba(0,0,0,0.25)',
-                    textAlign: 'center',
-                    fontSize: '13px',
                 }}
                 />
-                <CardMedia
-                    component="img"
-                    height='128px'
-                    image={data.image}
-                    alt="Image of Product"
-                    sx={{
-                        width:'100%',
-                        borderTopLeftRadius:'16px',
-                        borderBottomLeftRadius:'16px',
-                        borderBottomRightRadius:'16px',
-                    }}
-                />
+                <Carousel elements={[lavanda1,lavanda2,lavanda3]} styleradius='16px 0px 16px 16px' />
             </Box>
-            <CardContent sx={{
-                width: '100%',
-                height: 76,
-            }}>
+            <CardContent className='CardContentStyles' >
                 <Typography variant='h2' sx={{ 
                     color: "customColors.negro",
                     fontSize: 18,
@@ -159,7 +137,7 @@ function CardProvider() {
                     }}>
                     {data.typeProvider}
                 </Typography>
-                <Box sx={{display: 'flex', flexDirection:'row', justifyContent: 'left', margin: '8px 5px 0px 5px'       }}>
+                <Box sx={{display: 'flex', flexDirection:'row', justifyContent: 'left', margin: '8px 5px 0px 5px'}}>
                     <Box>
                         <IconButton aria-label="location" className='inline' sx={{
                             width: 24,
@@ -178,7 +156,7 @@ function CardProvider() {
                             fontSize: 13,
                             height: 20,
                             }}>
-                            {data.location}
+                            {data.ciudad}, {data.provincia}, {data.pais}
                         </Typography>
                     </Box>
                 </Box>
