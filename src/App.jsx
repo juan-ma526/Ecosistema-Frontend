@@ -3,13 +3,13 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
-import Providers from './pages/providers/Providers';
-
+import Providers from "./pages/providers/Providers";
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
         <Route path="/providers/providers" element={<Providers />} />
@@ -18,4 +18,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
