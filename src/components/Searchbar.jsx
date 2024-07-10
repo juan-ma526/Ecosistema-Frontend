@@ -34,7 +34,7 @@ export default function SearchBar() {
       }
 
       // OJO aca... no se si hay que limpiar la searchbar post busqueda:
-      setQuery('');
+      setQuery("");
     } catch (error) {
       setError("Hubo un problema con la búsqueda. Intentalo de nuevo.");
     }
@@ -45,7 +45,14 @@ export default function SearchBar() {
       <Paper
         component="form"
         onSubmit={handleSearch}
-        sx={{ p: "0px 16px 0px 16px", display: "flex", alignItems: "center", width: 328, height: 56, borderRadius: 100 }}
+        sx={{
+          p: "0px 16px 0px 16px",
+          display: "flex",
+          alignItems: "center",
+          width: 328,
+          height: 56,
+          borderRadius: 100,
+        }}
       >
         <IconButton type="submit" sx={{ p: "16px" }} aria-label="search">
           <SearchIcon />

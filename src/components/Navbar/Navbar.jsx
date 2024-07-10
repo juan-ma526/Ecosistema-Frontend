@@ -10,17 +10,17 @@ import { UserIn } from "./components/UserIn";
 
 const drawerWidth = 258;
 const navItems = [
-  { item: "Inicio", fontWeight: 700, fontSize: 18, fontStyle: "normal" },
-  { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal" },
-  { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal" },
-  { item: "Iniciá sesión", fontWeight: 700, fontSize: 18, fontStyle: "normal" },
+  { item: "Inicio", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/" },
+  { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers" },
+  { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/publications" },
+  { item: "Iniciá sesión", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/auth/login" },
   {
     item: "Querés formar parte de la Red de impacto ECO como Proveedor?",
     fontWeight: 400,
     fontSize: 18,
     fontStyle: "italic",
   },
-  { item: "Registrate", fontWeight: 700, fontSize: 18, fontStyle: "normal" },
+  { item: "Registrate", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/auth/register" },
 ];
 
 function Navbar(props) {
@@ -54,6 +54,7 @@ function Navbar(props) {
             fontStyle={object.fontStyle}
             fontWeight={object.fontWeight}
             key={object.item}
+            path={object.path}
           />
         ))}
       </List>

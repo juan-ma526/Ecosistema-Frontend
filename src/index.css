@@ -1,3 +1,11 @@
 html {
   background-color: #fafafa;
 }
+.link-tag {
+  text-decoration: none;
+  color: #fafafa;
+}
+
+.link-tag:active {
+  text-decoration: none;
+}

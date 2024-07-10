@@ -1,14 +1,14 @@
 import "./Category.css";
 import { Box, Button, Typography } from "@mui/material";
 import { CategoryItem } from "./components/CategoryItem";
-import ConstruccionImg from "./images/construccion.png";
-import TecnologiaImg from "./images/tecnologia.png";
-import IndumentariaImg from "./images/indumentaria.png";
-import BienestarImg from "./images/bienestar.png";
-import GastronomiaImg from "./images/gastronomia.png";
-import CultivosImg from "./images/cultivos.png";
-import TransporteImg from "./images/transporte.png";
-import ReciclajeImg from "./images/reciclaje.png";
+import ConstruccionImg from "../../../../components/Category/images/construccion.png";
+import TecnologiaImg from "../../../../components/Category/images/tecnologia.png";
+import IndumentariaImg from "../../../../components/Category/images/indumentaria.png";
+import BienestarImg from "../../../../components/Category/images/bienestar.png";
+import GastronomiaImg from "../../../../components/Category/images/gastronomia.png";
+import CultivosImg from "../../../../components/Category/images/cultivos.png";
+import TransporteImg from "../../../../components/Category/images/transporte.png";
+import ReciclajeImg from "../../../../components/Category/images/reciclaje.png";
 
 const itemsCategory = [
   {
