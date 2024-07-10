@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./modal.css";
 import Slide from "@mui/material/Slide";
-import CheckCircleOutlineIcon from "@mui/icons-material/HighlightOff";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { DialogActions, Dialog, Button, Alert, Typography, DialogContent } from "@mui/material";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
