@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { TextField, List, ListItem, ListItemText, Typography } from "@mui/material";
+import "./searchbar.css";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -40,7 +41,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div>
+    <div className="searchbar-container">
       <Paper
         component="form"
         onSubmit={handleSearch}
