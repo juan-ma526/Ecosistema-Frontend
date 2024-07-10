@@ -1,0 +1,16 @@
+.ProvidersHeader{
+    background-image: url('./images/proveedores.png');
+    opacity: 0.9;
+    background-position: center;
+    background-size: cover;
+    padding-left: 16px;
+    width: 360px;
+    height: 488px;
+}
+.ProvidersPage{
+    background-color: #FAFAFA;
+}
+.box-title-categories{
+    text-align: center;
+    padding: 30px 0px 0px 0px;
+}

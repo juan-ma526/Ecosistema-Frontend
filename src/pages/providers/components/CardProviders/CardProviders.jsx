@@ -34,78 +34,13 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function CardProvider() {
-
-    const resp = [{
-        category: 'Bienestar',
-        image: lavanda1,
-        nameProvider: 'Lavanda',
-        typeProvider: 'Cosmetica Natural',
-        ciudad: 'Godoy Cruz',
-        provincia: 'Mendoza',
-        pais: 'Argentina',
-        description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-        linkFacebook: 'www.facebook.com/lavanda',
-        linkInstagram: 'www.instagram.com/lavanda',
-        linkMail: 'lavanda@mendoza.com',
-        linkWhatsapp: 'apiwhatsapp.com/'
-    },
-    {
-        category: 'Bienestar',
-        image: lavanda2,
-        nameProvider: 'Lavanda',
-        typeProvider: 'Cosmetica Natural',
-        ciudad: 'Godoy Cruz',
-        provincia: 'Mendoza',
-        pais: 'Argentina',
-        description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-        linkFacebook: 'www.facebook.com/lavanda',
-        linkInstagram: 'www.instagram.com/lavanda',
-        linkMail: 'lavanda@mendoza.com',
-        linkWhatsapp: 'apiwhatsapp.com/'
-    },
-    {
-        category: 'Bienestar',
-        image: lavanda3,
-        nameProvider: 'Lavanda',
-        typeProvider: 'Cosmetica Natural',
-        ciudad: 'Godoy Cruz',
-        provincia: 'Mendoza',
-        pais: 'Argentina',
-        description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-        linkFacebook: 'www.facebook.com/lavanda',
-        linkInstagram: 'www.instagram.com/lavanda',
-        linkMail: 'lavanda@mendoza.com',
-        linkWhatsapp: 'apiwhatsapp.com/'
-    },
-];
-
-    const [data, SetData] = useState([]);
+function CardProvider( props ) {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
 
-    useEffect(() => {
-        const cargarDatos = () => {
-          try {
-            // const response = await fetch("http://localhost:3000/proveedores");
-            // const resp = await response.json();
-            SetData(resp[0]);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-        cargarDatos();
-      },[]);
-  
     return (
       <Card className='cardStyles' sx={{ 
             backgroundColor: 'customColors.grisClaro'
@@ -113,14 +48,14 @@ function CardProvider() {
         <Box sx={{margin: '0px 12px'}}>
             <Box sx={{textAlign:'-webkit-right'}}>
                 <CardHeader className='cardHeaderStyles'
-                title={data.category}
+                title={props.category}
                 sx={{
                     backgroundColor: 'customColors.blanco',
                     borderColor: 'customColors.verde',
                     color: 'customColors.violeta',
                 }}
                 />
-                <Carousel elements={[lavanda1,lavanda2,lavanda3]} styleradius='16px 0px 16px 16px' />
+                <Carousel elements={props.image} styleradius='16px 0px 16px 16px' />
             </Box>
             <CardContent className='CardContentStyles' >
                 <Typography variant='h2' sx={{ 
@@ -128,14 +63,14 @@ function CardProvider() {
                     fontSize: 18,
                     height: 24,
                 }}>
-                    {data.nameProvider}
+                    {props.nameProvider}
                 </Typography>
                 <Typography variant='subtitle1' sx={{ 
                     color: "customColors.violeta",
                     fontSize: 13,
                     height: 18,
                     }}>
-                    {data.typeProvider}
+                    {props.typeProvider}
                 </Typography>
                 <Box sx={{display: 'flex', flexDirection:'row', justifyContent: 'left', margin: '8px 5px 0px 5px'}}>
                     <Box>
@@ -156,7 +91,7 @@ function CardProvider() {
                             fontSize: 13,
                             height: 20,
                             }}>
-                            {data.ciudad}, {data.provincia}, {data.pais}
+                            {props.ciudad}, {props.provincia}, {props.pais}
                         </Typography>
                     </Box>
                 </Box>
@@ -172,7 +107,7 @@ function CardProvider() {
                         lineHeight: 1.25,
                         color: 'customColors.negro'
                         }}>
-                        {data.description}
+                        {props.description}
                     </Typography>
                     <Typography paragraph sx={{
                         fontSize: 16,
