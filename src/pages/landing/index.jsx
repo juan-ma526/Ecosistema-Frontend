@@ -9,6 +9,7 @@ import slide2 from "../../components/Publications/images/slide2.jpeg";
 import slide3 from "../../components/Publications/images/slide3.png";
 import { Link } from "react-router-dom";
 import { Category } from "./components/Category/Category";
+import  ProvidersHomes from "./components/ProvidersHome/ProvidersHome";
 
 const itemPublication = [
   {
@@ -59,6 +60,7 @@ export default function HomePage() {
       <HomeTitle />
       <ImpactCompanies />
       <InvitationRedImpacto />
+      <ProvidersHomes recomendaciones='Recomendaciones para vos' recomendacionesTitle='Proveedores ECO' />
       <Box sx={{ marginTop: "48px" }}>
         <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones locales para vos</Typography>
         <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores cerca tuyo</Typography>
