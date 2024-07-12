@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Box, Typography, Grid } from "@mui/material";
 import './ProvidersHome.css';
-import CardProviders from '../../../providers/components/CardProviders/CardProviders';
+import MiniCardProviders from './components/MiniCardProvider';
 import lavanda1 from "../../../providers/images/lavanda1.png";
 import lavanda2 from "../../../providers/images/lavanda2.png";
 import lavanda3 from "../../../providers/images/lavanda3.png";
@@ -63,8 +63,8 @@ function ProvidersHome(props){
         {
             category: "Indumentaria",
             image: [upcycling],
-            nameProvider: "Lavanda",
-            typeProvider: "Cosmetica Natural",
+            nameProvider: "Velka",
+            typeProvider: "Upcycling",
             ciudad: "Godoy Cruz",
             provincia: "Mendoza",
             pais: "Argentina",
@@ -97,33 +97,23 @@ function ProvidersHome(props){
             <Box className='box-providers-home' sx={{
                     backgroundColor: "customColors.verde",
             }}>
-                <Typography variant='h3' className='typography-recomendaciones' sx={{
-                    color: 'customColors.negro',
-                    fontSize: '16px',
-                    fontWeight: 600   
-                }}>
-                    {props.recomendaciones}
-                </Typography>
-                <Typography variant='h2' className='typography-recomendaciones-title' sx={{
-                    color: 'customColors.negro',
-                    fontSize: '22px',
-                    fontWeight: 700 
-                }}>
-                    {props.recomendacionesTitle}
-                </Typography>
-                <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xs={6}>
-                        <p>1</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>2</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>3</p>
-                    </Grid>
-                    <Grid item xs={6}>
+                <Grid container rowSpacing={1} >
+                  {data.map((elem, i) => {
+                      return (
+                        <Grid item key={i} xs={6}>
+                          <MiniCardProviders
+                            category={elem.category}
+                            image={elem.image[0]}
+                            nameProvider={elem.nameProvider}
+                            typeProvider={elem.typeProvider}
+                            ciudad={elem.ciudad}
+                          />
+                        </Grid>
+                      );
+                    })}
+                    {/* <Grid item xs={6}>
                         <p>4</p>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Box>
         </>
