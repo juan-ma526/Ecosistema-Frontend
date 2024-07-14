@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import CardProviders from "./components/CardProviders/CardProviders";
-import ProvidersHeaders from "./components/ProviderHeader/ProvidersHeader";
+import ProvidersHeaders from "./components/ProvidersHeader";
 import lavanda1 from "./images/lavanda1.png";
 import lavanda2 from "./images/lavanda2.png";
 import lavanda3 from "./images/lavanda3.png";

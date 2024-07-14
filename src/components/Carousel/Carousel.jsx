@@ -25,11 +25,12 @@ function Carousel( props ){
             style={{borderRadius: props.styleradius }} 
         >
             {props.elements.map( (element, i) => {
-                return (<SwiperSlide key={i}>
-                    <div>
-                        <img src={element} />
-                    </div>
-                </SwiperSlide>
+                return (
+                    <SwiperSlide key={i}>
+                        <div>
+                            <img src={element} />
+                        </div>
+                    </SwiperSlide>
                 )
                 })
             }

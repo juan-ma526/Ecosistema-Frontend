@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Box, Typography} from '@mui/material';
-import '../../Providers.css';
+import '../Providers.css';
 
 function ProvidersHeaders(){
     return(

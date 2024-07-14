@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import './ProvidersHome.css';
-import MiniCardProviders from './components/MiniCardProvider';
+import MiniCardProviders from './MiniCardProvider/MiniCardProvider';
 import lavanda1 from "../../../providers/images/lavanda1.png";
 import lavanda2 from "../../../providers/images/lavanda2.png";
 import lavanda3 from "../../../providers/images/lavanda3.png";
@@ -79,6 +79,7 @@ function ProvidersHome(props){
       ];
 
     const [data, SetData] = useState([]);
+
     useEffect(() => {
         const cargarDatos = () => {
           try {
@@ -94,28 +95,28 @@ function ProvidersHome(props){
 
     return(
         <>
-            <Box className='box-providers-home' sx={{
-                    backgroundColor: "customColors.verde",
-            }}>
-                <Grid container rowSpacing={1} >
-                  {data.map((elem, i) => {
-                      return (
-                        <Grid item key={i} xs={6}>
+          <Box className='box-providers-home' sx={{
+                  backgroundColor: "customColors.verde",
+          }}>
+              <Grid container rowSpacing={1} >
+                {data.map((elem, i) => {
+                    return (
+                      <Grid item key={i} xs={6}>
                           <MiniCardProviders
                             category={elem.category}
                             image={elem.image[0]}
                             nameProvider={elem.nameProvider}
                             typeProvider={elem.typeProvider}
                             ciudad={elem.ciudad}
+                            provincia={elem.provincia}
+                            pais={elem.pais}
+                            description={elem.description}
                           />
-                        </Grid>
-                      );
-                    })}
-                    {/* <Grid item xs={6}>
-                        <p>4</p>
-                    </Grid> */}
-                </Grid>
-            </Box>
+                      </Grid>
+                    );
+                  })}
+              </Grid>
+          </Box>
         </>
     )
 }
