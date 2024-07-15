@@ -61,7 +61,7 @@ function CardProvider( props ) {
                       fontSizeDescription='16px'
                     />
                     <ProviderCardSocialNets 
-                      fontSizeSocialNets='16px'
+                      fontSizeSocialNets='14px'
                     />
                 </CardContent>
             </Collapse>

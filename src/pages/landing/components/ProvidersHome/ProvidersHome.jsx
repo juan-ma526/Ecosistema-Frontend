@@ -98,7 +98,7 @@ function ProvidersHome(props){
           <Box className='box-providers-home' sx={{
                   backgroundColor: "customColors.verde",
           }}>
-              <Grid container rowSpacing={1} >
+              <Grid container rowSpacing={1} columnSpacing={1} >
                 {data.map((elem, i) => {
                     return (
                       <Grid item key={i} xs={6}>

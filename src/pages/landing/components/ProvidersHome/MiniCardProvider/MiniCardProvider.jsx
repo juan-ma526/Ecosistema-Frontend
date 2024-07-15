@@ -6,14 +6,11 @@ import ProviderCardDescription from '../../../../providers/components/ProviderCa
 import ProviderCardSocialNets from '../../../../providers/components/ProviderCardSocialNets';
 import CardContent from '@mui/material/CardContent';
 import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import { Box } from '@mui/material';
 import './MiniCardProviders.css';
-import { Height } from '@mui/icons-material';
-
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -28,7 +25,7 @@ const ExpandMore = styled((props) => {
 }));
 
 function MiniCardProvider( props ) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     
     const handleOpen = () => {
       setOpen(true);
@@ -53,7 +50,7 @@ function MiniCardProvider( props ) {
         <Card className='MiniCardStyles' sx={{ 
             backgroundColor: 'customColors.grisClaro'
         }}>
-            <Box sx={{margin: '0px 5px'}}>
+            <Box sx={{margin: '0px 5px'}} onClick={handleOpen}>
               <Box sx={{textAlign:'-webkit-right'}}>
                   <ProviderCardHeaderMin category= {props.category} estiloHeader='MiniCardHeaderStyles' /> 
                   <img className='miniImagen' src={props.image}  alt="imagen principal" sx={{
@@ -66,7 +63,6 @@ function MiniCardProvider( props ) {
                   ciudad={props.ciudad}
                   mini = {true}
               />
-              <Button onClick={handleOpen}>Detalles</Button>
             </Box>
             
             <Modal
@@ -94,7 +90,8 @@ function MiniCardProvider( props ) {
                       ciudad={props.ciudad}
                       provincia={props.provincia}
                       pais={props.pais}
-                      mini = {true}
+                      mini = {false}
+                      modal = {true}
                   />
                   <CardContent sx={{
                     padding:'5px'

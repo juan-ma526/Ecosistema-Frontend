@@ -124,9 +124,10 @@ function Providers(props) {
           sx={{
             backgroundColor: "customColors.verde",
             height: "100%",
-            width: "360px",
+            width: "100%",
             borderTopRightRadius: "100%",
             marginTop: "0px",
+            padding: "0px auto"
           }}
         >
           {data.map((elem, i) => {
@@ -145,7 +146,6 @@ function Providers(props) {
             );
           })}
         </Box>
-        <br />
       </Box>
     </>
   );

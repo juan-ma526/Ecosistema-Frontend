@@ -38,8 +38,8 @@ function ProviderCardMedia( props ){
                 <Box>
                     <Typography variant="body2" className='inline' sx={{ 
                         color: "customColors.negro",
-                        fontSize: 13,
-                        height: 18,
+                        fontSize: props.modal == true ? "11px" : "14px",
+                        height: 16,
                         }}>
                         { props.mini == false ? (
                             props.ciudad + ", " + props.provincia +", "+ props.pais
