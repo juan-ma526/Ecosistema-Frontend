@@ -127,7 +127,7 @@ function Providers(props) {
             width: "100%",
             borderTopRightRadius: "100%",
             marginTop: "0px",
-            padding: "0px auto"
+            padding: "0px 15px"
           }}
         >
           {data.map((elem, i) => {
