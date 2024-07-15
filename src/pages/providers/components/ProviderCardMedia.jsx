@@ -40,6 +40,7 @@ function ProviderCardMedia( props ){
                         color: "customColors.negro",
                         fontSize: props.modal == true ? "11px" : "14px",
                         height: 16,
+                        fontWeight: 600
                         }}>
                         { props.mini == false ? (
                             props.ciudad + ", " + props.provincia +", "+ props.pais
