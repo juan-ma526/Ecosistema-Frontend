@@ -16,6 +16,7 @@ function App() {
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
         <Route path="/providers" element={<Providers />} />
+        <Route path="/providers/:idcategory" element={<Providers />} />
         <Route path="/publications" element={<PublicationsPage />} />
         <Route path="/categories" element={<CategoriesPage />} />
       </Routes>

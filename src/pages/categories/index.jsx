@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {Box, Typography} from '@mui/material';
 import SearchBar from '../../components/Searchbar';
 import { CategoryItem } from '../landing/components/Category/components/CategoryItem';
@@ -17,17 +18,17 @@ import TransporteImg from "../../components/Category/images/transporte.png";
 import ReciclajeImg from "../../components/Category/images/reciclaje.png";
 
 const itemsCategory = [
-    {title: "Bienestar", image: BienestarImg, },
-    {title: "Capacitaciones", image: CapacitacionesImg,},
-    {title: "Construcción", image: ConstruccionImg,},
-    {title: "Cultivos", image: CultivosImg,},
-    {title: "Gastronomía", image: GastronomiaImg,},
-    {title: "Indumentaria", image: IndumentariaImg,},
-    {title: "Merchandising", image: MerchandisingImg,},
-    {title: "Muebles/Deco", image: MueblesDecoImg,},
-    {title: "Reciclaje", image: ReciclajeImg,},
-    {title: "Tecnología", image: TecnologiaImg,},
-    {title: "Transporte", image: TransporteImg,},
+    {id: 1,title: "Bienestar", image: BienestarImg, },
+    {id: 2,title: "Capacitaciones", image: CapacitacionesImg,},
+    {id: 3,title: "Construcción", image: ConstruccionImg,},
+    {id: 4,title: "Cultivos", image: CultivosImg,},
+    {id: 5,title: "Gastronomía", image: GastronomiaImg,},
+    {id: 6,title: "Indumentaria", image: IndumentariaImg,},
+    {id: 7,title: "Merchandising", image: MerchandisingImg,},
+    {id: 8,title: "Muebles/Deco", image: MueblesDecoImg,},
+    {id: 9,title: "Reciclaje", image: ReciclajeImg,},
+    {id: 10,title: "Tecnología", image: TecnologiaImg,},
+    {id: 11,title: "Transporte", image: TransporteImg,},
   ];
 
 function CategoriesPage(){
@@ -73,8 +74,9 @@ function CategoriesPage(){
                     </Box>
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px" }}>
                         {data.map((item) => (
-                            <CategoryItem key={item.title} title={item.title} image={item.image} widthBox="80%"/>
-                        ))}
+                                <CategoryItem key={item.title + item.id} idcategory ={item.id} title={item.title} image={item.image} widthBox="80%"/>    
+                            )
+                        )}
                     </Box>
                 </Box>
             </Box>

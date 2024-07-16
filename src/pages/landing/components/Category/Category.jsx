@@ -13,34 +13,42 @@ import ReciclajeImg from "../../../../components/Category/images/reciclaje.png";
 
 const itemsCategory = [
   {
+    id: 3,
     title: "Construcción",
     image: ConstruccionImg,
   },
   {
+    id: 10,
     title: "Tecnología",
     image: TecnologiaImg,
   },
   {
+    id: 6,
     title: "Indumentaria",
     image: IndumentariaImg,
   },
   {
+    id: 1,
     title: "Bienestar",
     image: BienestarImg,
   },
   {
+    id: 5,
     title: "Gastronomía",
     image: GastronomiaImg,
   },
   {
+    id: 4,
     title: "Cultivos",
     image: CultivosImg,
   },
   {
+    id: 11,
     title: "Transporte",
     image: TransporteImg,
   },
   {
+    id: 9,
     title: "Reciclaje",
     image: ReciclajeImg,
   },
@@ -56,7 +64,7 @@ export const Category = () => {
         <Typography sx={{ textAlign: "center", fontWeight: 700, fontSize: "24px" }}>Categorías</Typography>
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px" }}>
           {itemsCategory.map((item) => (
-            <CategoryItem key={item.title} title={item.title} image={item.image} widthBox='152px'/>
+            <CategoryItem key={item.title} idcategory={item.id} title={item.title} image={item.image} widthBox='152px'/>
           ))}
         </Box>
       </Box>
