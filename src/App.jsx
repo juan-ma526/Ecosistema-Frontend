@@ -6,6 +6,7 @@ import Register from "./pages/auth/register";
 import Providers from "./pages/providers";
 import HomePage from "./pages/landing";
 import PublicationsPage from "./pages/publications";
+import ProfilePage from "./pages/profile";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/auth/register" element={<Register />} />
         <Route path="/providers" element={<Providers />} />
         <Route path="/publications" element={<PublicationsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </>
   );
