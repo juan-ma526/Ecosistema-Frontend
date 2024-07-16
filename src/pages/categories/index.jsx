@@ -15,7 +15,6 @@ import MueblesDecoImg from "../../components/Category/images/muebles.png";
 import CultivosImg from "../../components/Category/images/cultivos.png";
 import TransporteImg from "../../components/Category/images/transporte.png";
 import ReciclajeImg from "../../components/Category/images/reciclaje.png";
-import './Categories.css';
 
 const itemsCategory = [
     {title: "Bienestar", image: BienestarImg, },
@@ -30,7 +29,6 @@ const itemsCategory = [
     {title: "Tecnología", image: TecnologiaImg,},
     {title: "Transporte", image: TransporteImg,},
   ];
-
 
 function CategoriesPage(){
     const [data, SetData] = useState([]);
@@ -73,10 +71,9 @@ function CategoriesPage(){
                             Categorías
                         </Typography>
                     </Box>
-                   
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px" }}>
                         {data.map((item) => (
-                            <CategoryItem key={item.title} title={item.title} image={item.image} />
+                            <CategoryItem key={item.title} title={item.title} image={item.image} widthBox="80%"/>
                         ))}
                     </Box>
                 </Box>
