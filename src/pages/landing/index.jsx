@@ -56,7 +56,6 @@ const itemPublication = [
 export default function HomePage() {
   return (
     <div>
-      <Box sx={{ zIndex: 1000 }}></Box>
       <SearchBar />
       <HomeTitle />
       <ImpactCompanies />
