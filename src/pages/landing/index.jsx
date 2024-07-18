@@ -9,7 +9,7 @@ import slide2 from "../../components/Publications/images/slide2.jpeg";
 import slide3 from "../../components/Publications/images/slide3.png";
 import { Link } from "react-router-dom";
 import { Category } from "./components/Category/Category";
-import  ProvidersHomes from "./components/ProvidersHome/ProvidersHome";
+import ProvidersHomes from "./components/ProvidersHome/ProvidersHome";
 
 const itemPublication = [
   {
@@ -56,6 +56,7 @@ const itemPublication = [
 export default function HomePage() {
   return (
     <div>
+      <Box sx={{ zIndex: 1000 }}></Box>
       <SearchBar />
       <HomeTitle />
       <ImpactCompanies />
