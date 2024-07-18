@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import ProfileName from "./components/ProfileName";
@@ -42,6 +43,37 @@ const itemPublication = [
   },
 ];
 
+const itemPublicationSuccess = [
+  {
+    title: "Lavanda",
+    state: "Aprobado",
+    firstParagraph: "¡Felicitaciones!\nSos parte de EcoSistema",
+    paragraphs: ["Tu Producto/Servicios está incluído dentro de nuestra Red de Impacto."],
+  },
+];
+
+const itemPublicationWarning = [
+  {
+    title: "Lavanda",
+    state: "En revisión",
+    firstParagraph: "Devolución de la administración:",
+    paragraphs: [
+      "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elitr sit amet, consectetur adipis",
+    ],
+  },
+];
+
+const itemPublicationError = [
+  {
+    title: "Lavanda",
+    state: "Denegado",
+    firstParagraph: "Devolución de la administración:",
+    paragraphs: [
+      "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elitr sit amet, consectetur adipis",
+    ],
+  },
+];
+
 export default function ProfilePage() {
   const [data, SetData] = useState([]);
 
@@ -57,6 +89,7 @@ export default function ProfilePage() {
     };
     cargarDatos();
   }, []);
+
   return (
     <Box>
       <section className="title-button">
@@ -65,47 +98,50 @@ export default function ProfilePage() {
       </section>
       <ProductsTitle />
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        {itemPublication.map((item, index) => (
-          /* Card */
-          <ProductCard
-            key={index}
-            title={item.title}
-            state={item.state}
-            firstParagraph={item.firstParagraph}
-            paragraphs={item.paragraphs}
-            footer={item.footer}
-          />
-        ))}
-      </Box>
-
-      <ProductSubtitle />
-
-      <Box
-        sx={{
-          height: "100%",
-          width: "100%",
-          borderTopRightRadius: "100%",
-          marginTop: "0px",
-          padding: "0px 15px",
-        }}
-      >
-        {data.map((elem, i) => {
-          return (
-            <CardProvider
-              category={elem.category}
-              image={elem.image}
-              nameProvider={elem.nameProvider}
-              typeProvider={elem.typeProvider}
-              ciudad={elem.ciudad}
-              provincia={elem.provincia}
-              pais={elem.pais}
-              description={elem.description}
-              key={i}
+      {itemPublication.map((item, index) => (
+        <>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <ProductCard
+              key={index}
+              title={item.title}
+              state={item.state}
+              firstParagraph={item.firstParagraph}
+              paragraphs={item.paragraphs}
+              footer={item.footer}
             />
-          );
-        })}
-      </Box>
+          </Box>
+
+          {item.state !== "Denegado" && <ProductSubtitle state={item.state} />}
+
+          {item.state !== "Denegado" && (
+            <Box
+              sx={{
+                height: "100%",
+                width: "100%",
+                borderTopRightRadius: "100%",
+                marginTop: "0px",
+                padding: "0px 15px",
+              }}
+            >
+              {data.map((elem, i) => {
+                return (
+                  <CardProvider
+                    category={elem.category}
+                    image={elem.image}
+                    nameProvider={elem.nameProvider}
+                    typeProvider={elem.typeProvider}
+                    ciudad={elem.ciudad}
+                    provincia={elem.provincia}
+                    pais={elem.pais}
+                    description={elem.description}
+                    key={i}
+                  />
+                );
+              })}
+            </Box>
+          )}
+        </>
+      ))}
     </Box>
   );
 }

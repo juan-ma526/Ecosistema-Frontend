@@ -5,15 +5,60 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Button, Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import CircleIcon from '@mui/icons-material/Circle';
+import CircleIcon from "@mui/icons-material/Circle";
 
 export default function ProductCard({ title, state, firstParagraph, paragraphs, footer }) {
+  const getColor = (state) => {
+    switch (state) {
+      case "Postulado":
+        return '#505050';
+      case "Aprobado":
+        return '#1D9129'
+      case "En revisión":
+        return '#B86B11';
+      case "Denegado":
+        return '#BC1111';
+      default:
+        return '#505050';
+    }
+  };
+
+  const getCardHeight = (state) => {
+    return state === 'Denegado' || state === 'En revisión' ? '328px' : '256px';
+  };
+
+  const lines = firstParagraph.split("\n");
+
+  // Determina los estilos del párrafo basado en el estado
+  const getParagraphStyles = (state) => {
+    switch (state) {
+      case 'Denegado':
+      case 'En revisión':
+        return {
+          fontWeight: 700,
+          fontSize: '16px',
+          lineHeight: '20px',
+          color: '#4E169D',
+        };
+      default:
+        return {
+          fontWeight: 600, 
+          fontSize: "18px", 
+          lineHeight: "20px", 
+          textAlign: "center", 
+          color: "#4E169D"
+        };
+    }
+  };
+
+  const paragraphStyles = getParagraphStyles(state);
+
   return (
     /* Container Card */
     <Card
       sx={{
         width: "328px",
-        height: "256px",
+        height: getCardHeight(state),
         margin: "auto",
         backgroundColor: "customColors.blanco",
         borderRadius: "16px",
@@ -70,20 +115,23 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
 
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: "16px", justifyContent: "flex-end" }}>
         {/* State Box */}
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: "end", gap: "4px"}}>
-          <CircleIcon fontSize="small" color="disabled" />
-          <Typography sx={{ fontSize: "16px", fontWeight: 400, textAlign: "center" }}>
-            {state}
-          </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "end", gap: "4px" }}>
+          <CircleIcon fontSize="small" sx={{ color: getColor(state) }} />
+          <Typography sx={{ fontSize: "16px", fontWeight: 400, textAlign: "center" }}>{state}</Typography>
         </Box>
 
         {/* First Paragraph */}
-        <Typography sx={{ fontWeight: 600, fontSize: "18px", lineHeight: "20px", textAlign: "center" }}>
-          {firstParagraph}
-        </Typography>
+        {lines.map((lines, index) => (
+          <Typography
+            key={index}
+            sx={{ ...paragraphStyles, textAlign: state === "Denegado" || state === "En revisión" ? 'left' : 'center'}}
+          >
+            {lines}
+          </Typography>
+        ))}
 
         {/* Additional Paragraphs */}
-        <Typography sx={{ fontWeight: 500, fontSize: "16px", lineHeight: "20px", textAlign: "center" }}>
+        <Typography sx={{ fontWeight: state === "Denegado" || state === "En revisión" ? 400 : 500, fontSize: "16px", lineHeight: "20px", textAlign: state === "Denegado" || state === "En revisión" ? 'left' : 'center' }}>
           {paragraphs}
         </Typography>
 
