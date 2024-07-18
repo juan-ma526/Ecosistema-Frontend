@@ -11,6 +11,7 @@ import lavanda1 from "../providers/images/lavanda1.png";
 import lavanda2 from "../providers/images/lavanda2.png";
 import lavanda3 from "../providers/images/lavanda3.png";
 import CardProvider from "../providers/components/CardProviders/CardProviders";
+import "./profile.css";
 
 const resp = [
   {
@@ -32,42 +33,38 @@ const resp = [
 ];
 
 const itemPublication = [
-    {
-      title: "Lavanda",
-      state: "Postulado",
-      firstParagraph:
-        "Gracias por querer formar parte de EcoSistema!",
-      paragraphs: [
-        "La postulación de tu Producto/Servicio fue enviada correctamente."
-      ],
-      footer: "Pronto tendrás más novedades."
-    },
-]
-
-
+  {
+    title: "Lavanda",
+    state: "Postulado",
+    firstParagraph: "Gracias por querer formar parte de EcoSistema!",
+    paragraphs: ["La postulación de tu Producto/Servicio fue enviada correctamente."],
+    footer: "Pronto tendrás más novedades.",
+  },
+];
 
 export default function ProfilePage() {
-
   const [data, SetData] = useState([]);
 
-useEffect(() => {
-  const cargarDatos = () => {
-    try {
-      // const response = await fetch("http://localhost:3000/proveedores");
-      // const resp = await response.json();
-      SetData(resp);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  cargarDatos();
-}, []);
+  useEffect(() => {
+    const cargarDatos = () => {
+      try {
+        // const response = await fetch("http://localhost:3000/proveedores");
+        // const resp = await response.json();
+        SetData(resp);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    cargarDatos();
+  }, []);
   return (
     <Box>
-      <ProfileName />
-      <ButtonCharge />
+      <section className="title-button">
+        <ProfileName />
+        <ButtonCharge />
+      </section>
       <ProductsTitle />
-      
+
       <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {itemPublication.map((item, index) => (
           /* Card */
@@ -85,31 +82,30 @@ useEffect(() => {
       <ProductSubtitle />
 
       <Box
-          sx={{
-            height: "100%",
-            width: "100%",
-            borderTopRightRadius: "100%",
-            marginTop: "0px",
-            padding: "0px 15px"
-          }}
-        >
-          {data.map((elem, i) => {
-            return (
-              <CardProvider
-                category={elem.category}
-                image={elem.image}
-                nameProvider={elem.nameProvider}
-                typeProvider={elem.typeProvider}
-                ciudad={elem.ciudad}
-                provincia={elem.provincia}
-                pais={elem.pais}
-                description={elem.description}
-                key={i}
-              />
-            );
-          })}
-        </Box>
-
+        sx={{
+          height: "100%",
+          width: "100%",
+          borderTopRightRadius: "100%",
+          marginTop: "0px",
+          padding: "0px 15px",
+        }}
+      >
+        {data.map((elem, i) => {
+          return (
+            <CardProvider
+              category={elem.category}
+              image={elem.image}
+              nameProvider={elem.nameProvider}
+              typeProvider={elem.typeProvider}
+              ciudad={elem.ciudad}
+              provincia={elem.provincia}
+              pais={elem.pais}
+              description={elem.description}
+              key={i}
+            />
+          );
+        })}
+      </Box>
     </Box>
   );
 }
