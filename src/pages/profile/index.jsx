@@ -5,6 +5,31 @@ import ButtonCharge from "./components/ButtonCharge";
 import ProductsTitle from "./components/ProductsTitle";
 import ProductCard from "./components/ProductCard";
 import { Box } from "@mui/material";
+import ProductSubtitle from "./components/ProductSubtitle";
+import { useState, useEffect } from "react";
+import lavanda1 from "../providers/images/lavanda1.png";
+import lavanda2 from "../providers/images/lavanda2.png";
+import lavanda3 from "../providers/images/lavanda3.png";
+import CardProvider from "../providers/components/CardProviders/CardProviders";
+
+const resp = [
+  {
+    category: "Bienestar",
+    image: [lavanda1, lavanda2, lavanda3],
+    nameProvider: "Lavanda",
+    typeProvider: "Cosmetica Natural",
+    ciudad: "Godoy Cruz",
+    provincia: "Mendoza",
+    pais: "Argentina",
+    description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+    linkFacebook: "www.facebook.com/lavanda",
+    linkInstagram: "www.instagram.com/lavanda",
+    linkMail: "lavanda@mendoza.com",
+    linkWhatsapp: "apiwhatsapp.com/",
+  },
+];
 
 const itemPublication = [
     {
@@ -19,7 +44,24 @@ const itemPublication = [
     },
 ]
 
+
+
 export default function ProfilePage() {
+
+  const [data, SetData] = useState([]);
+
+useEffect(() => {
+  const cargarDatos = () => {
+    try {
+      // const response = await fetch("http://localhost:3000/proveedores");
+      // const resp = await response.json();
+      SetData(resp);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  cargarDatos();
+}, []);
   return (
     <Box>
       <ProfileName />
@@ -39,6 +81,34 @@ export default function ProfilePage() {
           />
         ))}
       </Box>
+
+      <ProductSubtitle />
+
+      <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            borderTopRightRadius: "100%",
+            marginTop: "0px",
+            padding: "0px 15px"
+          }}
+        >
+          {data.map((elem, i) => {
+            return (
+              <CardProvider
+                category={elem.category}
+                image={elem.image}
+                nameProvider={elem.nameProvider}
+                typeProvider={elem.typeProvider}
+                ciudad={elem.ciudad}
+                provincia={elem.provincia}
+                pais={elem.pais}
+                description={elem.description}
+                key={i}
+              />
+            );
+          })}
+        </Box>
 
     </Box>
   );
