@@ -80,7 +80,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const cargarDatos = () => {
       try {
-        // const response = await fetch("http://localhost:3000/proveedores");
+        // const response = await fetch("http://localhost:3000/productos");
         // const resp = await response.json();
         SetData(resp);
       } catch (error) {

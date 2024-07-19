@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Button, Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CircleIcon from "@mui/icons-material/Circle";
+import "../profile.css";
 
 export default function ProductCard({ title, state, firstParagraph, paragraphs, footer }) {
   const getColor = (state) => {
@@ -29,7 +30,6 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
 
   const lines = firstParagraph.split("\n");
 
-  // Determina los estilos del párrafo basado en el estado
   const getParagraphStyles = (state) => {
     switch (state) {
       case 'Denegado':
@@ -54,7 +54,7 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
   const paragraphStyles = getParagraphStyles(state);
 
   return (
-    /* Container Card */
+    /* Card Mis productos */
     <Card
       sx={{
         width: "328px",
@@ -71,21 +71,14 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
         overflow: "hidden",
       }}
     >
-      {/* Title */}
+      {/* Titulo y botón editar */}
 
       <CardHeader
         title={title}
         sx={{
-          textAlign: "start",
-          fontSize: "24px",
-          lineHeight: "24px",
-          fontWeight: 700,
           backgroundColor: "customColors.violeta",
           color: "#FAFAFA",
           height: "40px",
-          display: "flex",
-          alignItems: "center", // Centra verticalmente el texto
-          justifyContent: "center", // Centra horizontalmente el texto
           padding: "0",
           paddingLeft: "16px",
           paddingRight: "16px",
@@ -111,16 +104,14 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
         }
       />
 
-      {/* Container not expanded */}
-
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: "16px", justifyContent: "flex-end" }}>
-        {/* State Box */}
+        {/* Estado de postulacion */}
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "end", gap: "4px" }}>
           <CircleIcon fontSize="small" sx={{ color: getColor(state) }} />
           <Typography sx={{ fontSize: "16px", fontWeight: 400, textAlign: "center" }}>{state}</Typography>
         </Box>
 
-        {/* First Paragraph */}
+        {/* Párrafo violeta */}
         {lines.map((lines, index) => (
           <Typography
             key={index}
@@ -130,7 +121,7 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
           </Typography>
         ))}
 
-        {/* Additional Paragraphs */}
+        {/* Segundo párrafo */}
         <Typography sx={{ fontWeight: state === "Denegado" || state === "En revisión" ? 400 : 500, fontSize: "16px", lineHeight: "20px", textAlign: state === "Denegado" || state === "En revisión" ? 'left' : 'center' }}>
           {paragraphs}
         </Typography>
