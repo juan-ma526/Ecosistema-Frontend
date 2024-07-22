@@ -10,16 +10,16 @@ const ColorButton = styled(Button)(() => ({
   },
   width: "328px",
   height: "40px",
-  top: "-140px",
   left: "32px",
   borderRadius: "100px",
-  textTransform: 'none'
+  textTransform: 'none',
 }));
 
-const ButtonCharge = () => {
+// eslint-disable-next-line react/prop-types
+const ButtonCharge = ({ sx, ...props }) => {
   return (
-    <ColorButton variant="contained">
-      <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "30px", textAlign: "center" }}>
+    <ColorButton variant="contained" {...props} sx={{...sx}}>
+      <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "30px", textAlign: "center"}}>
         Cargar Producto/Servicio
       </Typography>
     </ColorButton>
