@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
 import {Box, Typography} from '@mui/material';
 import SearchBar from '../../components/Searchbar';
 import { CategoryItem } from '../landing/components/Category/components/CategoryItem';
@@ -35,15 +35,19 @@ function CategoriesPage(){
     const [data, SetData] = useState([]);
 
     useEffect(() => {
-        const cargarDatos = () => {
-        try {
-            // const response = await fetch("http://localhost:3000/proveedores");
-            // const resp = await response.json();
-            SetData(itemsCategory);
-        } catch (error) {
-            console.log(error);
+        const cargarDatos = async() => {
+        const url = import.meta.env.VITE_API_BASE_URL + "/categorias" ;
+        await axios.get(url)
+            .then( response =>{
+                response.data.forEach((element, i)=> {
+                    element.image = itemsCategory[i].image;
+                });
+                SetData(response.data);
+            })
+            .catch (error => {
+                console.log(error);
+            });
         }
-        };
         cargarDatos();
     }, []);
 
@@ -74,7 +78,7 @@ function CategoriesPage(){
                     </Box>
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px" }}>
                         {data.map((item) => (
-                                <CategoryItem key={item.title + item.id} idcategory ={item.id} title={item.title} image={item.image} widthBox="80%"/>    
+                                <CategoryItem key={item.nombre + item.id} idcategory ={item.id} title={item.nombre} image={item.image} widthBox="80%"/>    
                             )
                         )}
                     </Box>
