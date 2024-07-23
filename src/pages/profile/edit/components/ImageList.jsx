@@ -6,12 +6,23 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { Box, IconButton } from "@mui/material";
 import Lavanda1 from "../../../providers/images/lavanda1.png";
-import Lavanda2 from "../../../providers/images/lavanda2.png"
-import Lavanda3 from "../../../providers/images/lavanda3.png"
+import Lavanda2 from "../../../providers/images/lavanda2.png";
+import Lavanda3 from "../../../providers/images/lavanda3.png";
+import "../edit.css";
 
 export default function StandardImageList() {
   return (
-    <ImageList gap={2} sx={{ paddingBottom: "8px", paddingX: "8px", marginTop: "-5px" }} cols={3} rowHeight={80}>
+    <ImageList
+      gap={16}
+      sx={{
+        marginTop: "-25px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      cols={3}
+      rowHeight={90}
+    >
       {itemData.map((item) => (
         <ImageListItem key={item.img} sx={{ position: "relative" }}>
           <img
@@ -19,23 +30,56 @@ export default function StandardImageList() {
             src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
             alt={item.title}
             loading="lazy"
-            style={{ borderRadius: "4px", width: "118px", height: "90px", objectFit: "cover" }}
+            style={{ borderRadius: "4px", width: "128px", objectFit: "cover" }}
           />
           <Box
             sx={{
               position: "absolute",
-              top: 2,
-              right: 4,
+              width: "52px",
+              height: "24px",
+              top: 5,
+              right: 9,
               display: "flex",
               flexDirection: "row",
-              gap: 0,
+              gap: 1 // Ajusta el espacio entre los botones
             }}
+            className="custom-icon"
           >
-            <IconButton size="small" color="primary">
-              <EditOutlinedIcon />
+            <IconButton
+              size="small"
+              sx={{
+                backgroundColor: "#22222299",
+                color: "white",
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:hover": {
+                  backgroundColor: "darkgrey",
+                },
+              }}
+            >
+              <EditOutlinedIcon /> {/* Ajusta el tamaño del ícono */}
             </IconButton>
-            <IconButton size="small" color="error">
-              <DeleteOutlinedIcon />
+            <IconButton
+              size="small"
+              sx={{
+                backgroundColor: "#22222299",
+                color: "white",
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                "&:hover": {
+                  backgroundColor: "darkgrey",
+                },
+              }}
+            >
+              <DeleteOutlinedIcon /> {/* Ajusta el tamaño del ícono */}
             </IconButton>
           </Box>
         </ImageListItem>

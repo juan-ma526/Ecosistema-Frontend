@@ -115,7 +115,7 @@ const theme = createTheme({
             whiteSpace: "nowrap",
           },
           "& .MuiInputLabel-shrink": {
-            transform: "translate(22px, -10px) scale(0.90)", // Ajusta para el estado shrinked
+            transform: "translate(22px, -10px) scale(0.89)", // Ajusta para el estado shrinked
           },
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -189,7 +189,7 @@ const Form = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ paddingY: "20px" }}>
+      <Box sx={{ paddingY: "40px" }}>
         {fields.map((field) =>
           field.type === "select" ? (
             <CustomSelectField

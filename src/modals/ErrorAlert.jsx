@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import "./modal.css";
 import Slide from "@mui/material/Slide";
@@ -8,26 +9,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function ErrorAlert() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+export default function ErrorAlert({ open, onClose }) {
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Enviar Mensaje
-      </Button>
-
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         TransitionComponent={Transition}
         keepMounted
         aria-describedby="alert-dialog-slide-description"
@@ -53,13 +40,13 @@ export default function ErrorAlert() {
         >
           <Button
             sx={{ color: "#4E169D", width: "80px", height: "40px", borderRadius: "100px", gap: "8px" }}
-            onClick={handleClose}
+            onClick={onClose}
           >
             <Typography sx={{ fontWeight: 700, fontSize: "14px", textTransform: "none" }}>Cancelar</Typography>
           </Button>
           <Button
             sx={{ color: "#4E169D", width: "153px", height: "20px", borderRadius: "100px", gap: "8px" }}
-            onClick={handleClose}
+            onClick={onClose}
           >
             <Typography sx={{ fontWeight: 700, fontSize: "14px", textTransform: "none" }}>Intentar nuevamente</Typography>
           </Button>

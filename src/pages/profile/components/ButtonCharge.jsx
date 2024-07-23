@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const ColorButton = styled(Button)(() => ({
@@ -10,19 +10,23 @@ const ColorButton = styled(Button)(() => ({
   },
   width: "328px",
   height: "40px",
-  left: "32px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   borderRadius: "100px",
-  textTransform: 'none',
+  textTransform: "none",
 }));
 
 // eslint-disable-next-line react/prop-types
 const ButtonCharge = ({ sx, ...props }) => {
   return (
-    <ColorButton variant="contained" {...props} sx={{...sx}}>
-      <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "30px", textAlign: "center"}}>
-        Cargar Producto/Servicio
-      </Typography>
-    </ColorButton>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <ColorButton variant="contained" {...props} sx={{ ...sx }}>
+        <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "30px", textAlign: "center" }}>
+          Cargar Producto/Servicio
+        </Typography>
+      </ColorButton>
+    </Box>
   );
 };
 
