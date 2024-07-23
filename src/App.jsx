@@ -6,6 +6,7 @@ import Register from "./pages/auth/register";
 import Providers from "./pages/providers";
 import HomePage from "./pages/landing";
 import PublicationsPage from "./pages/publications";
+import ProfilePage from "./pages/profile";
 import CategoriesPage from "./pages/categories/index";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/providers" element={<Providers />} />
         <Route path="/providers/:idcategory" element={<Providers />} />
         <Route path="/publications" element={<PublicationsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/categories" element={<CategoriesPage />} />
       </Routes>
     </>
