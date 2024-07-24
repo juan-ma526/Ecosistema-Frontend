@@ -7,7 +7,7 @@ import Providers from "./pages/providers";
 import HomePage from "./pages/landing";
 import PublicationsPage from "./pages/publications";
 import ProfilePage from "./pages/profile";
-import EditPublication from "./pages/profile/edit";
+import EditPublication from "./pages/profile/edit-publication";
 
 function App() {
   return (
