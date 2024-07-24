@@ -13,7 +13,6 @@ import { fields } from "./utils/fields";
 import { validateEmail, validatePhone } from "./utils/utils";
 
 export default function EditPublication() {
-  const [state, setState] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState(null);
   const [values, setValues] = useState(
