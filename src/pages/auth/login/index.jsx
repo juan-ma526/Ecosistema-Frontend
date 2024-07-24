@@ -4,38 +4,34 @@ import logo from "../images/logoLogin.png";
 import googleIcon from "../images/logoGoogleButtom.png";
 import "../Auth.css";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../../context/userContext";
-import axios from "axios";
+import { axiosClient } from "../../../libs/network/axiosClient";
 
 export default function Login() {
-  const { setUser } = useContext(UserContext);
+  const { token, setToken } = useContext(UserContext);
   const navigate = useNavigate();
-  const [token2, setToken2] = useState("");
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const token = tokenResponse.access_token;
-      setToken2(token);
-      const userInfo = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-      });
-      const result = userInfo.data;
-      console.log(result);
+      try {
+        const response = await axiosClient.post("/auth/login", {
+          accessToken: tokenResponse.access_token,
+        });
+        setToken(response.data.jwtToken);
+      } catch (error) {
+        /* //TODO Agregaria una alerta para notificar el error al usuario mas visual */
+        console.log(error.response.data);
+      }
     },
   });
-  console.log({ token2 });
-  /*  const user = {
-    id: "123asfd34562",
-    name: "Juan Perez",
-    email: "test@gmail.com",
-  };
- */
-  /*   const handleSubmit = async () => {
-    localStorage.setItem("user", JSON.stringify(user));
-    setUser(user);
-    navigate("/");
-  }; */
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", JSON.stringify(token));
+      navigate("/");
+    }
+  }, [token, navigate]);
 
   return (
     /* Container gral */
@@ -46,7 +42,7 @@ export default function Login() {
         <Box className="first-box">
           {/* Text box */}
           <Box className="text-box" sx={{ width: "277px" }}>
-            ;<Typography sx={{ fontWeight: 700, fontSize: "28px" }}>Inicia Sesión</Typography>
+            <Typography sx={{ fontWeight: 700, fontSize: "28px" }}>Inicia Sesión</Typography>
             <Typography sx={{ fontWeight: 600, fontSize: "18px" }}>Seguí disfrutando de ECOSistema</Typography>
           </Box>
           {/* Box img */}
