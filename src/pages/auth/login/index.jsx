@@ -20,8 +20,8 @@ export default function Login() {
         });
         setToken(response.data.jwtToken);
       } catch (error) {
-        /* //TODO Agregaria una alerta para notificar el error al usuario mas visual */
         console.log(error.response.data);
+        navigate("/auth/register");
       }
     },
   });
