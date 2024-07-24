@@ -13,6 +13,7 @@ export default function ErrorAlert({ open, onClose }) {
   return (
     <React.Fragment>
       <Dialog
+        className="alert"
         open={open}
         onClose={onClose}
         TransitionComponent={Transition}

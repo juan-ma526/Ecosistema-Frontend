@@ -3,102 +3,8 @@
 import React, { useState } from "react";
 import { Box, TextField, MenuItem } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const fields = [
-  {
-    id: "Nombre",
-    label: "Nombre de la Organización*",
-    helperText: "Se visualizará en el título de la publicación",
-    type: "text",
-    defaultValue: "Lavanda",
-  },
-  {
-    id: "Descripcion",
-    label: "Descripción",
-    helperText: "Se visualizará en el subtítulo de la publicación 0/50",
-    type: "text",
-    defaultValue: "Cosmética natural",
-  },
-  {
-    id: "Categoria",
-    label: "Categoría*",
-    helperText: "Seleccioná la categoría de tu Producto/Servicio",
-    type: "select",
-    options: [
-      "Bienestar",
-      "Capacitaciones",
-      "Construcción",
-      "Cultivos",
-      "Gastronomía",
-      "Indumentaria",
-      "Merchandising",
-      "Muebles/Deco",
-      "Reciclaje",
-      "Tecnología",
-      "Transporte",
-    ],
-    defaultValue: "Bienestar",
-  },
-  {
-    id: "Correo",
-    label: "Correo electrónico*",
-    helperText: "El mismo con el que te registraste o uno diferente",
-    type: "text",
-    defaultValue: "lavandacosmetica@gmail.com",
-  },
-  {
-    id: "Telefono",
-    label: "Teléfono o Whatsapp*",
-    helperText: "Con el siguiente formato +54 9 261 002 002",
-    type: "text",
-    defaultValue: "+54 9 261 568 258",
-  },
-  {
-    id: "Instagram",
-    label: "Instagram*",
-    helperText: "Podés pegar el link de tu perfil",
-    type: "text",
-    defaultValue: "https://www.instagram.com/lavandacosmética/",
-  },
-  {
-    id: "Facebook",
-    label: "Facebook*",
-    helperText: "Podés pegar el link de tu perfil",
-    type: "text",
-    defaultValue: "Facebook",
-  },
-  {
-    id: "País",
-    label: "País*",
-    helperText: "Seleccioná un País de la lista",
-    type: "select",
-    options: ["Argentina", "Chile", "Colombia", "Uruguay"],
-    defaultValue: "Argentina",
-  },
-  {
-    id: "Provincia",
-    label: "Provincia/Estado*",
-    helperText: "Seleccioná un Provincia/Estado de la lista",
-    type: "select",
-    options: ["Buenos Aires", "Córdoba", "Mendoza", "San Luis"],
-    defaultValue: "Mendoza",
-  },
-  {
-    id: "Ciudad",
-    label: "Ciudad*",
-    helperText: "Sin abreviaturas, nombre completo",
-    type: "text",
-    defaultValue: "Godoy Cruz",
-  },
-  {
-    id: "Descripcion del producto",
-    label: "Descripción del Producto/Servicio*",
-    helperText: "Máximo 300 caracteres 300/300",
-    type: "text",
-    defaultValue:
-      "Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden al planeta, con principios activos que dejen el pelo sano y la piel bella.",
-  },
-];
+import { fields } from "../utils/fields";
+import { validateEmail, validatePhone } from "../utils/utils";
 
 // Crea un tema personalizado
 const theme = createTheme({
@@ -139,7 +45,7 @@ const theme = createTheme({
   },
 });
 
-const CustomTextField = ({ multiline, rows, ...props }) => (
+const CustomTextField = ({ multiline, rows, error, helperText, ...props }) => (
   <TextField
     {...props}
     InputLabelProps={{
@@ -147,17 +53,21 @@ const CustomTextField = ({ multiline, rows, ...props }) => (
     }}
     multiline={multiline}
     rows={rows}
+    error={error}
+    helperText={helperText}
     sx={{ paddingX: "10px", marginBottom: "20px" }}
   />
 );
 
-const CustomSelectField = ({ options, ...props }) => (
+const CustomSelectField = ({ options, error, helperText, ...props }) => (
   <TextField
     {...props}
     select
     InputLabelProps={{
       shrink: true,
     }}
+    error={error}
+    helperText={helperText}
     sx={{ paddingX: "10px", marginBottom: "20px" }}
     SelectProps={{
       MenuProps: {
@@ -178,13 +88,24 @@ const CustomSelectField = ({ options, ...props }) => (
   </TextField>
 );
 
-const Form = () => {
-  const [values, setValues] = useState(
-    fields.reduce((acc, field) => ({ ...acc, [field.id]: field.defaultValue || "" }), {})
-  ); // Controla el valor del primer TextField
-
+const Form = ({ values, setValues, errors, setErrors}) => {
   const handleChange = (id) => (event) => {
     setValues({ ...values, [id]: event.target.value });
+  };
+
+  const handleBlur = (id) => () => {
+    let newErrors = { ...errors };
+
+    if (!values[id]) {
+      newErrors[id] = "Este campo es obligatorio";
+    }else if (id === "Correo" && !validateEmail(values[id])) {
+      newErrors[id] = "Ingrese un correo válido";
+    } else if (id === "Telefono" && !validatePhone(values[id])) {
+      newErrors[id] = "Ingrese un teléfono válido";
+    } else {
+      delete newErrors[id];
+    }
+    setErrors(newErrors);
   };
 
   return (
@@ -198,7 +119,9 @@ const Form = () => {
               label={field.label}
               value={values[field.id]}
               onChange={handleChange(field.id)}
-              helperText={field.helperText}
+              onBlur={handleBlur(field.id)}
+              helperText={errors[field.id] || field.helperText}
+              error={!!errors[field.id]}
               options={field.options}
               fullWidth
             />
@@ -209,9 +132,10 @@ const Form = () => {
               label={field.label}
               value={values[field.id]}
               onChange={handleChange(field.id)}
-              helperText={field.helperText}
+              onBlur={handleBlur(field.id)}
+              helperText={errors[field.id] || field.helperText}
+              error={!!errors[field.id]}
               fullWidth
-              defaultValue={field.defaultValue}
               multiline={field.id === "Descripcion del producto"} // Hacer multiline solo para el campo específico
               rows={field.id === "Descripcion del producto" ? 6 : 1}
             />

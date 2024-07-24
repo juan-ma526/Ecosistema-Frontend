@@ -46,12 +46,14 @@ export default function StandardImageList() {
   return (
     <>
       <ImageList
-        gap={16}
+        gap={6}
         sx={{
           marginTop: "-15px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          marginLeft: "2px",
+          marginRight: "2px"
         }}
         cols={3}
         rowHeight={90}

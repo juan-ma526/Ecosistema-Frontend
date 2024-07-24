@@ -9,27 +9,47 @@ import ButtonCharge from "../components/ButtonCharge";
 import StandardImageList from "./components/ImageList";
 import ErrorAlert from "../../../modals/ErrorAlert";
 import SuccessAlert from "../../../modals/SuccessAlert";
+import { fields } from "./utils/fields";
+import { validateEmail, validatePhone } from "./utils/utils";
 
 export default function EditPublication() {
-  const [state, setState] = useState("error");
+  const [state, setState] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState(null);
-  const [alertOpen, setAlertOpen] = useState(true);
+  const [values, setValues] = useState(
+    fields.reduce((acc, field) => ({ ...acc, [field.id]: field.defaultValue || "" }), {})
+  );
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = () => {
+    let newErrors = {};
+    fields.forEach((field) => {
+      if (!values[field.id]) {
+        newErrors[field.id] = "Este campo es obligatorio";
+      } else if (field.id === "Correo" && !validateEmail(values[field.id])) {
+        newErrors[field.id] = "Ingrese un correo válido";
+      } else if (field.id === "Telefono" && !validatePhone(values[field.id])) {
+        newErrors[field.id] = "Ingrese un teléfono válido";
+      }
+    });
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      setAlertType("success");
+    } else {
+      setAlertType("error");
+    }
+    setShowAlert(true);
+  };
 
   const handleButtonCharge = () => {
-    setShowAlert(true);
-    setAlertOpen(true);
-    if (state === "error") {
-      setAlertType("error");
-    } else {
-      setAlertType("success");
-    }
+    handleSubmit();
   };
 
   const handleCloseAlert = () => {
     setShowAlert(false);
     setAlertType(null);
-    setAlertOpen(false);
   };
 
   return (
@@ -38,7 +58,7 @@ export default function EditPublication() {
         <EditTitle />
         <EditSubtitle />
       </section>
-      <Form />
+      <Form values={values} setValues={setValues} errors={errors} setErrors={setErrors} />
       <StandardImageList />
       <ButtonCharge
         sx={{
@@ -51,8 +71,8 @@ export default function EditPublication() {
         onClick={handleButtonCharge}
       />
 
-      {showAlert && alertType === "error" && <ErrorAlert open={alertOpen} onClose={handleCloseAlert} />}
-      {showAlert && alertType === "success" && <SuccessAlert open={alertOpen} onClose={handleCloseAlert} />}
+      {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} />}
+      {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} />}
     </Box>
   );
 }

@@ -18,10 +18,10 @@ const ColorButton = styled(Button)(() => ({
 }));
 
 // eslint-disable-next-line react/prop-types
-const ButtonCharge = ({ sx, ...props }) => {
+const ButtonCharge = ({ sx, onClick, ...props }) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <ColorButton variant="contained" {...props} sx={{ ...sx }}>
+      <ColorButton variant="contained" {...props} sx={{ ...sx }} onClick={onClick}>
         <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "30px", textAlign: "center" }}>
           Cargar Producto/Servicio
         </Typography>
