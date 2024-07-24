@@ -9,13 +9,15 @@ import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Navbar />
-        <App />
-      </ThemeProvider>
-    </React.StrictMode>
-  </BrowserRouter>
+  <>
+    <BrowserRouter>
+      <React.StrictMode>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Navbar />
+          <App />
+        </ThemeProvider>
+      </React.StrictMode>
+    </BrowserRouter>
+  </>
 );

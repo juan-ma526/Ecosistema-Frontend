@@ -1,0 +1,8 @@
+.titles{
+    margin-top: 110px;
+}
+
+.custom-icon .MuiSvgIcon-root {
+    width: 14px !important; /* Ajusta el tamaño del ícono */
+    height: 14px !important;
+  }

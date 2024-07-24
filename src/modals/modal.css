@@ -12,7 +12,7 @@
     padding-top: 16px;
 }
 
-.MuiSvgIcon-root{
+.alert .MuiSvgIcon-root{
     width: 40px !important;
     height: 40px !important;
 }

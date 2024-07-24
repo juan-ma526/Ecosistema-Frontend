@@ -7,8 +7,16 @@ import { Button, Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CircleIcon from "@mui/icons-material/Circle";
 import "../profile.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ title, state, firstParagraph, paragraphs, footer }) {
+
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate('/profile/edit');
+  }
+
   const getColor = (state) => {
     switch (state) {
       case "Postulado":
@@ -95,6 +103,7 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
               paddingTop: "12px",
             }}
             aria-label="Editar"
+            onClick={handleEditClick}
           >
             <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "20px" }}>Editar</Typography>
             <Box sx={{ ml: "8px", display: "flex", alignItems: "center" }}>
