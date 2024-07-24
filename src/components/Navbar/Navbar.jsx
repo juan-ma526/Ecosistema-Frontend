@@ -10,7 +10,7 @@ import { UserIn } from "./components/UserIn";
 import { UserContext } from "../../context/userContext";
 
 const drawerWidth = 258;
-const navItems = [
+const drawerItems = [
   { item: "Inicio", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/" },
   { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers" },
   { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/publications" },
@@ -49,7 +49,8 @@ function Navbar(props) {
       {/* Items Sidebar */}
 
       <List>
-        {navItems.map((object) => (
+        {/* //TODO Aca con un ternario si user.rol =  */}
+        {drawerItems.map((object) => (
           <ItemList
             item={object.item}
             fontSize={object.fontSize}
@@ -88,9 +89,8 @@ function Navbar(props) {
           </Box>
 
           {/* Profile */}
-          <UserIn />
-          {/* //TODO Logic with user Login, if user is logged in, use <UserIn/> else use <UserOut/>*/}
-          {/*  {user ? <UserIn name={user.name} email={user.email} /> : <UserOut />} */}
+
+          {user ? <UserIn name={user.nombre} email={user.email} /> : <UserOut />}
         </Toolbar>
       </AppBar>
       <nav>

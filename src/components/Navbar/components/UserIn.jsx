@@ -1,26 +1,30 @@
 /* eslint-disable react/prop-types */
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
-import { googleLogout } from "@react-oauth/google";
 import { useContext, useState } from "react";
 import { UserContext } from "../../../context/userContext";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { useNavigate } from "react-router-dom";
 
 export const UserIn = ({ name, email }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const { setUser } = useContext(UserContext);
+  const { setUser, setToken } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-  /* const handleLogout = () => {
+
+  const handleLogout = () => {
     setUser(null);
-  }; */
-  const handleLogout = async () => {
-    await googleLogout();
+    setToken(null);
+    localStorage.removeItem("token");
+    navigate("/auth/login");
   };
+
   const getInitials = (name) => {
     const nameArray = name.split(" ");
     const initials = nameArray.map((name) => name[0]).join("");
