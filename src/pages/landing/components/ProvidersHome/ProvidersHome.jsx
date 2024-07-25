@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
 import './ProvidersHome.css';
+import axios from "axios";
 import MiniCardProviders from './MiniCardProvider/MiniCardProvider';
 import lavanda1 from "../../../providers/images/lavanda1.png";
 import lavanda2 from "../../../providers/images/lavanda2.png";
@@ -11,81 +12,133 @@ import tomato from "../../../providers/images/tomato.png";
 import upcycling from "../../../providers/images/upcycling.png";
 
 function ProvidersHome(props){
-    const resp = [
-        {
-          category: "Bienestar",
-          image: [lavanda1, lavanda2, lavanda3],
-          nameProvider: "Lavanda",
-          typeProvider: "Cosmetica Natural",
-          ciudad: "Godoy Cruz",
-          provincia: "Mendoza",
-          pais: "Argentina",
-          description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                            y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                            al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-          linkFacebook: "www.facebook.com/lavanda",
-          linkInstagram: "www.instagram.com/lavanda",
-          linkMail: "lavanda@mendoza.com",
-          linkWhatsapp: "apiwhatsapp.com/",
-        },
-        {
-          category: "Gastronomia",
-          image: [gastronomia],
-          nameProvider: "Avocado",
-          typeProvider: "Cocina Natural",
-          ciudad: "Godoy Cruz",
-          provincia: "Mendoza",
-          pais: "Argentina",
-          description: `Avocado es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                            y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                            al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-          linkFacebook: "www.facebook.com/avocado",
-          linkInstagram: "www.instagram.com/avocado",
-          linkMail: "avocado@mendoza.com",
-          linkWhatsapp: "apiwhatsapp.com/",
-        },
-        {
-          category: "Cultivos",
-          image: [tomato],
-          nameProvider: "Tomato",
-          typeProvider: "Huertas y compost",
-          ciudad: "Godoy Cruz",
-          provincia: "Mendoza",
-          pais: "Argentina",
-          description: `Tomato es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                            y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                            al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-          linkFacebook: "www.facebook.com/lavanda",
-          linkInstagram: "www.instagram.com/lavanda",
-          linkMail: "lavanda@mendoza.com",
-          linkWhatsapp: "apiwhatsapp.com/",
-        },
-        {
-            category: "Indumentaria",
-            image: [upcycling],
-            nameProvider: "Velka",
-            typeProvider: "Upcycling",
-            ciudad: "Godoy Cruz",
-            provincia: "Mendoza",
-            pais: "Argentina",
-            description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                              y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                              al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-            linkFacebook: "www.facebook.com/lavanda",
-            linkInstagram: "www.instagram.com/lavanda",
-            linkMail: "lavanda@mendoza.com",
-            linkWhatsapp: "apiwhatsapp.com/",
-          },
-      ];
+  const resp = [
+    {
+      idProveedor: 1,
+      category: "Bienestar",
+      image: [lavanda1, lavanda2, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 1,
+    },
+    {
+      idProveedor: 2,
+      category: "Bienestar",
+      image: [lavanda2, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 1,
+    },
+    {
+      idProveedor: 3,
+      category: "Capacitaciones",
+      image: [lavanda1, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 2,
+    },
+    {
+      idProveedor: 4,
+      category: "Construccion",
+      image: [lavanda2, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 3,
+    },
+    {
+      idProveedor: 5,
+      category: "Construccion",
+      image: [lavanda2, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 3,
+    },
+  ];
 
     const [data, SetData] = useState([]);
+    const [loading, SetLoading] = useState(true);
 
     useEffect(() => {
-        const cargarDatos = () => {
+        const cargarDatos = async() => {
           try {
+            const urlProviders = import.meta.env.VITE_API_BASE_URL + "/proveedores/buscar?query=";  
+            await axios.get(urlProviders)
+                .then( respons =>{
+                  if(respons.status == 200) {
+                    
+                    let providers = [];
+                    respons.data.map( (elem, i) => {
+                        if(i<4){
+                          providers.push(elem);
+                        }
+                    })
+                    providers.map(element => {
+                      let providerImage = resp.filter(elem => {
+                        return elem.idProveedor == element.id;
+                      })
+                      element.image = providerImage[0].image
+                    })
+                    SetData(providers);
+                    SetLoading(false);
+                  }
+                })
+                .catch (error => {
+                    console.log(error);
+                });
+
             // const response = await fetch("http://localhost:3000/proveedores");
             // const resp = await response.json();
-            SetData(resp);
+            //SetData(resp);
           } catch (error) {
             console.log(error);
           }
@@ -103,14 +156,14 @@ function ProvidersHome(props){
                     return (
                       <Grid item key={i} xs={6}>
                           <MiniCardProviders
-                            category={elem.category}
+                            category={elem.categoria.nombre}
                             image={elem.image[0]}
-                            nameProvider={elem.nameProvider}
-                            typeProvider={elem.typeProvider}
+                            nameProvider={elem.nombre}
+                            typeProvider="TipoProveedor"
                             ciudad={elem.ciudad}
-                            provincia={elem.provincia}
-                            pais={elem.pais}
-                            description={elem.description}
+                            provincia={elem.provincia.nombre}
+                            pais={elem.pais.nombre}
+                            description={elem.descripcion}
                           />
                       </Grid>
                     );
