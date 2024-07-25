@@ -70,8 +70,8 @@ export default function EditPublication() {
         onClick={handleButtonCharge}
       />
 
-      {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} />}
-      {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} />}
+      {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
+      {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
     </Box>
   );
 }

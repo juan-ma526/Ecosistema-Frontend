@@ -94,7 +94,7 @@ export default function ProfilePage() {
     <Box>
       <section className="title-button">
         <ProfileName />
-        <ButtonCharge sx={{ top: "-140px" }} />
+        <ButtonCharge sx={{ top: "-140px" }} alwaysPurple />
       </section>
       <ProductsTitle />
 

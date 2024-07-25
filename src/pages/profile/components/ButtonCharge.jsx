@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
+
 const ColorButton = styled(Button)(({ state }) => ({
   backgroundColor: state === "success" ? "#4E169D" : "#505050",
   "&:hover": {
@@ -18,10 +19,15 @@ const ColorButton = styled(Button)(({ state }) => ({
 }));
 
 // eslint-disable-next-line react/prop-types
-const ButtonCharge = ({ sx, onClick, state, ...props }) => {
+const ButtonCharge = ({ sx, onClick, state, alwaysPurple, ...props }) => {
+ 
+  alwaysPurple = "#4E169D"
+
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <ColorButton variant="contained" {...props} sx={{ ...sx }} onClick={onClick} state={state}>
+      <ColorButton variant="contained" {...props} sx={{ ...sx, backgroundColor: alwaysPurple, "&:hover": {
+      backgroundColor: alwaysPurple // Cambia esto al color deseado para el hover
+    }  }} onClick={onClick} state={state}>
         <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "30px", textAlign: "center" }}>
           Cargar Producto/Servicio
         </Typography>

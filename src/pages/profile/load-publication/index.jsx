@@ -83,8 +83,8 @@ export default function LoadPublication() {
         state={hasErrors ? "error" : "success"}
       />
 
-      {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} />}
-      {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} />}
+      {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} type="load" />}
+      {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} type="load" />}
     </Box>
   );
 }
