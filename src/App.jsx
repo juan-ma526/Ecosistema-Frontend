@@ -8,6 +8,7 @@ import HomePage from "./pages/landing";
 import PublicationsPage from "./pages/publications";
 import ProfilePage from "./pages/profile";
 import EditPublication from "./pages/profile/edit-publication";
+import LoadPublication from "./pages/profile/load-publication";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/publications" element={<PublicationsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile/edit" element={<EditPublication />} />
+        <Route path="/profile/load" element={<LoadPublication />} />
       </Routes>
     </>
   );

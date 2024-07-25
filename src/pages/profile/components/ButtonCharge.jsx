@@ -3,10 +3,10 @@ import React from "react";
 import { Button, Typography, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const ColorButton = styled(Button)(() => ({
-  backgroundColor: "#4E169D",
+const ColorButton = styled(Button)(({ state }) => ({
+  backgroundColor: state === "success" ? "#4E169D" : "#505050",
   "&:hover": {
-    backgroundColor: "#4E169D",
+    backgroundColor: state === "success" ? "#4E169D" : "#505050",
   },
   width: "328px",
   height: "40px",
@@ -18,10 +18,10 @@ const ColorButton = styled(Button)(() => ({
 }));
 
 // eslint-disable-next-line react/prop-types
-const ButtonCharge = ({ sx, onClick, ...props }) => {
+const ButtonCharge = ({ sx, onClick, state, ...props }) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <ColorButton variant="contained" {...props} sx={{ ...sx }} onClick={onClick}>
+      <ColorButton variant="contained" {...props} sx={{ ...sx }} onClick={onClick} state={state}>
         <Typography sx={{ fontWeight: 700, fontSize: "16px", lineHeight: "30px", textAlign: "center" }}>
           Cargar Producto/Servicio
         </Typography>
