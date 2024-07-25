@@ -9,7 +9,27 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function ErrorAlert({ open, onClose }) {
+export default function ErrorAlert({ open, onClose, type }) {
+
+  const getAlertContent = () => {
+    switch (type) {
+      case "load":
+        return {
+          title: "Lo sentimos, el Producto/Servicio no pudo ser cargado",
+        };
+      case "edit":
+        return {
+          title: "Lo sentimos, los cambios no pudieron ser guardados.",
+        };
+      default:
+        return {
+          title: "Ha ocurrido un error inesperado."
+        }
+    }
+  };
+
+  const { title } = getAlertContent();
+
   return (
     <React.Fragment>
       <Dialog
@@ -28,9 +48,18 @@ export default function ErrorAlert({ open, onClose }) {
         />
 
         {/*Contenido texto*/}
-        <DialogContent sx={{ width: "328px", height: "104px", padding: "0px 24px", gap: "14px", display: "flex", flexDirection: "column" }}>
+        <DialogContent
+          sx={{
+            width: "328px",
+            height: "104px",
+            padding: "0px 24px",
+            gap: "14px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Typography sx={{ fontWeight: 400, fontSize: "18px", textAlign: "center" }}>
-            Lo sentimos, los cambios no pudieron ser guardados.
+            {title}
           </Typography>
 
           <Typography sx={{ fontWeight: 400, fontSize: "14px" }}>Por favor, volvé a intentarlo.</Typography>
@@ -49,7 +78,9 @@ export default function ErrorAlert({ open, onClose }) {
             sx={{ color: "#4E169D", width: "153px", height: "20px", borderRadius: "100px", gap: "8px" }}
             onClick={onClose}
           >
-            <Typography sx={{ fontWeight: 700, fontSize: "14px", textTransform: "none" }}>Intentar nuevamente</Typography>
+            <Typography sx={{ fontWeight: 700, fontSize: "14px", textTransform: "none" }}>
+              Intentar nuevamente
+            </Typography>
           </Button>
         </DialogActions>
         {/*ICONO ALERTA*/}
@@ -57,3 +88,4 @@ export default function ErrorAlert({ open, onClose }) {
     </React.Fragment>
   );
 }
+
