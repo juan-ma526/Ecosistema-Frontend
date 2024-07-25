@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import CardProviders from "./components/CardProviders/CardProviders";
 import ProvidersHeaders from "./components/ProvidersHeader";
@@ -12,6 +14,7 @@ import SearchBar from "../../components/Searchbar";
 function Providers(props) {
   const resp = [
     {
+      idProveedor: 1,
       category: "Bienestar",
       image: [lavanda1, lavanda2, lavanda3],
       nameProvider: "Lavanda",
@@ -26,24 +29,10 @@ function Providers(props) {
       linkInstagram: "www.instagram.com/lavanda",
       linkMail: "lavanda@mendoza.com",
       linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 1,
     },
     {
-      category: "Bienestar",
-      image: [lavanda1, lavanda3],
-      nameProvider: "Lavanda",
-      typeProvider: "Cosmetica Natural",
-      ciudad: "Godoy Cruz",
-      provincia: "Mendoza",
-      pais: "Argentina",
-      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-      linkFacebook: "www.facebook.com/lavanda",
-      linkInstagram: "www.instagram.com/lavanda",
-      linkMail: "lavanda@mendoza.com",
-      linkWhatsapp: "apiwhatsapp.com/",
-    },
-    {
+      idProveedor: 2,
       category: "Bienestar",
       image: [lavanda2, lavanda3],
       nameProvider: "Lavanda",
@@ -58,17 +47,106 @@ function Providers(props) {
       linkInstagram: "www.instagram.com/lavanda",
       linkMail: "lavanda@mendoza.com",
       linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 1,
+    },
+    {
+      idProveedor: 3,
+      category: "Capacitaciones",
+      image: [lavanda1, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 2,
+    },
+    {
+      idProveedor: 4,
+      category: "Construccion",
+      image: [lavanda2, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 3,
+    },
+    {
+      idProveedor: 5,
+      category: "Construccion",
+      image: [lavanda2, lavanda3],
+      nameProvider: "Lavanda",
+      typeProvider: "Cosmetica Natural",
+      ciudad: "Godoy Cruz",
+      provincia: "Mendoza",
+      pais: "Argentina",
+      description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
+                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
+                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
+      linkFacebook: "www.facebook.com/lavanda",
+      linkInstagram: "www.instagram.com/lavanda",
+      linkMail: "lavanda@mendoza.com",
+      linkWhatsapp: "apiwhatsapp.com/",
+      idCategory: 3,
     },
   ];
 
   const [data, SetData] = useState([]);
+  const [loading, SetLoading] = useState(true);
+  const [loadingCategorias, SetLoadingCategorias] = useState(true);
+  const [categoriaNombre,SetCategoriaNombre] = useState([]);
+
+  let { idcategory } = useParams();
 
   useEffect(() => {
-    const cargarDatos = () => {
+    const cargarDatos = async() => {
       try {
-        // const response = await fetch("http://localhost:3000/proveedores");
-        // const resp = await response.json();
-        SetData(resp);
+        const url = import.meta.env.VITE_API_BASE_URL + "/categorias" ;
+        await axios.get(url)
+            .then( respons =>{
+                let catNombres = respons.data.filter(element=> {
+                    return element.id == idcategory;
+                });
+                SetCategoriaNombre(catNombres);
+                SetLoadingCategorias(false);
+            })
+            .catch (error => {
+                console.log(error);
+            });
+
+        const urlProviders = import.meta.env.VITE_API_BASE_URL + "/proveedores/buscarPorCategoria/" + idcategory;  
+        await axios.get(urlProviders)
+            .then( respons =>{
+              if(respons.status == 200) {
+                let providers = respons.data;
+                providers.map(element => {
+                  let providerImage = resp.filter(elem => {
+                    return elem.idProveedor == element.id;
+                  })
+                  element.image = providerImage[0].image
+                })
+                SetData(providers);
+                console.log(providers);
+                SetLoading(false);
+              }
+            })
+            .catch (error => {
+                console.log(error);
+            });
       } catch (error) {
         console.log(error);
       }
@@ -101,8 +179,8 @@ function Providers(props) {
               margin: "12px 0px 0px 0px",
             }}
           >
-            {/* {props.nameCategory} */}
-            Bienestar
+            {!loading && data[0].categoria.nombre}
+            {/* {loading && categoriaNombre[0].nombre} */}
           </Typography>
           <br />
           <Typography
@@ -115,9 +193,12 @@ function Providers(props) {
               paddingTop: "25px",
             }}
           >
-            {/* {props.nameCategory} */}
-            Encontrá desde productos cosméticos y de cuidado personal natural, servicios de salud, hasta terapias
-            holísticas y más.
+            {!loading && `Encontrá desde productos cosméticos y de cuidado personal natural, servicios de salud, hasta terapias
+            holísticas y más.`}
+             {loading && !loadingCategorias && (
+                <p>No se encontraron proveedores para la categoría <b>{categoriaNombre[0].nombre}.</b></p>
+              )
+             }
           </Typography>
         </Box>
         <Box
@@ -133,14 +214,14 @@ function Providers(props) {
           {data.map((elem, i) => {
             return (
               <CardProviders
-                category={elem.category}
+                category={elem.categoria.nombre}
                 image={elem.image}
-                nameProvider={elem.nameProvider}
-                typeProvider={elem.typeProvider}
+                nameProvider={elem.nombre}
+                typeProvider="TipoProveedor"
                 ciudad={elem.ciudad}
-                provincia={elem.provincia}
-                pais={elem.pais}
-                description={elem.description}
+                provincia={elem.provincia.nombre}
+                pais={elem.pais.nombre}
+                description={elem.descripcion}
                 key={i}
               />
             );
