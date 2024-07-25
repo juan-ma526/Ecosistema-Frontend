@@ -41,31 +41,22 @@ const itemPublication = [
     paragraphs: ["La postulación de tu Producto/Servicio fue enviada correctamente."],
     footer: "Pronto tendrás más novedades.",
   },
-];
-
-const itemPublicationSuccess = [
   {
-    title: "Lavanda",
+    title: "Rosa",
     state: "Aprobado",
     firstParagraph: "¡Felicitaciones!\nSos parte de EcoSistema",
     paragraphs: ["Tu Producto/Servicios está incluído dentro de nuestra Red de Impacto."],
   },
-];
-
-const itemPublicationWarning = [
   {
-    title: "Lavanda",
+    title: "Orquídea",
     state: "En revisión",
     firstParagraph: "Devolución de la administración:",
     paragraphs: [
       "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elitr sit amet, consectetur adipis",
     ],
   },
-];
-
-const itemPublicationError = [
   {
-    title: "Lavanda",
+    title: "Girasol",
     state: "Denegado",
     firstParagraph: "Devolución de la administración:",
     paragraphs: [
