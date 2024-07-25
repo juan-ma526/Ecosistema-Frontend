@@ -140,7 +140,6 @@ function Providers(props) {
                   element.image = providerImage[0].image
                 })
                 SetData(providers);
-                console.log(providers);
                 SetLoading(false);
               }
             })
