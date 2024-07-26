@@ -64,7 +64,7 @@ export const Category = () => {
         <Typography sx={{ textAlign: "center", fontWeight: 700, fontSize: "24px" }}>Categorías</Typography>
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px" }}>
           {itemsCategory.map((item) => (
-            <CategoryItem key={item.title} idcategory={item.id} title={item.title} image={item.image} widthBox='152px'/>
+            <CategoryItem key={item.title} idcategory={item.id} title={item.title} image={item.image} widthBox='152px' fontSizeCategories="15px"/>
           ))}
         </Box>
       </Box>

@@ -78,7 +78,7 @@ function CategoriesPage(){
                     </Box>
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px" }}>
                         {data.map((item) => (
-                                <CategoryItem key={item.nombre + item.id} idcategory ={item.id} title={item.nombre} image={item.image} widthBox="80%"/>    
+                                <CategoryItem key={item.nombre + item.id} idcategory ={item.id} title={item.nombre} image={item.image} widthBox="80%" fontSizeCategories="18px"/>    
                             )
                         )}
                     </Box>

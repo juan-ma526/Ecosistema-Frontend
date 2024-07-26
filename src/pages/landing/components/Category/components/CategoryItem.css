@@ -16,3 +16,10 @@
   align-items: center;
   gap: 4px;
 }
+.link-tag-categories {
+  text-decoration: none;
+}
+
+.link-tag-categories:active {
+  text-decoration: none;
+}
