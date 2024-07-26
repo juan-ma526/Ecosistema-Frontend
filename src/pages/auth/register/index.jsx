@@ -2,8 +2,36 @@ import { Box, Button, Typography } from "@mui/material";
 import logo from "../images/logoLogin.png";
 import googleIcon from "../images/logoGoogleButtom.png";
 import "../Auth.css";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../../../context/userContext";
+import { useNavigate } from "react-router-dom";
+import { axiosClient } from "../../../libs/network/axiosClient";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export default function Register() {
+  const { token, setToken } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const register = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const response = await axiosClient.post("/auth/registro", {
+          accessToken: tokenResponse.access_token,
+        });
+        setToken(response.data.jwtToken);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("token", JSON.stringify(token));
+      navigate("/");
+    }
+  }, [token, navigate]);
+
   return (
     /* Container gral */
     <Box className="container-gral">
@@ -25,6 +53,7 @@ export default function Register() {
         <Box className="second-box">
           <Typography sx={{ fontWeight: 500 }}>Registrate con tu cuenta de Gmail</Typography>
           <Button
+            onClick={() => register()}
             variant="contained"
             startIcon={
               <img
