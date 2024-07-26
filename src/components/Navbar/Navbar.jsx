@@ -3,7 +3,7 @@ import "./Navbar.css";
 import { Box, AppBar, Drawer, IconButton, List, Toolbar } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ItemList } from "./components/ItemList";
 import { UserOut } from "./components/UserOut";
 import { UserIn } from "./components/UserIn";
@@ -12,7 +12,7 @@ import { UserContext } from "../../context/userContext";
 const drawerWidth = 258;
 const drawerItems = [
   { item: "Inicio", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/" },
-  { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers" },
+  { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers/" },
   { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/publications" },
   { item: "Iniciá sesión", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/auth/login" },
   {
@@ -23,19 +23,34 @@ const drawerItems = [
   },
   { item: "Registrate", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/auth/register" },
 ];
+const drawerItemsAdmin = [
+  { item: "Administrador", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "#" },
+  { item: "Dashboard Administrador", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "#" },
+  { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers/" },
+  { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/publications" },
+];
+
+let drawerItems2 = [];
 
 function Navbar(props) {
   // eslint-disable-next-line react/prop-types
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useContext(UserContext);
+  const [data, setData] = useState([]);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+  useEffect(() => {
+    if(user!=null && user.roles == 'ADMIN'){
+      setData(drawerItemsAdmin)
+    } else{
+      setData(drawerItems)
+    }
+  },[user])
 
   /* Menu Sidebar */
-
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
@@ -47,10 +62,8 @@ function Navbar(props) {
       }}
     >
       {/* Items Sidebar */}
-
       <List>
-        {/* //TODO Aca con un ternario si user.rol =  */}
-        {drawerItems.map((object) => (
+        {data.map((object) => (
           <ItemList
             item={object.item}
             fontSize={object.fontSize}

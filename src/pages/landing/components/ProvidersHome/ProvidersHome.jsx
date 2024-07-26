@@ -12,6 +12,8 @@ import tomato from "../../../providers/images/tomato.png";
 import upcycling from "../../../providers/images/upcycling.png";
 
 function ProvidersHome(props){
+
+  /*Quitar variable resp, cuando se implemente cloudinary en la BD y adaptar el campo imagen*/
   const resp = [
     {
       idProveedor: 1,

@@ -9,6 +9,7 @@ import PublicationsPage from "./pages/publications";
 import ProfilePage from "./pages/profile";
 import EditPublication from "./pages/profile/edit-publication";
 import LoadPublication from "./pages/profile/load-publication";
+import CategoriesPage from "./pages/categories/index";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile/edit" element={<EditPublication />} />
         <Route path="/profile/load" element={<LoadPublication />} />
+        <Route path="/categories" element={<CategoriesPage />} />
       </Routes>
     </>
   );
