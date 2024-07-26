@@ -6,23 +6,9 @@ import ProviderCardDescription from '../../../../providers/components/ProviderCa
 import ProviderCardSocialNets from '../../../../providers/components/ProviderCardSocialNets';
 import CardContent from '@mui/material/CardContent';
 import Modal from '@mui/material/Modal';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
-import IconButton from '@mui/material/IconButton';
 import { Box } from '@mui/material';
 import './MiniCardProviders.css';
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})
-(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 function MiniCardProvider( props ) {
     const [open, setOpen] = useState(false);

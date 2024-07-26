@@ -24,8 +24,8 @@ const drawerItems = [
   { item: "Registrate", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/auth/register" },
 ];
 const drawerItemsAdmin = [
-  { item: "Administrador", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "#" },
-  { item: "Dashboard Administrador", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "#" },
+  { item: "Administrador", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/" },
+  { item: "Dashboard Administrador", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/#" },
   { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers/" },
   { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/publications" },
 ];

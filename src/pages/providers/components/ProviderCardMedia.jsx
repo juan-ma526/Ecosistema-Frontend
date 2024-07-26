@@ -10,14 +10,14 @@ function ProviderCardMedia( props ){
         <CardContent className='CardContentStyles' >
             <Typography variant='h2' sx={{ 
                 color: "customColors.negro",
-                fontSize: props.mini == false ? ("18px") : ("16px"),
+                fontSize: props.mini == false ? ("18px") : ("14px"),
                 height: props.mini == false ? ("20px") : ("18px"),
             }}>
                 {props.nameProvider}
             </Typography>
             <Typography variant='subtitle1' sx={{ 
                 color: "customColors.violeta",
-                fontSize: props.mini == false ? ("16px") : ("14px"),
+                fontSize: props.mini == false ? ("16px") : ("13px"),
                 height: 18,
                 }}>
                 {props.typeProvider}
@@ -38,7 +38,7 @@ function ProviderCardMedia( props ){
                 <Box>
                     <Typography variant="body2" className='inline' sx={{ 
                         color: "customColors.negro",
-                        fontSize: props.modal == true ? "11px" : "14px",
+                        fontSize: props.modal == true ? "11px" : "13px",
                         height: 16,
                         fontWeight: 600
                         }}>
