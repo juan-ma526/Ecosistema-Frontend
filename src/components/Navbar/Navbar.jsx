@@ -85,7 +85,7 @@ function Navbar(props) {
           {/* Box Logo */}
 
           <Box sx={{ width: "152px", height: "56px" }}>
-            <img src={LogoImg} alt="Logo Empresa" style={{ objectFit: "cover", height: "100%", width: "100%" }} />
+            <img src={LogoImg} alt="Logo Empresa" style={{ objectFit: "cover", height: "95%", width: "100%" }} />
           </Box>
 
           {/* Profile */}
