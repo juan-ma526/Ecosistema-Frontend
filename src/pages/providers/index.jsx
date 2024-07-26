@@ -12,6 +12,7 @@ import "./Providers.css";
 import SearchBar from "../../components/Searchbar";
 
 function Providers(props) {
+  /*Quitar variable resp, cuando se implemente cloudinary en la BD y adaptar el campo imagen*/
   const resp = [
     {
       idProveedor: 1,
@@ -127,8 +128,12 @@ function Providers(props) {
             .catch (error => {
                 console.log(error);
             });
-
-        const urlProviders = import.meta.env.VITE_API_BASE_URL + "/proveedores/buscarPorCategoria/" + idcategory;  
+        let urlProviders = import.meta.env.VITE_API_BASE_URL;
+        if (idcategory == null ) {
+          urlProviders += "/proveedores/buscar?query=";  
+        } else {
+          urlProviders += "/proveedores/buscarPorCategoria/" + idcategory;  
+        }
         await axios.get(urlProviders)
             .then( respons =>{
               if(respons.status == 200) {
@@ -194,7 +199,7 @@ function Providers(props) {
           >
             {!loading && `Encontrá desde productos cosméticos y de cuidado personal natural, servicios de salud, hasta terapias
             holísticas y más.`}
-             {loading && !loadingCategorias && (
+             {loading && !loadingCategorias && categoriaNombre.length != 0 &&(
                 <p>No se encontraron proveedores para la categoría <b>{categoriaNombre[0].nombre}.</b></p>
               )
              }
