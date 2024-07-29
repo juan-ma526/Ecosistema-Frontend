@@ -66,7 +66,9 @@ export default function HomePage() {
       </Box>
       <ProvidersHomes />
       {/* //TODO Falta vista de tarjeta de acuerdo a la direccion, ejemplo : "/" un tamaño y aca "/provedores" otro */}
+
       <Category />
+
       <Box sx={{ marginTop: "48px" }}>
         <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Publicaciones</Typography>
         <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>
@@ -86,23 +88,31 @@ export default function HomePage() {
           />
         ))}
       </Box>
-      <Link to="/publications">
-        <Button
+      <Link to="/publications" sx={{ display: "flex", alignItems: "center", justifyItems: "center" }}>
+        <Box
           sx={{
-            textTransform: "none",
-            width: "152px",
-            height: "40px",
-            padding: "10px 8px 10px 8px",
-            borderRadius: "100px",
-            backgroundColor: "customColors.violeta",
-            color: "customColors.blanco",
-            marginTop: "18px",
-            left: "104px",
-            marginBottom: "18px",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          <Typography sx={{ fontWeight: 700 }}>Ir a Publicaciones</Typography>
-        </Button>
+          <Button
+            sx={{
+              textTransform: "none",
+              display: "flex",
+              width: "152px",
+              height: "40px",
+              padding: "10px 8px 10px 8px",
+              borderRadius: "100px",
+              backgroundColor: "customColors.violeta",
+              color: "customColors.blanco",
+              margin: "18px 0",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography sx={{ fontWeight: 700 }}>Ir a Publicaciones</Typography>
+          </Button>
+        </Box>
       </Link>
     </div>
   );

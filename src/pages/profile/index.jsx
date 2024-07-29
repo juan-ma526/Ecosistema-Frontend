@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useRef } from "react";
 import ProfileName from "./components/ProfileName";
 import ButtonCharge from "./components/ButtonCharge";
 import ProductsTitle from "./components/ProductsTitle";
@@ -13,6 +13,7 @@ import lavanda2 from "../providers/images/lavanda2.png";
 import lavanda3 from "../providers/images/lavanda3.png";
 import CardProvider from "../providers/components/CardProviders/CardProviders";
 import "./profile.css";
+import { useNavigate } from "react-router-dom";
 
 const resp = [
   {
@@ -68,6 +69,12 @@ const itemPublication = [
 export default function ProfilePage() {
   const [data, SetData] = useState([]);
 
+  const navigate = useNavigate();
+
+  const handleLoadPage = () => {
+    navigate("/profile/load")
+  }
+
   useEffect(() => {
     const cargarDatos = () => {
       try {
@@ -85,7 +92,7 @@ export default function ProfilePage() {
     <Box>
       <section className="title-button">
         <ProfileName />
-        <ButtonCharge sx={{ top: "-140px" }} alwaysPurple />
+        <ButtonCharge sx={{ top: "-140px" }} alwaysPurple onClick={handleLoadPage} />
       </section>
       <ProductsTitle />
 

@@ -25,6 +25,11 @@ export const UserIn = ({ name, email }) => {
     navigate("/auth/login");
   };
 
+  const handleProfile = () => {
+    handleCloseUserMenu();
+    navigate("/profile");
+  };
+
   const getInitials = (name) => {
     const nameArray = name.split(" ");
     const initials = nameArray.map((name) => name[0]).join("");
@@ -80,7 +85,7 @@ export const UserIn = ({ name, email }) => {
             {email}
           </Typography>
           <Typography
-            onClick={handleCloseUserMenu}
+            onClick={handleProfile}
             sx={{ marginLeft: 5, marginTop: 2, color: "customColors.violeta", fontWeight: 700 }}
             textAlign="center"
           >
