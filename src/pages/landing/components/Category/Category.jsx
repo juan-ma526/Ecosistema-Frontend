@@ -1,7 +1,7 @@
 import "./Category.css";
 import { Box, Button, Typography } from "@mui/material";
 import { CategoryItem } from "./components/CategoryItem";
-import { Link  } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import ConstruccionImg from "../../../../components/Category/images/construccion.png";
 import TecnologiaImg from "../../../../components/Category/images/tecnologia.png";
 import IndumentariaImg from "../../../../components/Category/images/indumentaria.png";
@@ -68,13 +68,28 @@ export const Category = () => {
           ))}
         </Box>
       </Box>
-      <Link to="/categories">
-        <Button className="buttom-category">
-          <Typography sx={{ textTransform: "none", fontWeight: 700, color: "customColors.blanco" }}>
-            Ver más Categorías
-          </Typography>
-        </Button>
-      </Link>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Link to="/categories" style={{ textDecoration: "none" }}>
+          <Button
+            className="buttom-category"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography sx={{ textTransform: "none", fontWeight: 700, color: "customColors.blanco" }}>
+              Ver más Categorías
+            </Typography>
+          </Button>
+        </Link>
+      </Box>
     </Box>
   );
 };
