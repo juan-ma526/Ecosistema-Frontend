@@ -19,7 +19,7 @@ function ProfileName() {
             marginTop: "100px"
           }}
         >
-          {user ? `${user.nombre} ${user.apellido}` : 'Julieta Perez'}
+          {user ? `${user.nombre}` : 'Cargando...'}
         </Typography>
       </section>
     </>
@@ -27,4 +27,6 @@ function ProfileName() {
 }
 
 export default ProfileName;
+
+//${user.apellido}
 

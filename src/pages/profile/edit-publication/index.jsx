@@ -62,7 +62,7 @@ export default function EditPublication() {
       <ButtonCharge
         sx={{
           marginTop: "40px",
-          top: "-18px",
+          top: "-25px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",

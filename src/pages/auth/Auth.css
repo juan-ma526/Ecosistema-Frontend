@@ -3,22 +3,24 @@
   background-repeat: no-repeat;
   background-size: cover;
   height: calc(100vh - 56px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   opacity: 1;
 }
 .container-card {
   background-color: #fafafa;
   width: 328px;
   height: 352px;
-  position: absolute;
-  top: 224px;
-  left: 16px;
   border-radius: 8px;
   padding: 0px 0px 32px 0px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  align-content: center;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 .first-box {
   width: 100%;

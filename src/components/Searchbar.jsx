@@ -5,6 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { TextField, List, ListItem, ListItemText, Typography } from "@mui/material";
 import "./searchbar.css";
 
+// eslint-disable-next-line react/prop-types
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -51,7 +52,7 @@ export default function SearchBar() {
           alignItems: "center",
           width: 328,
           height: 56,
-          borderRadius: 100,
+          borderRadius: 100
         }}
       >
         <IconButton type="submit" sx={{ p: "16px" }} aria-label="search">
@@ -61,7 +62,7 @@ export default function SearchBar() {
           id="filled-hidden-label-normal"
           variant="standard"
           color="primary"
-          placeholder="Buscar Proovedores"
+          placeholder="Buscar Proveedores"
           value={query}
           onChange={handleInputChange}
         />

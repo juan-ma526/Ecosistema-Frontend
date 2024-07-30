@@ -1,9 +1,12 @@
 import { Box, Typography } from "@mui/material";
+import SearchBar from "../../../../components/Searchbar";
+import "../../../../components/searchbar.css";
 import "./HomeTitle.css";
 
 export const HomeTitle = () => {
   return (
     <Box className="container-home">
+      <SearchBar />
       <Typography
         variant="h1"
         sx={{
