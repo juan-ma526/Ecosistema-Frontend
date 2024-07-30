@@ -161,7 +161,11 @@ function Providers(props) {
     <>
       <Box className="ProvidersPage">
         <ProvidersHeaders />
-        <Box className="box-title-categories">
+        <Box className="box-title-categories" sx={{
+            backgroundColor: "customColors.blanco",
+            borderBottomLeftRadius: '50%',
+            paddingBottom: '80px',
+          }}>
           <Typography
             variant="h2"
             sx={{

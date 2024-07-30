@@ -29,8 +29,17 @@ const drawerItemsAdmin = [
   { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers/" },
   { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/publications" },
 ];
-
-let drawerItems2 = [];
+const drawerItemsUsuario = [
+  { item: "Inicio", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/" },
+  { item: "Proveedores", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/providers/" },
+  { item: "Publicaciones", fontWeight: 700, fontSize: 18, fontStyle: "normal", path: "/publications" },
+  {
+    item: "Querés formar parte de la Red de impacto ECO como Proveedor?",
+    fontWeight: 400,
+    fontSize: 18,
+    fontStyle: "italic",
+  },
+];
 
 function Navbar(props) {
   // eslint-disable-next-line react/prop-types
@@ -46,7 +55,11 @@ function Navbar(props) {
     if(user!=null && user.roles == 'ADMIN'){
       setData(drawerItemsAdmin)
     } else{
-      setData(drawerItems)
+      if(user!=null){
+        setData(drawerItemsUsuario)
+      } else {
+        setData(drawerItems)
+      }
     }
   },[user])
 
