@@ -113,7 +113,7 @@ function ProvidersHome(props){
     useEffect(() => {
         const cargarDatos = async() => {
           try {
-            const urlProviders = import.meta.env.VITE_API_BASE_URL + "/proveedores/buscar?query=";  
+            const urlProviders = import.meta.env.VITE_API_BASE_URL + "/buscar?query=";  
             await axios.get(urlProviders)
                 .then( respons =>{
                   if(respons.status == 200) {
