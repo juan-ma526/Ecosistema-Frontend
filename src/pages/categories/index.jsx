@@ -54,7 +54,6 @@ function CategoriesPage(){
     return(
         <>
             <Box className="CategoriesPage" >
-                <SearchBar />
                 <ProvidersHeaders></ProvidersHeaders>
                 <Box className="box-title-categories" sx={{
                     backgroundColor: "customColors.verde",
