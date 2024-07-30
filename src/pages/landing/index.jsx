@@ -1,6 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
 import { InvitationRedImpacto } from "../../components/InvitationRedImpacto";
-import SearchBar from "../../components/Searchbar";
 import { HomeTitle } from "./components/HomeTitle/HomeTitle";
 import ImpactCompanies from "./components/ImpactCompanies/ImpactCompanies";
 import { PublicationsCard } from "../../components/Publications/PublicationsCard";
@@ -56,7 +55,6 @@ const itemPublication = [
 export default function HomePage() {
   return (
     <div>
-      <SearchBar />
       <HomeTitle />
       <ImpactCompanies />
       <InvitationRedImpacto />

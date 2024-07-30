@@ -1,6 +1,6 @@
 .searchbar-container {
-  position: absolute;
-  top: 80px;
-  left: 24px;
-  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 22px;
 }

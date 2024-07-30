@@ -15,7 +15,7 @@ export default function Register() {
   const register = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const response = await axiosClient.post("/auth/registro", {
+        const response = await axiosClient.post("http://localhost:8080/auth/registro", {
           accessToken: tokenResponse.access_token,
         });
         setToken(response.data.jwtToken);

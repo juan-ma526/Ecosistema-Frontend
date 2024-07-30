@@ -74,7 +74,7 @@ export default function LoadPublication() {
       <ButtonCharge
         sx={{
           marginTop: "40px",
-          top: "-5px",
+          top: "-20px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",

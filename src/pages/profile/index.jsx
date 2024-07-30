@@ -97,10 +97,9 @@ export default function ProfilePage() {
       <ProductsTitle />
 
       {itemPublication.map((item, index) => (
-        <>
+        <Box key={index}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             <ProductCard
-              key={index}
               title={item.title}
               state={item.state}
               firstParagraph={item.firstParagraph}
@@ -138,7 +137,7 @@ export default function ProfilePage() {
               })}
             </Box>
           )}
-        </>
+        </Box>
       ))}
     </Box>
   );

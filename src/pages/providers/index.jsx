@@ -9,7 +9,6 @@ import lavanda1 from "./images/lavanda1.png";
 import lavanda2 from "./images/lavanda2.png";
 import lavanda3 from "./images/lavanda3.png";
 import "./Providers.css";
-import SearchBar from "../../components/Searchbar";
 
 function Providers(props) {
   /*Quitar variable resp, cuando se implemente cloudinary en la BD y adaptar el campo imagen*/
@@ -161,8 +160,7 @@ function Providers(props) {
   return (
     <>
       <Box className="ProvidersPage">
-        <SearchBar />
-        <ProvidersHeaders></ProvidersHeaders>
+        <ProvidersHeaders />
         <Box className="box-title-categories">
           <Typography
             variant="h2"
