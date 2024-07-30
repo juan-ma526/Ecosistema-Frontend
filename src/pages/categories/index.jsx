@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Box, Typography} from '@mui/material';
-import SearchBar from '../../components/Searchbar';
 import { CategoryItem } from '../landing/components/Category/components/CategoryItem';
 import ProvidersHeaders from '../providers/components/ProvidersHeader'; 
 import ConstruccionImg from "../../components/Category/images/construccion.png";

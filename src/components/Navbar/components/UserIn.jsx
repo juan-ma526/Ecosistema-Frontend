@@ -81,12 +81,12 @@ export const UserIn = ({ name, email }) => {
               {name}
             </Typography>
           </Box>
-          <Typography sx={{ marginLeft: 5, fontWeight: 400, fontSize: "14px" }} variant="subtitle2" textAlign="center">
+          <Typography sx={{ marginLeft: 0, fontWeight: 400, fontSize: "14px" }} variant="subtitle2" textAlign="center">
             {email}
           </Typography>
           <Typography
             onClick={handleProfile}
-            sx={{ marginLeft: 5, marginTop: 2, color: "customColors.violeta", fontWeight: 700 }}
+            sx={{ marginLeft: 0, marginTop: 2, color: "customColors.violeta", fontWeight: 700 }}
             textAlign="center"
           >
             Mi Perfil
