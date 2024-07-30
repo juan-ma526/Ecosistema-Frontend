@@ -130,9 +130,9 @@ function Providers(props) {
             });
         let urlProviders = import.meta.env.VITE_API_BASE_URL;
         if (idcategory == null ) {
-          urlProviders += "/proveedores/buscar?query=";  
+          urlProviders += "/buscar?query=";  
         } else {
-          urlProviders += "/proveedores/buscarPorCategoria/" + idcategory;  
+          urlProviders += "/buscarPorCategoria/" + idcategory;  
         }
         await axios.get(urlProviders)
             .then( respons =>{
