@@ -162,6 +162,10 @@ function ProvidersHome(props){
                             provincia={elem.provincia.nombre}
                             pais={elem.pais.nombre}
                             description={elem.descripcion}
+                            email = {elem.email}
+                            facebook = {elem.facebook}
+                            instagram = {elem.instagram}
+                            telefono = {elem.telefono}
                           />
                       </Grid>
                     );
