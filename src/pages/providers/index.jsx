@@ -223,7 +223,7 @@ function Providers(props) {
                 category={elem.categoria.nombre}
                 image={elem.image}
                 nameProvider={elem.nombre}
-                typeProvider="TipoProveedor"
+                typeProvider={elem.tipoProveedor}
                 ciudad={elem.ciudad}
                 provincia={elem.provincia.nombre}
                 pais={elem.pais.nombre}
