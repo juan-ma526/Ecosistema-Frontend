@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import EditTitle from "./components/LoadTitle";
@@ -11,6 +11,8 @@ import SuccessAlert from "../../../modals/SuccessAlert";
 import { fields } from "./utils/fields";
 import { validateEmail, validatePhone } from "./utils/utils";
 import ButtonImage from "./components/ButtonImage";
+import axios from "axios";
+import { UserContext } from "../../../context/userContext";
 
 export default function LoadPublication() {
   const [showAlert, setShowAlert] = useState(false);
@@ -19,10 +21,10 @@ export default function LoadPublication() {
     fields.reduce((acc, field) => ({ ...acc, [field.id]: field.defaultValue || "" }), {})
   );
   const [errors, setErrors] = useState({});
-  const [hasErrors, setHasErrors] = useState(true); // Estado inicial en true
+  const [hasErrors, setHasErrors] = useState(true);
 
   useEffect(() => {
-    const anyErrors = fields.some(field => {
+    const anyErrors = fields.some((field) => {
       const value = values[field.id];
       if (!value) return true;
       if (field.id === "Correo" && !validateEmail(value)) return true;
@@ -32,7 +34,72 @@ export default function LoadPublication() {
     setHasErrors(anyErrors);
   }, [values, errors]);
 
-  const handleSubmit = () => {
+  const { user } = React.useContext(UserContext);
+  const usuarioId = user.usuarioId;
+
+  const url = `http://localhost:8080/crearProveedor/usuario/${usuarioId}/`;
+
+  const sendForm = async (formData) => {
+    const {
+      userId,
+      nombreId,
+      tipoId,
+      categoriaId,
+      emailId,
+      telefonoId,
+      facebookId,
+      instagramId,
+      paisId,
+      provinciaId,
+      ciudadId,
+      descripId,
+      images,
+    } = formData;
+
+    const dataToSend = {
+      usuarioId: userId,
+      proveedorDto: {
+        nombre: nombreId,
+        tipoProveedor: tipoId,
+        descripcion: descripId,
+        email: emailId,
+        telefono: telefonoId,
+        facebook: facebookId,
+        instagram: instagramId,
+        ciudad: ciudadId,
+        paisId: paisId,
+        provinciaId: provinciaId,
+        categoriaId: categoriaId,
+      },
+      imageModels: images,
+    };
+
+    try {
+      const response = await axios.post(url, dataToSend, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      return response.data;
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      throw error;
+    }
+  };
+
+  const handleSubmit = async (formData) => {
+    try {
+      await sendForm(formData);
+      setAlertType("success");
+    } catch (error) {
+      setAlertType("error");
+    }
+    setShowAlert(true);
+  };
+
+  const handleButtonCharge = () => {
+    // Verificar y establecer los errores antes de enviar el formulario
     let newErrors = {};
     fields.forEach((field) => {
       if (!values[field.id]) {
@@ -47,15 +114,11 @@ export default function LoadPublication() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      setAlertType("success");
+      handleSubmit(values);
     } else {
       setAlertType("error");
+      setShowAlert(true);
     }
-    setShowAlert(true);
-  };
-
-  const handleButtonCharge = () => {
-    handleSubmit();
   };
 
   const handleCloseAlert = () => {
@@ -69,7 +132,7 @@ export default function LoadPublication() {
         <EditTitle />
         <EditSubtitle />
       </section>
-      <Form values={values} setValues={setValues} errors={errors} setErrors={setErrors} />
+      <Form values={values} setValues={setValues} errors={errors} setErrors={setErrors} onSubmit={handleSubmit} />
       <ButtonImage />
       <ButtonCharge
         sx={{
