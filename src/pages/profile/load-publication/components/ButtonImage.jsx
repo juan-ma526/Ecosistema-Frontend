@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Typography, Box, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
@@ -24,24 +24,30 @@ const ColorButton = styled(Button)(() => ({
 const descriptionImage = "*Requerida al menos una\n imagen\n Hasta 3 imágenes.\n Máximo 3Mb cada una";
 
 // eslint-disable-next-line react/prop-types
-const ButtonImage = ({ sx, state, ...props }) => {
+const ButtonImage = ({ sx, state, onImagesChange, ...props }) => {
   const fileInputRef = React.useRef(null);
   const [images, setImages] = useState([]);
 
-  const handleFileChange = (event) => {
-    const files = Array.from(event.target.files); // va guardando las imagenes acá
-    const validFiles = files.filter((file) => file.size <= 3 * 1024 * 1024); // valida que pese menos que 3MB en bytes
+  useEffect(() => {
+    if (onImagesChange) {
+      onImagesChange(images);
+    }
+  }, [images, onImagesChange]);
 
-    const newImages = [...images, ...validFiles].slice(0, 3); // Limitar a 3 imágenes
-    setImages(newImages); // guarda las primeras 3 imagenes validas en el estado images
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    const validFiles = files.filter((file) => file.size <= 3 * 1024 * 1024);
+
+    const newImages = [...images, ...validFiles].slice(0, 3);
+    setImages(newImages);
     if (validFiles.length < files.length) {
       alert('Algunas imágenes no fueron cargadas porque exceden el límite de tamaño o cantidad.');
     }
   };
 
   const handleRemoveImage = (index) => {
-    const newImages = images.filter((_, i) => i !== index); // busca la considencia de indice y la elimina ( si damos click a la cruz de la imagen 1, busca la imagen 1 y la filtra del array)
-    setImages(newImages); // devuelve el nuevo array de imagenes sin la filtrada
+    const newImages = images.filter((_, i) => i !== index);
+    setImages(newImages);
   };
 
   return (

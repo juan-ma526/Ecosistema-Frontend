@@ -9,6 +9,7 @@ export const UserIn = ({ name, email }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { setUser, setToken } = useContext(UserContext);
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -27,7 +28,11 @@ export const UserIn = ({ name, email }) => {
 
   const handleProfile = () => {
     handleCloseUserMenu();
-    navigate("/profile");
+    if (user.roles == "ADMIN") {
+      navigate("/admin");
+    } else {
+      navigate("/profile");
+    }
   };
 
   const getInitials = (name) => {

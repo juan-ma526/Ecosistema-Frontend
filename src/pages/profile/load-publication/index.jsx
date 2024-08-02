@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box } from "@mui/material";
 import EditTitle from "./components/LoadTitle";
 import EditSubtitle from "./components/LoadSubtitle";
@@ -22,6 +22,7 @@ export default function LoadPublication() {
   );
   const [errors, setErrors] = useState({});
   const [hasErrors, setHasErrors] = useState(true);
+  const [productsCreated, setProductsCreated] = useState(0);
 
   useEffect(() => {
     const anyErrors = fields.some((field) => {
@@ -34,56 +35,81 @@ export default function LoadPublication() {
     setHasErrors(anyErrors);
   }, [values, errors]);
 
-  const { user } = React.useContext(UserContext);
-  const usuarioId = user.usuarioId;
+  const { user } = useContext(UserContext);
+  const token = user?.token || JSON.parse(localStorage.getItem("token"));
+  const usuarioId = user?.usuarioId || "defaultId";
 
-  const url = `http://localhost:8080/crearProveedor/usuario/${usuarioId}/`;
+  const url = `http://localhost:8080/crearProveedor/usuario/${usuarioId}`;
 
   const sendForm = async (formData) => {
+    console.log("Valores del formulario:", formData);
+
     const {
-      userId,
-      nombreId,
-      tipoId,
-      categoriaId,
-      emailId,
-      telefonoId,
-      facebookId,
-      instagramId,
-      paisId,
-      provinciaId,
-      ciudadId,
-      descripId,
+      userId = usuarioId,
+      Nombre,
+      DescripcionDelProducto = "ES MUY BUENO",
+      Categoria,
+      Correo,
+      Telefono,
+      Facebook,
+      Instagram,
+      Pais = 1,
+      Provincia,
+      Ciudad,
+      Descripcion,
       images,
     } = formData;
 
-    const dataToSend = {
-      usuarioId: userId,
-      proveedorDto: {
-        nombre: nombreId,
-        tipoProveedor: tipoId,
-        descripcion: descripId,
-        email: emailId,
-        telefono: telefonoId,
-        facebook: facebookId,
-        instagram: instagramId,
-        ciudad: ciudadId,
-        paisId: paisId,
-        provinciaId: provinciaId,
-        categoriaId: categoriaId,
-      },
-      imageModels: images,
-    };
+    console.log("Datos guardados del formulario:", {
+      userId,
+      Nombre,
+      DescripcionDelProducto,
+      Categoria,
+      Correo,
+      Telefono,
+      Facebook,
+      Instagram,
+      Pais,
+      Provincia,
+      Ciudad,
+      Descripcion,
+      images,
+    });
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("usuarioId", userId);
+    formDataToSend.append("nombre", Nombre);
+    formDataToSend.append("tipoProveedor", Descripcion);
+    formDataToSend.append("descripcion", DescripcionDelProducto);
+    formDataToSend.append("email", Correo);
+    formDataToSend.append("telefono", Telefono);
+    formDataToSend.append("facebook", Facebook);
+    formDataToSend.append("instagram", Instagram);
+    formDataToSend.append("ciudad", Ciudad);
+    formDataToSend.append("paisId", Pais);
+    formDataToSend.append("provinciaId", Provincia);
+    formDataToSend.append("categoriaId", Categoria);
+
+    if (Array.isArray(images)) {
+      images.forEach((image) => {
+        if (image) {
+          formDataToSend.append("imagenes", image);
+        }
+      });
+    }
 
     try {
-      const response = await axios.post(url, dataToSend, {
+      const response = await axios.post(url, formDataToSend, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
-      })
+      });
+      console.log("Respuesta del servidor:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Error al enviar el formulario:", error);
+      console.error("Error al enviar el formulario:", error.response || error);
       throw error;
     }
   };
@@ -92,6 +118,7 @@ export default function LoadPublication() {
     try {
       await sendForm(formData);
       setAlertType("success");
+      setProductsCreated((prev) => prev + 1);
     } catch (error) {
       setAlertType("error");
     }
@@ -99,7 +126,12 @@ export default function LoadPublication() {
   };
 
   const handleButtonCharge = () => {
-    // Verificar y establecer los errores antes de enviar el formulario
+    if (productsCreated >= 3) {
+      setAlertType("error");
+      setShowAlert(true);
+      return;
+    }
+
     let newErrors = {};
     fields.forEach((field) => {
       if (!values[field.id]) {
@@ -126,6 +158,13 @@ export default function LoadPublication() {
     setAlertType(null);
   };
 
+  const handleImagesChange = (newImages) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      images: newImages,
+    }));
+  };
+
   return (
     <Box>
       <section className="titles">
@@ -133,7 +172,7 @@ export default function LoadPublication() {
         <EditSubtitle />
       </section>
       <Form values={values} setValues={setValues} errors={errors} setErrors={setErrors} onSubmit={handleSubmit} />
-      <ButtonImage />
+      <ButtonImage onImagesChange={handleImagesChange} />
       <ButtonCharge
         sx={{
           marginTop: "40px",

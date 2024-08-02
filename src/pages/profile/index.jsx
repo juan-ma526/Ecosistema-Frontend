@@ -72,8 +72,8 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   const handleLoadPage = () => {
-    navigate("/profile/load")
-  }
+    navigate("/profile/load");
+  };
 
   useEffect(() => {
     const cargarDatos = () => {
@@ -97,8 +97,8 @@ export default function ProfilePage() {
       <ProductsTitle />
 
       {itemPublication.map((item, index) => (
-        <Box key={index}>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Box key={index} sx={{ paddingBottom: "20px" }}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
             <ProductCard
               title={item.title}
               state={item.state}
@@ -118,6 +118,7 @@ export default function ProfilePage() {
                 borderTopRightRadius: "100%",
                 marginTop: "0px",
                 padding: "0px 15px",
+                marginBottom: "20px",
               }}
             >
               {data.map((elem, i) => {
