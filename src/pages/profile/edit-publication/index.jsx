@@ -23,6 +23,7 @@ export default function EditPublication() {
   const [errors, setErrors] = useState({});
 
   const { user } = useContext(UserContext);
+  const token = user?.token || JSON.parse(localStorage.getItem("token"));
   const userId = user.usuarioId;
   const url = `http://localhost:8080/editarProveedor/usuario/${userId}/`;
 
@@ -66,6 +67,7 @@ export default function EditPublication() {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;

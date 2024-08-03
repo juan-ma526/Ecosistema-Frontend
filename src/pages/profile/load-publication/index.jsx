@@ -13,8 +13,14 @@ import { validateEmail, validatePhone } from "./utils/utils";
 import ButtonImage from "./components/ButtonImage";
 import axios from "axios";
 import { UserContext } from "../../../context/userContext";
+import { ProductContext } from "../../../context/productContext";
 
 export default function LoadPublication() {
+  const { user } = useContext(UserContext);
+  const { addProduct } = useContext(ProductContext);
+  const token = user?.token || JSON.parse(localStorage.getItem("token"));
+  const usuarioId = user?.usuarioId || "defaultId";
+
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState(null);
   const [values, setValues] = useState(
@@ -23,6 +29,22 @@ export default function LoadPublication() {
   const [errors, setErrors] = useState({});
   const [hasErrors, setHasErrors] = useState(true);
   const [productsCreated, setProductsCreated] = useState(0);
+
+/*  TODO: useEffect(() => {
+  const fetchProductCount = async () => {
+    try {
+      const response = await axios.get('/api/product-count', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProductsCreated(response.data.count);
+    } catch (error) {
+      console.error("Error fetching product count:", error);
+    }
+  };
+  fetchProductCount();
+}, [token]); */
 
   useEffect(() => {
     const anyErrors = fields.some((field) => {
@@ -34,10 +56,6 @@ export default function LoadPublication() {
     });
     setHasErrors(anyErrors);
   }, [values, errors]);
-
-  const { user } = useContext(UserContext);
-  const token = user?.token || JSON.parse(localStorage.getItem("token"));
-  const usuarioId = user?.usuarioId || "defaultId";
 
   const url = `http://localhost:8080/crearProveedor/usuario/${usuarioId}`;
 
@@ -117,6 +135,10 @@ export default function LoadPublication() {
   const handleSubmit = async (formData) => {
     try {
       await sendForm(formData);
+      addProduct({
+        title: formData.Nombre,
+        state: "Postulado",
+      });
       setAlertType("success");
       setProductsCreated((prev) => prev + 1);
     } catch (error) {
@@ -126,13 +148,12 @@ export default function LoadPublication() {
   };
 
   const handleButtonCharge = () => {
-    if (productsCreated >= 3) {
+    let newErrors = {};
+    if (productsCreated >= 4) {
       setAlertType("error");
       setShowAlert(true);
       return;
     }
-
-    let newErrors = {};
     fields.forEach((field) => {
       if (!values[field.id]) {
         newErrors[field.id] = "Este campo es obligatorio";

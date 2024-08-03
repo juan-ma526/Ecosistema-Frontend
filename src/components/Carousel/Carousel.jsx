@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable react/prop-types */
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from 'swiper/modules';
 
@@ -25,10 +26,11 @@ function Carousel( props ){
             style={{borderRadius: props.styleradius }} 
         >
             {props.elements.map( (element, i) => {
+                console.log(element);
                 return (
                     <SwiperSlide key={i}>
                         <div>
-                            <img src={element} />
+                            <img src={element}  alt={`Slide ${i}`} />
                         </div>
                     </SwiperSlide>
                 )
@@ -36,6 +38,6 @@ function Carousel( props ){
             }
         </Swiper>
     )
-};
+}
 
 export default Carousel;
