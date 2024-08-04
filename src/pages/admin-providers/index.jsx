@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
+import CardProvidersAdmin from "./components/CardProvidersAdmin";
+import axios from "axios";
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -38,6 +40,59 @@ function CustomTabPanel(props) {
 
 export default function AdminProvidersPage() {
   const [value, setValue] = useState(0);
+  const [data, SetData] = useState([]);
+  const [loading, SetLoading] = useState(true);
+
+  useEffect(() => {
+    const cargarDatos = async() => {
+      try {
+        const urlProviders = import.meta.env.VITE_API_BASE_URL + "/buscar?query=";  
+        await axios.get(urlProviders)
+            .then( respons =>{
+              if(respons.status == 200) {
+                let providers = [];
+                switch (value) {
+                  case 0: {
+                    providers = respons.data.filter( (elem) => {
+                      return (elem.estado == 'REVISION_INICIAL' || elem.estado == 'CAMBIOS_REALIZADOS');
+                    })
+                    break;
+                  }
+                  case 1: {
+                    providers = respons.data.filter( (elem) => {
+                      return (elem.estado == 'ACEPTADO');
+                    })
+                    break;
+                  }
+                  case 2: {
+                    providers = respons.data.filter( (elem) => {
+                      return (elem.estado == 'REQUIERE_CAMBIOS');
+                    })
+                    break;
+                  }
+                  case 3: {
+                    providers = respons.data.filter( (elem) => {
+                      return (elem.estado == 'DENEGADO');
+                    })
+                    break;
+                  }
+                  default: {
+                    providers = [];
+                  }
+                } 
+                SetData(providers);
+                SetLoading(true);
+              }
+            })
+            .catch (error => {
+                console.log(error);
+            });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    cargarDatos();
+  }, [value]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -75,16 +130,36 @@ export default function AdminProvidersPage() {
                 <Tab label="Nuevos Perfiles" wrapped />
                 <Tab label="Aprobados"  sx={{width:128}}/>
                 <Tab label="En revisión"  sx={{width:128}}/>
+                <Tab label="Denegados"  sx={{width:128}}/>
             </Tabs>
         </Box>
         <CustomTabPanel  value={value} index={0} >
-            Item One
+          {data.map((elem, i) => {
+            return ( loading &&
+              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
+            );
+          })}
         </CustomTabPanel>
         <CustomTabPanel  value={value} index={1} >
-            Item Two
+          {data.map((elem, i) => {
+            return ( loading &&
+              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
+            );
+          })}
         </CustomTabPanel>
         <CustomTabPanel  value={value} index={2} >
-            Item Three
+          {data.map((elem, i) => {
+            return ( loading &&
+              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
+            );
+          })}
+        </CustomTabPanel>
+        <CustomTabPanel  value={value} index={3} >
+          {data.map((elem, i) => {
+            return ( loading &&
+              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
+            );
+          })}
         </CustomTabPanel>
     </Box>
   );
