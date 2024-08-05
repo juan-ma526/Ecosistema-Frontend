@@ -14,25 +14,6 @@ import lavanda1 from "../providers/images/lavanda1.png";
 import lavanda2 from "../providers/images/lavanda2.png";
 import lavanda3 from "../providers/images/lavanda3.png";
 import axios from "axios";
-import { UserContext } from "../../context/userContext";
-
-const resp = [
-  {
-    category: "Bienestar",
-    image: [lavanda1, lavanda2, lavanda3],
-    nameProvider: "Lavanda",
-    typeProvider: "Cosmetica Natural",
-    ciudad: "Godoy Cruz",
-    provincia: "Mendoza",
-    pais: "Argentina",
-    description:
-      "Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden al planeta, con principios activos que dejen el pelo sano y la piel bella.",
-    linkFacebook: "www.facebook.com/lavanda",
-    linkInstagram: "www.instagram.com/lavanda",
-    linkMail: "lavanda@mendoza.com",
-    linkWhatsapp: "apiwhatsapp.com/",
-  },
-];
 
 export default function ProfilePage() {
   const [data, setData] = useState([]);
@@ -42,6 +23,40 @@ export default function ProfilePage() {
 
   const handleLoadPage = () => {
     navigate("/profile/load");
+  };
+
+  const stateMessages = (estado) => {
+    console.log(estado);
+    switch (estado) {
+      case "REVISION_INICIAL":
+        return {
+          firstParagraph: "Gracias por querer formar parte de EcoSistema!",
+          footer: "Pronto tendrás más novedades.",
+        };
+
+      case "ACEPTADO":
+        return {
+          firstParagraph: "¡Felicitaciones! Sos parte de EcoSistema",
+          footer: "",
+        };
+
+      case "REQUIERE_CAMBIOS":
+        return {
+          firstParagraph: "Devolución de la administración:",
+          footer: "",
+        };
+
+      case "DENEGADO":
+        return {
+          firstParagraph: "Devolución de la administración:",
+          footer: "",
+        };
+      default:
+        return {
+          firstParagraph: "",
+          footer: "",
+        };
+    }
   };
 
   useEffect(() => {
@@ -70,6 +85,7 @@ export default function ProfilePage() {
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>Loading...</Box>
     );
   }
+
   return (
     <Box>
       <section className="title-button">
@@ -79,17 +95,17 @@ export default function ProfilePage() {
       <ProductsTitle />
 
       {data.map((item, index) => {
-/*         const messages = stateMessages[item.estado] || {};
+        const messages = stateMessages(item.estado) || {};
         const { firstParagraph = "" } = messages;
-        const { footer = "" } = messages; */
+        const { footer = "" } = messages;
 
         return (
           <Box key={index} sx={{ paddingBottom: "20px" }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <ProductCard title={item.nombre} estado={item.estado} />
+              <ProductCard title={item.nombre} estado={item.estado} firstParagraph={firstParagraph} footer={footer} />
             </Box>
 
-            {/* {item.estado !== "DENEGADO" && <ProductSubtitle estado={item.estado} />}
+            {item.estado !== "DENEGADO" && <ProductSubtitle estado={item.estado} />}
 
             {item.estado !== "DENEGADO" && (
               <Box
@@ -105,17 +121,17 @@ export default function ProfilePage() {
                 {data.map((elem, i) => (
                   <CardProvider
                     category={elem.categoria}
-                    nameProvider={elem.nombre}
-                    typeProvider={elem.tipoProveedor}
+                    nombre={elem.nombre}
+                    tipoProveedor={elem.tipoProveedor}
                     ciudad={elem.ciudad}
                     provincia={elem.provincia}
                     pais={elem.pais}
                     description={elem.descripcion}
                     key={i}
                   />
-                ))} 
+                ))}
               </Box>
-            )}*/}
+            )}
           </Box>
         );
       })}

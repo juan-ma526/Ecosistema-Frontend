@@ -9,7 +9,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import "../profile.css";
 import { useNavigate } from "react-router-dom";
 
-export default function ProductCard({ title, estado }) {
+export default function ProductCard({ title, estado, firstParagraph, footer }) {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
@@ -31,48 +31,11 @@ export default function ProductCard({ title, estado }) {
     }
   };
 
-  const stateMessages = (estado) => {
-    console.log(estado);
-    switch (estado) {
-      case "REVISION_INICIAL":
-        return {
-          firstParagraph: "Gracias por querer formar parte de EcoSistema!",
-          footer: "Pronto tendrás más novedades.",
-        };
-  
-      case "ACEPTADO":
-        return {
-          firstParagraph: "¡Felicitaciones! Sos parte de EcoSistema",
-          footer: "",
-        };
-  
-      case "REQUIERE_CAMBIOS":
-        return {
-          firstParagraph: "Devolución de la administración:",
-          footer: "",
-        };
-  
-      case "DENEGADO":
-        return {
-          firstParagraph: "Devolución de la administración:",
-          footer: "",
-        };
-      default:
-        return {
-          firstParagraph: "",
-          footer: "",
-        };
-    }
-  };
-
   const getCardHeight = (estado) => {
     return estado === "DENEGADO" || estado === "REQUIERE_CAMBIOS" ? "328px" : "256px";
   };
 
-  const prueba = stateMessages(estado);
-  console.log(prueba)
-
-/*   const getParagraphStyles = (estado) => {
+  const getParagraphStyles = (estado) => {
     switch (estado) {
       case "DENEGADO":
       case "REQUIERE_CAMBIOS":
@@ -91,9 +54,9 @@ export default function ProductCard({ title, estado }) {
           color: "#4E169D",
         };
     }
-  }; */
+  };
 
-  /* const paragraphStyles = getParagraphStyles(estado); */
+  const paragraphStyles = getParagraphStyles(estado);
 
   return (
     /* Card Mis productos */
@@ -155,12 +118,15 @@ export default function ProductCard({ title, estado }) {
         </Box>
 
         {/* Párrafo violeta */}
-{/* 
+
         <Typography
-          sx={{ ...paragraphStyles, textAlign: estado === "DENEGADO" || estado === "REQUIERE_CAMBIOS" ? "left" : "center" }}
+          sx={{
+            ...paragraphStyles,
+            textAlign: estado === "DENEGADO" || estado === "REQUIERE_CAMBIOS" ? "left" : "center",
+          }}
         >
           {firstParagraph}
-        </Typography> */}
+        </Typography>
 
         {/* Segundo párrafo */}
         {/*          <Typography sx={{ fontWeight: estado === "Denegado" || estado === "En revisión" ? 400 : 500, fontSize: "16px", lineHeight: "20px", textAlign: estado === "Denegado" || estado === "En revisión" ? 'left' : 'center' }}>
@@ -168,9 +134,9 @@ export default function ProductCard({ title, estado }) {
         </Typography> */}
 
         {/* Footer */}
-{/*         <Typography sx={{ fontWeight: 300, fontSize: "16px", lineHeight: "20px", textAlign: "center" }}>
+        <Typography sx={{ fontWeight: 300, fontSize: "16px", lineHeight: "20px", textAlign: "center" }}>
           {footer}
-        </Typography> */}
+        </Typography>
       </CardContent>
     </Card>
   );
