@@ -10,10 +10,11 @@ import ProductSubtitle from "./components/ProductSubtitle";
 import CardProvider from "../providers/components/CardProviders/CardProviders";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
-import { ProductContext } from "../../context/productContext";  // Asegúrate de usar la ruta correcta
 import lavanda1 from "../providers/images/lavanda1.png";
 import lavanda2 from "../providers/images/lavanda2.png";
 import lavanda3 from "../providers/images/lavanda3.png";
+import axios from "axios";
+import { UserContext } from "../../context/userContext";
 
 const resp = [
   {
@@ -24,7 +25,8 @@ const resp = [
     ciudad: "Godoy Cruz",
     provincia: "Mendoza",
     pais: "Argentina",
-    description: "Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden al planeta, con principios activos que dejen el pelo sano y la piel bella.",
+    description:
+      "Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden al planeta, con principios activos que dejen el pelo sano y la piel bella.",
     linkFacebook: "www.facebook.com/lavanda",
     linkInstagram: "www.instagram.com/lavanda",
     linkMail: "lavanda@mendoza.com",
@@ -32,38 +34,42 @@ const resp = [
   },
 ];
 
-const stateMessages = {
-  Postulado: {
-    firstParagraph: "Gracias por querer formar parte de EcoSistema!",
-    footer: "Pronto tendrás más novedades.",
-  },
-  Aprobado: {
-    firstParagraph: "¡Felicitaciones!\nSos parte de EcoSistema",
-    footer: "",
-  },
-  "En revisión": {
-    firstParagraph: "Devolución de la administración:",
-    footer: "",
-  },
-  Denegado: {
-    firstParagraph: "Devolución de la administración:",
-    footer: "",
-  },
-};
-
 export default function ProfilePage() {
-  const { products } = useContext(ProductContext); // Aquí es donde obtienes los productos del contexto
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const url = "http://localhost:8080/mostrarTodo";
 
   const handleLoadPage = () => {
     navigate("/profile/load");
   };
 
   useEffect(() => {
-    setData(products);
-  }, [products]);
+    const recieveData = async () => {
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        setData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error.response || error);
+        setLoading(false);
+        throw error;
+      }
+    };
+    recieveData();
+  }, []);
 
+  console.log(data);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>Loading...</Box>
+    );
+  }
   return (
     <Box>
       <section className="title-button">
@@ -72,23 +78,20 @@ export default function ProfilePage() {
       </section>
       <ProductsTitle />
 
-      {products.map((item, index) => {
-        const { firstParagraph, footer } = stateMessages[item.state] || {};
+      {data.map((item, index) => {
+/*         const messages = stateMessages[item.estado] || {};
+        const { firstParagraph = "" } = messages;
+        const { footer = "" } = messages; */
+
         return (
           <Box key={index} sx={{ paddingBottom: "20px" }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <ProductCard
-                title={item.title}
-                state={item.state}
-                firstParagraph={firstParagraph}
-                paragraphs={item.paragraphs}
-                footer={footer}
-              />
+              <ProductCard title={item.nombre} estado={item.estado} />
             </Box>
 
-            {item.state !== "Denegado" && <ProductSubtitle state={item.state} />}
+            {/* {item.estado !== "DENEGADO" && <ProductSubtitle estado={item.estado} />}
 
-            {item.state !== "Denegado" && (
+            {item.estado !== "DENEGADO" && (
               <Box
                 sx={{
                   height: "100%",
@@ -101,19 +104,18 @@ export default function ProfilePage() {
               >
                 {data.map((elem, i) => (
                   <CardProvider
-                    category={elem.category}
-                    image={elem.image}
-                    nameProvider={elem.nameProvider}
-                    typeProvider={elem.typeProvider}
+                    category={elem.categoria}
+                    nameProvider={elem.nombre}
+                    typeProvider={elem.tipoProveedor}
                     ciudad={elem.ciudad}
                     provincia={elem.provincia}
                     pais={elem.pais}
-                    description={elem.description}
+                    description={elem.descripcion}
                     key={i}
                   />
-                ))}
+                ))} 
               </Box>
-            )}
+            )}*/}
           </Box>
         );
       })}

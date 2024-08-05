@@ -1,17 +1,19 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
 import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
+/*   useEffect(() => {
     const fetchProducts = async () => {
       try {
         // Simula una llamada a la API para obtener productos
-        const response = await fetch("http://localhost:8080/api/proveedor");
+        const response = await axios.get("http://localhost:8080/api/proveedor");
+        console.log(response);
         const data = await response.json();
         setProducts(data);
       } catch (error) {
@@ -20,7 +22,7 @@ export const ProductProvider = ({ children }) => {
     };
 
     fetchProducts();
-  }, []);
+  }, []); */
 
   const addProduct = (product) => {
     setProducts((prevProducts) => [...prevProducts, product]);
