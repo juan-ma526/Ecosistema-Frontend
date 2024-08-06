@@ -59,8 +59,8 @@ export default function HomePage() {
       <ImpactCompanies />
       <InvitationRedImpacto />
       <Box sx={{ marginTop: "48px" }}>
-        <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones locales para vos</Typography>
-        <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores cerca tuyo</Typography>
+        <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones para vos</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores ECO</Typography>
       </Box>
       <ProvidersHomes />
       {/* //TODO Falta vista de tarjeta de acuerdo a la direccion, ejemplo : "/" un tamaño y aca "/provedores" otro */}

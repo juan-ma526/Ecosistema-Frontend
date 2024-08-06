@@ -138,6 +138,7 @@ function Providers(props) {
               if(respons.status == 200) {
                 let providers = respons.data;
                 providers.map(element => {
+                  /*LAS IMAGENES DEBE SER TRAIDAS DESDE LA BD y no harcodeadas*/
                   let providerImage = resp.filter(elem => {
                     return elem.idProveedor == element.id;
                   })

@@ -29,7 +29,6 @@ function ProviderCardSocialNets(props){
                         </Typography>
                     </Box>
                 </a>
-                {console.log(props.facebook)}
                 <a className="link-tag-categories" href={`https://${props.instagram}`} target="_blank" rel="noopener noreferrer">
                     <Box className='flexbox'>
                         <IconButton aria-label="add to favorites" sx={{ textAlign: "center"}}>

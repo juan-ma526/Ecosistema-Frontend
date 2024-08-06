@@ -1,0 +1,22 @@
+.cardStylesProvAdmin{
+    max-width: 345px;
+    border-radius: 10px;
+    margin: 8px auto;
+    height: 72px;
+}
+.MuiCardHeader-root{
+    padding: 5px 10px !important;
+}
+.MuiCardContent-root{
+    padding: 5px 10px !important;
+}
+.BoxCardProviders{
+    display: 'inline-block' !important
+}
+.BoxCardProvidersData{
+    width: 85%;
+}
+.BoxCardProvidersButton{
+    vertical-align: text-bottom;
+    padding-bottom: 5px;
+}
