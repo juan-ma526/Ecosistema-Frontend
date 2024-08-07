@@ -10,12 +10,11 @@ import ProductSubtitle from "./components/ProductSubtitle";
 import CardProvider from "../providers/components/CardProviders/CardProviders";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
-import lavanda1 from "../providers/images/lavanda1.png";
-import lavanda2 from "../providers/images/lavanda2.png";
-import lavanda3 from "../providers/images/lavanda3.png";
 import axios from "axios";
+import { UserContext } from "../../context/userContext";
 
 export default function ProfilePage() {
+  const { user } = useContext(UserContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -26,29 +25,32 @@ export default function ProfilePage() {
   };
 
   const stateMessages = (estado) => {
-    console.log(estado);
     switch (estado) {
       case "REVISION_INICIAL":
         return {
           firstParagraph: "Gracias por querer formar parte de EcoSistema!",
+          paragraph: "La postulación de tu Producto/Servicio fue enviado correctamente.",
           footer: "Pronto tendrás más novedades.",
         };
 
       case "ACEPTADO":
         return {
           firstParagraph: "¡Felicitaciones! Sos parte de EcoSistema",
+          paragraph: "Tu Producto/Servicios está incluído dentro de nuestra Red de Impacto.",
           footer: "",
         };
 
       case "REQUIERE_CAMBIOS":
         return {
           firstParagraph: "Devolución de la administración:",
+          paragraph: "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
           footer: "",
         };
 
       case "DENEGADO":
         return {
           firstParagraph: "Devolución de la administración:",
+          paragraph: "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
           footer: "",
         };
       default:
@@ -60,6 +62,7 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
+    if (!user) return; // No hacer la llamada si `user` no está disponible
     const recieveData = async () => {
       try {
         const response = await axios.get(url, {
@@ -67,7 +70,9 @@ export default function ProfilePage() {
             "Content-Type": "application/json",
           },
         });
-        setData(response.data);
+
+        const filteredData = response.data.filter((item) => item.email === user?.email);
+        setData(filteredData);
         setLoading(false);
       } catch (error) {
         console.error("Error al enviar el formulario:", error.response || error);
@@ -76,9 +81,8 @@ export default function ProfilePage() {
       }
     };
     recieveData();
-  }, []);
+  }, [user]);
 
-  console.log(data);
 
   if (loading) {
     return (
@@ -97,12 +101,13 @@ export default function ProfilePage() {
       {data.map((item, index) => {
         const messages = stateMessages(item.estado) || {};
         const { firstParagraph = "" } = messages;
+        const { paragraph } = messages;
         const { footer = "" } = messages;
 
         return (
           <Box key={index} sx={{ paddingBottom: "20px" }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <ProductCard title={item.nombre} estado={item.estado} firstParagraph={firstParagraph} footer={footer} />
+              <ProductCard title={item.nombre} estado={item.estado} firstParagraph={firstParagraph} paragraph={paragraph} footer={footer} />
             </Box>
 
             {item.estado !== "DENEGADO" && <ProductSubtitle estado={item.estado} />}
@@ -118,18 +123,19 @@ export default function ProfilePage() {
                   marginBottom: "20px",
                 }}
               >
-                {data.map((elem, i) => (
+
                   <CardProvider
-                    category={elem.categoria}
-                    nombre={elem.nombre}
-                    tipoProveedor={elem.tipoProveedor}
-                    ciudad={elem.ciudad}
-                    provincia={elem.provincia}
-                    pais={elem.pais}
-                    description={elem.descripcion}
-                    key={i}
+                    category={item.categoria}
+                    nombre={item.nombre}
+                    tipoProveedor={item.tipoProveedor}
+                    ciudad={item.ciudad}
+                    provincia={item.provincia}
+                    pais={item.pais}
+                    description={item.descripcion}
+                    images={item.imagenes || []}
+                    key={`${item.nombre} + ${item.ciudad}`}
                   />
-                ))}
+
               </Box>
             )}
           </Box>

@@ -9,13 +9,11 @@ import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import { UserProvider } from "./context/userContext.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { ProductProvider } from "./context/productContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <GoogleOAuthProvider clientId="353012030789-uj3sk5eb3tegev88jpb3j3vorotalv0q.apps.googleusercontent.com">
       <UserProvider>
-        <ProductProvider>
         <React.StrictMode>
           <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -23,7 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <App />
           </ThemeProvider>
         </React.StrictMode>
-        </ProductProvider>
       </UserProvider>
     </GoogleOAuthProvider>
   </BrowserRouter>

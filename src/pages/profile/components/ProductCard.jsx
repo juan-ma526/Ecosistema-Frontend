@@ -9,7 +9,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import "../profile.css";
 import { useNavigate } from "react-router-dom";
 
-export default function ProductCard({ title, estado, firstParagraph, footer }) {
+export default function ProductCard({ title, estado, firstParagraph, paragraph, footer }) {
   const navigate = useNavigate();
 
   const handleEditClick = () => {
@@ -20,7 +20,7 @@ export default function ProductCard({ title, estado, firstParagraph, footer }) {
     switch (estado) {
       case "REVISION_INICIAL":
         return "#505050";
-      case "APROBADO":
+      case "ACEPTADO":
         return "#1D9129";
       case "REQUIERE_CAMBIOS":
         return "#B86B11";
@@ -129,9 +129,9 @@ export default function ProductCard({ title, estado, firstParagraph, footer }) {
         </Typography>
 
         {/* Segundo párrafo */}
-        {/*          <Typography sx={{ fontWeight: estado === "Denegado" || estado === "En revisión" ? 400 : 500, fontSize: "16px", lineHeight: "20px", textAlign: estado === "Denegado" || estado === "En revisión" ? 'left' : 'center' }}>
-          {paragraphs}
-        </Typography> */}
+        <Typography sx={{ fontWeight: estado === "Denegado" || estado === "En revisión" ? 400 : 500, fontSize: "16px", lineHeight: "20px", textAlign: estado === "Denegado" || estado === "En revisión" ? 'left' : 'center' }}>
+          {paragraph}
+        </Typography>
 
         {/* Footer */}
         <Typography sx={{ fontWeight: 300, fontSize: "16px", lineHeight: "20px", textAlign: "center" }}>

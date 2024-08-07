@@ -12,8 +12,9 @@ import ProviderCardHeaderMin from '../ProviderCardHeaderMin';
 import ProviderCardMedia from '../ProviderCardMedia';
 import ProviderCardSocialNets from '../ProviderCardSocialNets';
 import ProviderCardDescription from '../ProviderCardDescription';
-import Carousel from '../../../../components/Carousel/Carousel';
+//import Carousel from '../../../../components/Carousel/Carousel';
 import './CardProviders.css';
+import Carrousel from '../../../../components/Publications/components/Carrousel';
 
 const ExpandMore = styled((props) => {
   // eslint-disable-next-line no-unused-vars
@@ -37,18 +38,21 @@ function CardProvider(props) {
     };
 
     // Extraer el nombre de objetos si están presentes
-    const categoria = props.categoria ? props.categoria.nombre : "Categoría Desconocida";
-    const provincia = props.provincia ? props.provincia.nombre : "Provincia Desconocida";
-    const pais = props.pais ? props.pais.nombre : "País Desconocido";
+    const categoria = props.category ? props.category.nombre : "Categoría";
+    const provincia = props.provincia ? props.provincia.nombre : "Provincia";
+    const pais = props.pais ? props.pais.nombre : "País";
+    // eslint-disable-next-line no-unused-vars
+    const { images } = props;
 
     return (
-      <Card className='cardStyles' sx={{ 
+      <Card className='cardStyles' sx={{
             backgroundColor: 'customColors.grisClaro'
         }}>
         <Box sx={{margin: '0px 12px'}}>
             <Box sx={{textAlign:'-webkit-right'}}>
               <ProviderCardHeaderMin category={categoria} estiloHeader='cardHeaderStyles' />
-              <Carousel elements={props.imagenes || []} styleradius='16px 0px 16px 16px' />
+              <Carrousel images={props.images || []} styleradius='16px 0px 16px 16px' />
+              {/* <Carousel elements={props.images || []} styleradius='16px 0px 16px 16px' /> */}
             </Box>
             <ProviderCardMedia 
                 nameProvider={props.nombre || "Nombre Desconocido"} 

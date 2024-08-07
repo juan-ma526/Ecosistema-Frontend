@@ -13,11 +13,9 @@ import { validateEmail, validatePhone } from "./utils/utils";
 import ButtonImage from "./components/ButtonImage";
 import axios from "axios";
 import { UserContext } from "../../../context/userContext";
-import { ProductContext } from "../../../context/productContext";
 
 export default function LoadPublication() {
   const { user } = useContext(UserContext);
-  const { addProduct } = useContext(ProductContext);
   const token = user?.token || JSON.parse(localStorage.getItem("token"));
   const usuarioId = user?.usuarioId || "defaultId";
 
@@ -135,10 +133,6 @@ export default function LoadPublication() {
   const handleSubmit = async (formData) => {
     try {
       await sendForm(formData);
-      addProduct({
-        title: formData.Nombre,
-        state: "Postulado",
-      });
       setAlertType("success");
       setProductsCreated((prev) => prev + 1);
     } catch (error) {

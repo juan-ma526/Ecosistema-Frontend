@@ -9,7 +9,13 @@ import "./styles.css";
 
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
-export default function Carrousel({ images }) {
+export default function Carrousel({ images = [] }) {
+  // Verificar si images es un array y tiene elementos
+  if (!Array.isArray(images) || images.length === 0) {
+    console.error('images prop is not an array or it is empty:', images);
+    return null;
+  }
+  
   return (
     <>
       <Swiper
@@ -23,7 +29,7 @@ export default function Carrousel({ images }) {
         {images.map((image, index) => (
           /* Item Slide */
           <SwiperSlide key={index}>
-            <img src={image} alt="Imagen slider" />
+            <img src={image.url} alt={`Imagen ${index}`} />
           </SwiperSlide>
         ))}
       </Swiper>
