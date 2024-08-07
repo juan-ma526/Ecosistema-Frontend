@@ -9,7 +9,7 @@ import slide3 from "../../components/Publications/images/slide3.png";
 import { Link } from "react-router-dom";
 import { Category } from "./components/Category/Category";
 import ProvidersHomes from "./components/ProvidersHome/ProvidersHome";
-import { ChatBot } from "../../components/ChatBot";
+import { ChatBot } from "../../components/ChatBot/ChatBot";
 
 const itemPublication = [
   {
