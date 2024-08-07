@@ -8,6 +8,7 @@ import { ItemList } from "./components/ItemList";
 import { UserOut } from "./components/UserOut";
 import { UserIn } from "./components/UserIn";
 import { UserContext } from "../../context/userContext";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 258;
 const drawerItems = [
@@ -52,16 +53,16 @@ function Navbar(props) {
     setMobileOpen((prevState) => !prevState);
   };
   useEffect(() => {
-    if(user!=null && user.roles == 'ADMIN'){
-      setData(drawerItemsAdmin)
-    } else{
-      if(user!=null){
-        setData(drawerItemsUsuario)
+    if (user != null && user.roles == "ADMIN") {
+      setData(drawerItemsAdmin);
+    } else {
+      if (user != null) {
+        setData(drawerItemsUsuario);
       } else {
-        setData(drawerItems)
+        setData(drawerItems);
       }
     }
-  },[user])
+  }, [user]);
 
   /* Menu Sidebar */
   const drawer = (
@@ -109,10 +110,11 @@ function Navbar(props) {
           </IconButton>
 
           {/* Box Logo */}
-
-          <Box sx={{ width: "152px", height: "56px" }}>
-            <img src={LogoImg} alt="Logo Empresa" style={{ objectFit: "cover", height: "95%", width: "100%" }} />
-          </Box>
+          <Link to="/" className="link-tag">
+            <Box sx={{ width: "152px", height: "56px" }}>
+              <img src={LogoImg} alt="Logo Empresa" style={{ objectFit: "cover", height: "95%", width: "100%" }} />
+            </Box>
+          </Link>
 
           {/* Profile */}
 
