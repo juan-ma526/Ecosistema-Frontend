@@ -9,28 +9,18 @@ import { Box } from "@mui/material";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import RemoveIcon from "@mui/icons-material/Remove";
 import SendIcon from "@mui/icons-material/Send";
-import { axiosClient } from "../libs/network/axiosClient";
-import { UserContext } from "../context/userContext";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+import { Message } from "./components/Message";
+import { axiosClient } from "../../libs/network/axiosClient";
+import { UserContext } from "../../context/userContext";
+import { initialMessages } from "./data";
+import "./ChatBot.css";
 
 export const ChatBot = () => {
   const { user, token } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [messages, setMessages] = useState([
-    { sender: "usuario 1", text: "1. ¿Tiene algún costo aparecer como proveedor en ECOS?" },
-    { sender: "usuario 1", text: "2. ¿Cómo se decide qué categoría le corresponde al servicio/producto que brindo?" },
-    {
-      sender: "usuario 1",
-      text: "3. Una vez que cargo mi producto/servicio, ¿aparezco inmediatamente en la plataforma?",
-    },
-    { sender: "usuario 1", text: "4. ¿Puedo editar mi producto/servicio después de subirlo?" },
-    { sender: "usuario 1", text: "5. Siendo proveedor, ¿puedo cargar publicaciones sobre mi servicio/producto?" },
-    {
-      sender: "usuario 1",
-      text: "6. ¿Puedo pagar para aparecer primero a todos los usuarios que visiten la plataforma?",
-    },
-    { sender: "usuario 1", text: "7. ¿Puedo cargar más de un producto o servicio?" },
-  ]);
+  const [messages, setMessages] = useState(initialMessages);
   const [warning, setWarning] = useState("");
 
   const handleExpandClick = () => {
@@ -49,6 +39,7 @@ export const ChatBot = () => {
       ]);
     }
   };
+
   const handleInputClick = async (question) => {
     try {
       await axiosClient.post(
@@ -65,7 +56,7 @@ export const ChatBot = () => {
       setMessages((prevMessages) => [
         ...prevMessages,
 
-        { sender: "usuario 2", text: "Su consulta fue enviada con exito" }, // Reemplaza esto con la respuesta real
+        { sender: "usuario 2", text: "Su consulta fue enviada con exito" },
       ]);
       setWarning("");
     } catch (error) {
@@ -82,47 +73,15 @@ export const ChatBot = () => {
     }
   };
 
-  const Message = ({ sender, text, index }) => {
-    return (
-      <Box
-        onClick={() => handleOptionClick(index + 1)}
-        sx={{
-          display: "flex",
-          justifyContent: sender === "usuario 1" ? "flex-start" : "flex-end",
-          mb: 1,
-        }}
-      >
-        <Box
-          sx={{
-            cursor: sender === "usuario 1" ? "pointer" : "none",
-            maxWidth: sender === "usuario 1" ? "100%" : "85%",
-            padding: "8px 12px",
-            borderRadius: "12px",
-            textDecoration: sender === "usuario 1" ? "underline" : "none",
-            backgroundColor: sender === "usuario 1" ? "customColors.grisMedio" : "customColors.violeta",
-            color: sender === "usuario 1" ? "customColors.violeta" : "white",
-          }}
-        >
-          <Typography>{text}</Typography>
-        </Box>
-      </Box>
-    );
-  };
-
   return (
     <Box sx={{ position: "fixed", bottom: "0px", right: "0px", zIndex: 1000 }}>
       {!expanded && (
+        /* Not expanded */
         <IconButton
           onClick={handleExpandClick}
+          className="not-expanded-icon"
           sx={{
             backgroundColor: "customColors.violeta",
-            color: "white",
-            "&:hover": {
-              backgroundColor: "black",
-            },
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
           }}
         >
           <ChatBubbleIcon />
@@ -130,64 +89,56 @@ export const ChatBot = () => {
       )}
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {/* Body card */}
         <Card
+          className="card-body"
           sx={{
-            width: "390px",
-            height: "650px",
-            position: "fixed",
-            bottom: "0px",
-            right: "0px",
-            display: "flex",
-            flexDirection: "column",
             backgroundColor: "customColors.blanco",
           }}
         >
+          {/* Box header with open chat */}
           <CardActions
             disableSpacing
+            className="chat-header"
             sx={{
-              display: "flex",
-              justifyContent: "end",
-              padding: "8px",
-              borderBottom: 1,
               borderColor: "customColors.violeta",
-              gap: 6,
               backgroundColor: "customColors.violeta",
             }}
           >
+            <IconButton sx={{ color: "customColors.blanco", gap: 1 }}>
+              <SmartToyIcon />
+              <Typography sx={{ fontWeight: 700 }}>Chatbot</Typography>
+            </IconButton>
             <IconButton sx={{ color: "customColors.blanco" }} onClick={handleExpandClick}>
               <RemoveIcon />
             </IconButton>
           </CardActions>
+          {/* Chat user 1 and user 2 */}
+
           <Box sx={{ padding: "16px", flexGrow: 1, overflowY: "auto" }}>
             {messages.map((msg, index) => (
-              <Message key={index} sender={msg.sender} text={msg.text} index={index} />
+              <Message
+                key={index}
+                sender={msg.sender}
+                text={msg.text}
+                index={index}
+                handleOptionClick={handleOptionClick}
+              />
             ))}
+            {/* Warning message */}
             {warning && (
               <Typography
+                className="warning-msg"
                 sx={{
-                  maxWidth: "100%",
-                  padding: "8px 12px",
-                  borderRadius: "12px",
                   backgroundColor: "customColors.rojo",
-                  fontWeight: 600,
-                  color: "white",
-                  mt: 2,
                 }}
               >
                 {warning}
               </Typography>
             )}
           </Box>
-          <Box
-            sx={{
-              padding: "8px",
-              borderTop: "1px solid #e0e0e0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "2px",
-            }}
-          >
+          {/* Input Box */}
+          <Box className="input-chat-box">
             {user ? (
               <input
                 value={inputValue}
@@ -199,18 +150,13 @@ export const ChatBot = () => {
             ) : (
               ""
             )}
+            {/* Icon Box */}
             {user ? (
               <Box
                 onClick={sendClick}
+                className="icon-chat-box"
                 sx={{
                   backgroundColor: "customColors.violeta",
-                  width: "48px",
-                  height: "32px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  color: "white",
-                  cursor: "pointer",
                 }}
               >
                 <SendIcon />
