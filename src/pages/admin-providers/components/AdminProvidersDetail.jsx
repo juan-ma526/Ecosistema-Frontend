@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import { useParams } from "react-router-dom";
 import { Button,Typography, } from '@mui/material';
 import axios from "axios";
 import { useContext } from "react";
@@ -34,6 +33,36 @@ export default function AdminProvidersDetail(props) {
             SetFeedback('');
         }
     };
+
+    useEffect(() => {
+        const cargarDatos = async() => {
+          try {
+            switch (props.elemento.estado) {
+                case "REVISION_INICIAL":
+                    SetEstado("REVISION_INICIAL")
+                    break;
+                case "CAMBIOS_REALIZADOS":
+                    SetEstado("REVISION_INICIAL")
+                    break;
+                case "ACEPTADO":
+                    SetEstado("ACEPTADO")
+                    break;
+                case "REQUIERE_CAMBIOS":
+                    SetEstado("REQUIERE_CAMBIOS")
+                    break;
+                case "DENEGADO":
+                    SetEstado("DENEGADO")
+                    break;
+                default:
+                    break;
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        cargarDatos();
+      }, []);
+
     const handleChangeTextField = (event) => {
         SetFeedback(event.target.value);
     };
@@ -82,7 +111,7 @@ export default function AdminProvidersDetail(props) {
                     <Select
                     labelId="demo-simple-select-label"
                     id="state_provider"
-                    value={props.elemento.estado}
+                    value={estado}
                     label="Estado"
                     onChange={handleChange}
                     >

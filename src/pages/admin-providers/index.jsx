@@ -99,14 +99,12 @@ export default function AdminProvidersPage() {
     cargarDatos();
   }, [value]);
 
-  const handleClickCard = (event) => {
-    event.preventDefault();
+const handleClickCard = (event, idprovider) => {
     SetCardProvider(false);
-    console.log(event);
-    // let providers = data.filter( (elem) => {
-    //   return (elem.id == idprovider);
-    // })
-    // SetData(providers);s
+    let providers = data.filter( (elem) => {
+      return (elem.id === idprovider);
+    })
+    SetData(providers);
 };
 
   const handleChange = (event, newValue) => {
@@ -153,26 +151,26 @@ export default function AdminProvidersPage() {
         </Box>
         <CustomTabPanel  value={value} index={0} >
           {data.map((elem, i) => {
-            switch (cardProvider) {
-              case true: {
-                  return ( loading && <Box key={i} onClick={handleClickCard} data={elem.id}> 
-                  <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+              switch (cardProvider) {
+                case true: {
+                    return ( loading && <Box key={i}  > 
+                    <CardProvidersAdmin idprovider={elem.id} onClick={handleClickCard} item  xs={6} elemento={elem}/></Box>)
+                  }
+                case false: {
+                  return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
                 }
-              case false: {
-                return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
+                default:
+                  return (<p>Cargando información ...</p>)
               }
-              default:
-                return (<p>Cargando información ...</p>)
             }
-          }
           )}
         </CustomTabPanel>
         <CustomTabPanel  value={value} index={1} >
           {data.map((elem, i) => {
               switch (cardProvider) {
                 case true: {
-                    return ( loading && <Box key={i} onClick={handleClickCard}> 
-                    <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+                    return ( loading && <Box key={i}  > 
+                    <CardProvidersAdmin idprovider={elem.id} onClick={handleClickCard} item  xs={6} elemento={elem}/></Box>)
                   }
                 case false: {
                   return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
@@ -187,15 +185,14 @@ export default function AdminProvidersPage() {
         {data.map((elem, i) => {
               switch (cardProvider) {
                 case true: {
-                    return ( loading && <Box key={i} onClick={handleClickCard}> 
-                    <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+                    return ( loading && <Box key={i}  > 
+                    <CardProvidersAdmin idprovider={elem.id} onClick={handleClickCard} item  xs={6} elemento={elem}/></Box>)
                   }
                 case false: {
                   return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
                 }
-                default:{
+                default:
                   return (<p>Cargando información ...</p>)
-                }
               }
             }
           )}
@@ -204,8 +201,8 @@ export default function AdminProvidersPage() {
         {data.map((elem, i) => {
               switch (cardProvider) {
                 case true: {
-                    return ( loading && <Box key={i} onClick={handleClickCard}> 
-                    <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+                    return ( loading && <Box key={i}  > 
+                    <CardProvidersAdmin idprovider={elem.id} onClick={handleClickCard} item  xs={6} elemento={elem}/></Box>)
                   }
                 case false: {
                   return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
