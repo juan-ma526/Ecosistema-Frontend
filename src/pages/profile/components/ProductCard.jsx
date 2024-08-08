@@ -9,11 +9,12 @@ import CircleIcon from "@mui/icons-material/Circle";
 import "../profile.css";
 import { useNavigate } from "react-router-dom";
 
-export default function ProductCard({ title, estado, firstParagraph, paragraph, footer }) {
+export default function ProductCard({ title, estado, id, firstParagraph, paragraph, footer }) {
   const navigate = useNavigate();
+  console.log(id, "estado del productCard")
 
   const handleEditClick = () => {
-    navigate("/profile/edit");
+    navigate(`/profile/edit/${id}`);
   };
 
   const getColor = (estado) => {

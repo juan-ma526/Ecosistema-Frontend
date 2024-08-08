@@ -58,8 +58,6 @@ export default function LoadPublication() {
   const url = `http://localhost:8080/crearProveedor/usuario/${usuarioId}`;
 
   const sendForm = async (formData) => {
-    console.log("Valores del formulario:", formData);
-
     const {
       userId = usuarioId,
       Nombre,
@@ -75,22 +73,6 @@ export default function LoadPublication() {
       Descripcion,
       images,
     } = formData;
-
-    console.log("Datos guardados del formulario:", {
-      userId,
-      Nombre,
-      DescripcionDelProducto,
-      Categoria,
-      Correo,
-      Telefono,
-      Facebook,
-      Instagram,
-      Pais,
-      Provincia,
-      Ciudad,
-      Descripcion,
-      images,
-    });
 
     const formDataToSend = new FormData();
     formDataToSend.append("usuarioId", userId);
@@ -114,6 +96,8 @@ export default function LoadPublication() {
       });
     }
 
+    console.log(formDataToSend, "formDataToSend");
+
     try {
       const response = await axios.post(url, formDataToSend, {
         withCredentials: true,
@@ -122,7 +106,6 @@ export default function LoadPublication() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Respuesta del servidor:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error al enviar el formulario:", error.response || error);

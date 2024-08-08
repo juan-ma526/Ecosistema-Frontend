@@ -43,14 +43,16 @@ export default function ProfilePage() {
       case "REQUIERE_CAMBIOS":
         return {
           firstParagraph: "Devolución de la administración:",
-          paragraph: "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
+          paragraph:
+            "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
           footer: "",
         };
 
       case "DENEGADO":
         return {
           firstParagraph: "Devolución de la administración:",
-          paragraph: "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
+          paragraph:
+            "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
           footer: "",
         };
       default:
@@ -70,8 +72,10 @@ export default function ProfilePage() {
             "Content-Type": "application/json",
           },
         });
-
-        const filteredData = response.data.filter((item) => item.email === user?.email);
+        console.log(response.data, "data");
+        console.log(user, "user");
+        const filteredData = response.data.filter((item) => item.usuario.id === user?.usuarioId);
+        console.log(filteredData);
         setData(filteredData);
         setLoading(false);
       } catch (error) {
@@ -82,7 +86,6 @@ export default function ProfilePage() {
     };
     recieveData();
   }, [user]);
-
 
   if (loading) {
     return (
@@ -107,7 +110,14 @@ export default function ProfilePage() {
         return (
           <Box key={index} sx={{ paddingBottom: "20px" }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <ProductCard title={item.nombre} estado={item.estado} firstParagraph={firstParagraph} paragraph={paragraph} footer={footer} />
+              <ProductCard
+                title={item.nombre}
+                estado={item.estado}
+                id={item.id}
+                firstParagraph={firstParagraph}
+                paragraph={paragraph}
+                footer={footer}
+              />
             </Box>
 
             {item.estado !== "DENEGADO" && <ProductSubtitle estado={item.estado} />}
@@ -123,19 +133,17 @@ export default function ProfilePage() {
                   marginBottom: "20px",
                 }}
               >
-
-                  <CardProvider
-                    category={item.categoria}
-                    nombre={item.nombre}
-                    tipoProveedor={item.tipoProveedor}
-                    ciudad={item.ciudad}
-                    provincia={item.provincia}
-                    pais={item.pais}
-                    description={item.descripcion}
-                    images={item.imagenes || []}
-                    key={`${item.nombre} + ${item.ciudad}`}
-                  />
-
+                <CardProvider
+                  category={item.categoria}
+                  nombre={item.nombre}
+                  tipoProveedor={item.tipoProveedor}
+                  ciudad={item.ciudad}
+                  provincia={item.provincia}
+                  pais={item.pais}
+                  description={item.descripcion}
+                  images={item.imagenes || []}
+                  key={`${item.nombre} + ${item.ciudad}`}
+                />
               </Box>
             )}
           </Box>

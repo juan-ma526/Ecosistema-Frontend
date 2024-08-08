@@ -23,7 +23,7 @@ function App() {
         <Route path="/providers/:idcategory" element={<Providers />} />
         <Route path="/publications" element={<PublicationsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/edit" element={<EditPublication />} />
+        <Route path="/profile/edit/:proveedorId" element={<EditPublication />} />
         <Route path="/profile/load" element={<LoadPublication />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/categories" element={<CategoriesPage />} />

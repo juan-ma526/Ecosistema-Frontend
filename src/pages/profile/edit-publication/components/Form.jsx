@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, TextField, MenuItem } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { fields } from "../utils/fields";
@@ -45,7 +45,7 @@ const theme = createTheme({
   },
 });
 
-const CustomTextField = ({ multiline, rows, error, helperText, ...props }) => (
+const CustomTextField = ({ multiline, value, rows, error, helperText, ...props }) => (
   <TextField
     {...props}
     InputLabelProps={{
@@ -54,12 +54,13 @@ const CustomTextField = ({ multiline, rows, error, helperText, ...props }) => (
     multiline={multiline}
     rows={rows}
     error={error}
+    value={value}
     helperText={helperText}
     sx={{ paddingX: "10px", marginBottom: "20px" }}
   />
 );
 
-const CustomSelectField = ({ options, error, helperText, ...props }) => (
+const CustomSelectField = ({ options, error, helperText, value, ...props }) => (
   <TextField
     {...props}
     select
@@ -69,36 +70,62 @@ const CustomSelectField = ({ options, error, helperText, ...props }) => (
     error={error}
     helperText={helperText}
     sx={{ paddingX: "10px", marginBottom: "20px" }}
+    value={value}
     SelectProps={{
       MenuProps: {
         PaperProps: {
           style: {
             maxHeight: 400,
-            width: 250, 
+            width: 250,
           },
         },
       },
     }}
   >
-    {options.map((option) => (
-      <MenuItem key={option} value={option}>
-        {option}
+    {options.map((option, index) => (
+      <MenuItem key={`${option.id}-${index}`} value={option.nombre}>
+        {option.nombre}
       </MenuItem>
     ))}
   </TextField>
 );
 
-const Form = ({ values, setValues, errors, setErrors}) => {
+const Form = ({ initialValues, errors, setErrors, categorias = "", paises = "", provincias = "" }) => {
+  const [values, setValues] = useState(initialValues || {});
+
+  useEffect(() => {
+    setValues(initialValues);
+  }, [initialValues]);
+
+  const safeCategorias = Array.isArray(categorias) ? categorias : [];
+  const safePaises = Array.isArray(paises) ? paises : [];
+  const safeProvincias = Array.isArray(provincias) ? provincias : [];
+
+  console.log('Categorias:', safeCategorias);
+  console.log('Paises:', safePaises);
+  console.log('Provincias:', safeProvincias);
+
+  console.log(values, "data del form");
+
   const handleChange = (id) => (event) => {
-    setValues({ ...values, [id]: event.target.value });
+    const value = event.target.value;
+  
+    if (id === 'pais' || id === 'categoria' || id === 'provincia') {
+      const selectedOption = (id === 'pais' ? paises : id === 'categoria' ? categorias : provincias)
+        .find(option => option.nombre === value);
+      setValues({ ...values, [id]: selectedOption });
+    } else {
+      setValues({ ...values, [id]: value });
+    }
   };
+  
 
   const handleBlur = (id) => () => {
     let newErrors = { ...errors };
 
     if (!values[id]) {
       newErrors[id] = "Este campo es obligatorio";
-    }else if (id === "Correo" && !validateEmail(values[id])) {
+    } else if (id === "Correo" && !validateEmail(values[id])) {
       newErrors[id] = "Ingrese un correo válido";
     } else if (id === "Telefono" && !validatePhone(values[id])) {
       newErrors[id] = "Ingrese un teléfono válido";
@@ -111,18 +138,18 @@ const Form = ({ values, setValues, errors, setErrors}) => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ paddingY: "40px" }}>
-        {fields.map((field) =>
+        {fields.map((field, index) =>
           field.type === "select" ? (
             <CustomSelectField
-              key={field.id}
+              key={`${field.id}-${index}`}
               id={field.id}
               label={field.label}
-              value={values[field.id]}
+              value={values[field.id]?.nombre || ""}
               onChange={handleChange(field.id)}
               onBlur={handleBlur(field.id)}
               helperText={errors[field.id] || field.helperText}
               error={!!errors[field.id]}
-              options={field.options}
+              options={field.id === 'pais' ? paises : field.id === 'categoria' ? categorias : provincias}
               fullWidth
             />
           ) : (
@@ -130,7 +157,7 @@ const Form = ({ values, setValues, errors, setErrors}) => {
               key={field.id}
               id={field.id}
               label={field.label}
-              value={values[field.id]}
+              value={values[field.id] || ""}
               onChange={handleChange(field.id)}
               onBlur={handleBlur(field.id)}
               helperText={errors[field.id] || field.helperText}

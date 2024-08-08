@@ -1,19 +1,21 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { Box, IconButton, Dialog, DialogActions, DialogContent, Button, Typography, Input } from "@mui/material";
-import Lavanda1 from "../../../providers/images/lavanda1.png";
-import Lavanda2 from "../../../providers/images/lavanda2.png";
-import Lavanda3 from "../../../providers/images/lavanda3.png";
 
-export default function StandardImageList() {
-  const [images, setImages] = React.useState(itemData);
+export default function StandardImageList({ images = [] }) {
+  const [imageList, setImageList] = React.useState(images);
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogType, setDialogType] = React.useState(null);
   const fileInputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    setImageList(images);
+  }, [images]);
 
   const handleEdit = (image) => {
     setSelectedImage(image);
@@ -31,15 +33,17 @@ export default function StandardImageList() {
     const file = event.target.files[0];
     if (file) {
       const newImageUrl = URL.createObjectURL(file);
-      setImages((prevImages) =>
-        prevImages.map((img) => (img.img === selectedImage.img ? { ...img, img: newImageUrl } : img))
+      setImageList((prevImages) =>
+        prevImages.map((img) =>
+          img.id === selectedImage.id ? { ...img, url: newImageUrl } : img
+        )
       );
     }
     setDialogOpen(false);
   };
 
   const confirmDelete = () => {
-    setImages((prevImages) => prevImages.filter((img) => img.img !== selectedImage.img));
+    setImageList((prevImages) => prevImages.filter((img) => img.id !== selectedImage.id));
     setDialogOpen(false);
   };
 
@@ -58,12 +62,11 @@ export default function StandardImageList() {
         cols={3}
         rowHeight={90}
       >
-        {images.map((item) => (
-          <ImageListItem key={item.img} sx={{ position: "relative" }}>
+        {imageList.map((item) => (
+          <ImageListItem key={item.id} sx={{ position: "relative" }}>
             <img
-              srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-              alt={item.title}
+              src={item.url}
+              alt={item.title || "Imagen"}
               loading="lazy"
               style={{ borderRadius: "4px", width: "128px", height: "100px", objectFit: "cover" }}
             />
@@ -76,7 +79,7 @@ export default function StandardImageList() {
                 right: 9,
                 display: "flex",
                 flexDirection: "row",
-                gap: 1, // Ajusta el espacio entre los botones
+                gap: 1,
               }}
               className="custom-icon"
             >
@@ -95,7 +98,7 @@ export default function StandardImageList() {
                     backgroundColor: "darkgrey",
                   },
                 }}
-                onClick={() => handleEdit(item)} // Usa handleEdit
+                onClick={() => handleEdit(item)}
               >
                 <EditOutlinedIcon sx={{ fontSize: "16px" }} />
               </IconButton>
@@ -133,14 +136,25 @@ export default function StandardImageList() {
               : "¿Estás seguro de que deseas eliminar esta imagen?"}
           </Typography>
           {dialogType === "edit" && (
-            <Input type="file" inputRef={fileInputRef} onChange={handleFileChange} sx={{ display: "none" }} />
+            <Input
+              type="file"
+              inputRef={fileInputRef}
+              onChange={handleFileChange}
+              sx={{ display: "none" }}
+            />
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialogOpen(false)} sx={{ color: "#4E169D", fontWeight: 600, fontSize: "14px" }}>
+          <Button
+            onClick={() => setDialogOpen(false)}
+            sx={{ color: "#4E169D", fontWeight: 600, fontSize: "14px" }}
+          >
             Cancelar
           </Button>
-          <Button onClick={dialogType === "edit" ? () => fileInputRef.current.click() : confirmDelete} sx={{ color: "#4E169D", fontWeight: 600, fontSize: "14px"}}>
+          <Button
+            onClick={dialogType === "edit" ? () => fileInputRef.current.click() : confirmDelete}
+            sx={{ color: "#4E169D", fontWeight: 600, fontSize: "14px"}}
+          >
             {dialogType === "edit" ? "Seleccionar Imagen" : "Eliminar"}
           </Button>
         </DialogActions>
@@ -149,17 +163,3 @@ export default function StandardImageList() {
   );
 }
 
-const itemData = [
-  {
-    img: Lavanda1,
-    title: "Breakfast",
-  },
-  {
-    img: Lavanda2,
-    title: "Burger",
-  },
-  {
-    img: Lavanda3,
-    title: "Camera",
-  },
-];
