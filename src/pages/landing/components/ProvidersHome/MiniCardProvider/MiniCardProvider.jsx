@@ -89,6 +89,10 @@ function MiniCardProvider( props ) {
                     />
                     <ProviderCardSocialNets 
                       fontSizeSocialNets='12px'
+                      email = {props.email}
+                      facebook = {props.facebook}
+                      instagram = {props.instagram}
+                      telefono = {props.telefono}
                     />
                   </CardContent>
                 </Box>

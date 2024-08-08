@@ -137,10 +137,6 @@ function ProvidersHome(props){
                 .catch (error => {
                     console.log(error);
                 });
-
-            // const response = await fetch("http://localhost:3000/proveedores");
-            // const resp = await response.json();
-            //SetData(resp);
           } catch (error) {
             console.log(error);
           }
@@ -161,11 +157,15 @@ function ProvidersHome(props){
                             category={elem.categoria.nombre}
                             image={elem.image[0]}
                             nameProvider={elem.nombre}
-                            typeProvider="TipoProveedor"
+                            typeProvider={elem.tipoProveedor}
                             ciudad={elem.ciudad}
                             provincia={elem.provincia.nombre}
                             pais={elem.pais.nombre}
                             description={elem.descripcion}
+                            email = {elem.email}
+                            facebook = {elem.facebook}
+                            instagram = {elem.instagram}
+                            telefono = {elem.telefono}
                           />
                       </Grid>
                     );

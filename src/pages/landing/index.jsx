@@ -9,6 +9,7 @@ import slide3 from "../../components/Publications/images/slide3.png";
 import { Link } from "react-router-dom";
 import { Category } from "./components/Category/Category";
 import ProvidersHomes from "./components/ProvidersHome/ProvidersHome";
+import { ChatBot } from "../../components/ChatBot/ChatBot";
 
 const itemPublication = [
   {
@@ -59,8 +60,8 @@ export default function HomePage() {
       <ImpactCompanies />
       <InvitationRedImpacto />
       <Box sx={{ marginTop: "48px" }}>
-        <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones locales para vos</Typography>
-        <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores cerca tuyo</Typography>
+        <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones para vos</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores ECO</Typography>
       </Box>
       <ProvidersHomes />
       {/* //TODO Falta vista de tarjeta de acuerdo a la direccion, ejemplo : "/" un tamaño y aca "/provedores" otro */}
@@ -112,6 +113,7 @@ export default function HomePage() {
           </Button>
         </Box>
       </Link>
+      <ChatBot />
     </div>
   );
 }

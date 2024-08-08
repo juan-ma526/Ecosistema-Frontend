@@ -73,6 +73,10 @@ function CardProvider(props) {
                     />
                     <ProviderCardSocialNets 
                       fontSizeSocialNets='14px'
+                      email = {props.email}
+                      facebook = {props.facebook}
+                      instagram = {props.instagram}
+                      telefono = {props.telefono}
                     />
                 </CardContent>
             </Collapse>
