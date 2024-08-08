@@ -11,7 +11,7 @@ const ProductSubtitle = ({ state }) => {
   };
 
   return (
-    <Box sx={{ width: "328px", height: "50px", marginLeft: "30px", marginTop: "40px" }}>
+    <Box sx={{ width: "382px", height: "50px", marginTop: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}>
       <Typography sx={{ fontWeight: 400, fontSize: "20px", lineHeight: "25px", textAlign: "center" }}>
         {getSubtitleText(state)}
       </Typography>

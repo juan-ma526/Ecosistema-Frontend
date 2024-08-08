@@ -1,92 +1,97 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import React, { useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProfileName from "./components/ProfileName";
 import ButtonCharge from "./components/ButtonCharge";
 import ProductsTitle from "./components/ProductsTitle";
 import ProductCard from "./components/ProductCard";
 import { Box } from "@mui/material";
 import ProductSubtitle from "./components/ProductSubtitle";
-import { useState, useEffect } from "react";
-import lavanda1 from "../providers/images/lavanda1.png";
-import lavanda2 from "../providers/images/lavanda2.png";
-import lavanda3 from "../providers/images/lavanda3.png";
 import CardProvider from "../providers/components/CardProviders/CardProviders";
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
-
-const resp = [
-  {
-    category: "Bienestar",
-    image: [lavanda1, lavanda2, lavanda3],
-    nameProvider: "Lavanda",
-    typeProvider: "Cosmetica Natural",
-    ciudad: "Godoy Cruz",
-    provincia: "Mendoza",
-    pais: "Argentina",
-    description: `Lavanda es un proyecto familiar. Perseguimos una cosmética efectiva, magistral 
-                        y con personalidad. Nuestro objetivo es hacer productos que enamoren, que cuiden 
-                        al planeta, con principios activos que dejen el pelo sano y la piel bella.`,
-    linkFacebook: "www.facebook.com/lavanda",
-    linkInstagram: "www.instagram.com/lavanda",
-    linkMail: "lavanda@mendoza.com",
-    linkWhatsapp: "apiwhatsapp.com/",
-  },
-];
-
-const itemPublication = [
-  {
-    title: "Lavanda",
-    state: "Postulado",
-    firstParagraph: "Gracias por querer formar parte de EcoSistema!",
-    paragraphs: ["La postulación de tu Producto/Servicio fue enviada correctamente."],
-    footer: "Pronto tendrás más novedades.",
-  },
-  {
-    title: "Rosa",
-    state: "Aprobado",
-    firstParagraph: "¡Felicitaciones!\nSos parte de EcoSistema",
-    paragraphs: ["Tu Producto/Servicios está incluído dentro de nuestra Red de Impacto."],
-  },
-  {
-    title: "Orquídea",
-    state: "En revisión",
-    firstParagraph: "Devolución de la administración:",
-    paragraphs: [
-      "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elitr sit amet, consectetur adipis",
-    ],
-  },
-  {
-    title: "Girasol",
-    state: "Denegado",
-    firstParagraph: "Devolución de la administración:",
-    paragraphs: [
-      "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elitr sit amet, consectetur adipis",
-    ],
-  },
-];
+import axios from "axios";
+import { UserContext } from "../../context/userContext";
 
 export default function ProfilePage() {
-  const [data, SetData] = useState([]);
-
+  const { user } = useContext(UserContext);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const url = "http://localhost:8080/mostrarTodo";
 
   const handleLoadPage = () => {
-    navigate("/profile/load")
-  }
+    navigate("/profile/load");
+  };
+
+  const stateMessages = (estado) => {
+    switch (estado) {
+      case "REVISION_INICIAL":
+        return {
+          firstParagraph: "Gracias por querer formar parte de EcoSistema!",
+          paragraph: "La postulación de tu Producto/Servicio fue enviado correctamente.",
+          footer: "Pronto tendrás más novedades.",
+        };
+
+      case "ACEPTADO":
+        return {
+          firstParagraph: "¡Felicitaciones! Sos parte de EcoSistema",
+          paragraph: "Tu Producto/Servicios está incluído dentro de nuestra Red de Impacto.",
+          footer: "",
+        };
+
+      case "REQUIERE_CAMBIOS":
+        return {
+          firstParagraph: "Devolución de la administración:",
+          paragraph:
+            "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
+          footer: "",
+        };
+
+      case "DENEGADO":
+        return {
+          firstParagraph: "Devolución de la administración:",
+          paragraph:
+            "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
+          footer: "",
+        };
+      default:
+        return {
+          firstParagraph: "",
+          footer: "",
+        };
+    }
+  };
 
   useEffect(() => {
-    const cargarDatos = () => {
+    if (!user) return; // No hacer la llamada si `user` no está disponible
+    const recieveData = async () => {
       try {
-        // const response = await fetch("http://localhost:3000/productos");
-        // const resp = await response.json();
-        SetData(resp);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(response.data, "data");
+        console.log(user, "user");
+        const filteredData = response.data.filter((item) => item.usuario.id === user?.usuarioId);
+        console.log(filteredData);
+        setData(filteredData);
+        setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.error("Error al enviar el formulario:", error.response || error);
+        setLoading(false);
+        throw error;
       }
     };
-    cargarDatos();
-  }, []);
+    recieveData();
+  }, [user]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>Loading...</Box>
+    );
+  }
 
   return (
     <Box>
@@ -96,50 +101,54 @@ export default function ProfilePage() {
       </section>
       <ProductsTitle />
 
-      {itemPublication.map((item, index) => (
-        <Box key={index}>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <ProductCard
-              title={item.title}
-              state={item.state}
-              firstParagraph={item.firstParagraph}
-              paragraphs={item.paragraphs}
-              footer={item.footer}
-            />
-          </Box>
+      {data.map((item, index) => {
+        const messages = stateMessages(item.estado) || {};
+        const { firstParagraph = "" } = messages;
+        const { paragraph } = messages;
+        const { footer = "" } = messages;
 
-          {item.state !== "Denegado" && <ProductSubtitle state={item.state} />}
-
-          {item.state !== "Denegado" && (
-            <Box
-              sx={{
-                height: "100%",
-                width: "100%",
-                borderTopRightRadius: "100%",
-                marginTop: "0px",
-                padding: "0px 15px",
-              }}
-            >
-              {data.map((elem, i) => {
-                return (
-                  <CardProvider
-                    category={elem.category}
-                    image={elem.image}
-                    nameProvider={elem.nameProvider}
-                    typeProvider={elem.typeProvider}
-                    ciudad={elem.ciudad}
-                    provincia={elem.provincia}
-                    pais={elem.pais}
-                    description={elem.description}
-                    key={i}
-                  />
-                );
-              })}
+        return (
+          <Box key={index} sx={{ paddingBottom: "20px" }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <ProductCard
+                title={item.nombre}
+                estado={item.estado}
+                id={item.id}
+                firstParagraph={firstParagraph}
+                paragraph={paragraph}
+                footer={footer}
+              />
             </Box>
-          )}
-        </Box>
-      ))}
+
+            {item.estado !== "DENEGADO" && <ProductSubtitle estado={item.estado} />}
+
+            {item.estado !== "DENEGADO" && (
+              <Box
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                  borderTopRightRadius: "100%",
+                  marginTop: "0px",
+                  padding: "0px 15px",
+                  marginBottom: "20px",
+                }}
+              >
+                <CardProvider
+                  category={item.categoria}
+                  nombre={item.nombre}
+                  tipoProveedor={item.tipoProveedor}
+                  ciudad={item.ciudad}
+                  provincia={item.provincia}
+                  pais={item.pais}
+                  description={item.descripcion}
+                  images={item.imagenes || []}
+                  key={`${item.nombre} + ${item.ciudad}`}
+                />
+              </Box>
+            )}
+          </Box>
+        );
+      })}
     </Box>
   );
 }
-//<Paper sx={{ width: "328px", height: "30px", top: "96px", left: "16px" }}>

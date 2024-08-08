@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
@@ -7,10 +8,8 @@ import MiniCardProviders from './MiniCardProvider/MiniCardProvider';
 import lavanda1 from "../../../providers/images/lavanda1.png";
 import lavanda2 from "../../../providers/images/lavanda2.png";
 import lavanda3 from "../../../providers/images/lavanda3.png";
-import gastronomia from "../../../providers/images/gastronomia1.png";
-import tomato from "../../../providers/images/tomato.png";
-import upcycling from "../../../providers/images/upcycling.png";
 
+// eslint-disable-next-line no-unused-vars
 function ProvidersHome(props){
 
   /*Quitar variable resp, cuando se implemente cloudinary en la BD y adaptar el campo imagen*/
@@ -108,6 +107,7 @@ function ProvidersHome(props){
   ];
 
     const [data, SetData] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [loading, SetLoading] = useState(true);
 
     useEffect(() => {

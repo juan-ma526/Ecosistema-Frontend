@@ -9,64 +9,62 @@ import CircleIcon from "@mui/icons-material/Circle";
 import "../profile.css";
 import { useNavigate } from "react-router-dom";
 
-export default function ProductCard({ title, state, firstParagraph, paragraphs, footer }) {
-
+export default function ProductCard({ title, estado, id, firstParagraph, paragraph, footer }) {
   const navigate = useNavigate();
+  console.log(id, "estado del productCard")
 
   const handleEditClick = () => {
-    navigate('/profile/edit');
-  }
+    navigate(`/profile/edit/${id}`);
+  };
 
-  const getColor = (state) => {
-    switch (state) {
-      case "Postulado":
-        return '#505050';
-      case "Aprobado":
-        return '#1D9129'
-      case "En revisión":
-        return '#B86B11';
-      case "Denegado":
-        return '#BC1111';
+  const getColor = (estado) => {
+    switch (estado) {
+      case "REVISION_INICIAL":
+        return "#505050";
+      case "ACEPTADO":
+        return "#1D9129";
+      case "REQUIERE_CAMBIOS":
+        return "#B86B11";
+      case "DENEGADO":
+        return "#BC1111";
       default:
-        return '#505050';
+        return "#505050";
     }
   };
 
-  const getCardHeight = (state) => {
-    return state === 'Denegado' || state === 'En revisión' ? '328px' : '256px';
+  const getCardHeight = (estado) => {
+    return estado === "DENEGADO" || estado === "REQUIERE_CAMBIOS" ? "328px" : "256px";
   };
 
-  const lines = firstParagraph.split("\n");
-
-  const getParagraphStyles = (state) => {
-    switch (state) {
-      case 'Denegado':
-      case 'En revisión':
+  const getParagraphStyles = (estado) => {
+    switch (estado) {
+      case "DENEGADO":
+      case "REQUIERE_CAMBIOS":
         return {
           fontWeight: 700,
-          fontSize: '16px',
-          lineHeight: '20px',
-          color: '#4E169D',
+          fontSize: "16px",
+          lineHeight: "20px",
+          color: "#4E169D",
         };
       default:
         return {
-          fontWeight: 600, 
-          fontSize: "18px", 
-          lineHeight: "20px", 
-          textAlign: "center", 
-          color: "#4E169D"
+          fontWeight: 600,
+          fontSize: "18px",
+          lineHeight: "20px",
+          textAlign: "center",
+          color: "#4E169D",
         };
     }
   };
 
-  const paragraphStyles = getParagraphStyles(state);
+  const paragraphStyles = getParagraphStyles(estado);
 
   return (
     /* Card Mis productos */
     <Card
       sx={{
         width: "328px",
-        height: getCardHeight(state),
+        height: getCardHeight(estado),
         margin: "auto",
         backgroundColor: "customColors.blanco",
         borderRadius: "16px",
@@ -116,23 +114,24 @@ export default function ProductCard({ title, state, firstParagraph, paragraphs, 
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: "16px", justifyContent: "flex-end" }}>
         {/* Estado de postulacion */}
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "end", gap: "4px" }}>
-          <CircleIcon fontSize="small" sx={{ color: getColor(state) }} />
-          <Typography sx={{ fontSize: "16px", fontWeight: 400, textAlign: "center" }}>{state}</Typography>
+          <CircleIcon fontSize="small" sx={{ color: getColor(estado) }} />
+          <Typography sx={{ fontSize: "16px", fontWeight: 400, textAlign: "center" }}>{estado}</Typography>
         </Box>
 
         {/* Párrafo violeta */}
-        {lines.map((lines, index) => (
-          <Typography
-            key={index}
-            sx={{ ...paragraphStyles, textAlign: state === "Denegado" || state === "En revisión" ? 'left' : 'center'}}
-          >
-            {lines}
-          </Typography>
-        ))}
+
+        <Typography
+          sx={{
+            ...paragraphStyles,
+            textAlign: estado === "DENEGADO" || estado === "REQUIERE_CAMBIOS" ? "left" : "center",
+          }}
+        >
+          {firstParagraph}
+        </Typography>
 
         {/* Segundo párrafo */}
-        <Typography sx={{ fontWeight: state === "Denegado" || state === "En revisión" ? 400 : 500, fontSize: "16px", lineHeight: "20px", textAlign: state === "Denegado" || state === "En revisión" ? 'left' : 'center' }}>
-          {paragraphs}
+        <Typography sx={{ fontWeight: estado === "Denegado" || estado === "En revisión" ? 400 : 500, fontSize: "16px", lineHeight: "20px", textAlign: estado === "Denegado" || estado === "En revisión" ? 'left' : 'center' }}>
+          {paragraph}
         </Typography>
 
         {/* Footer */}

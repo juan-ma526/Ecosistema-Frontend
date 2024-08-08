@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from 'react';
 import { Box,Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';

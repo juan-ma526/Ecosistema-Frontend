@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
       const parsedToken = JSON.parse(storedToken);
       setToken(parsedToken);
       const decoded = jwtDecode(storedToken);
+      console.log('Decoded Token:', decoded); // Verifica el contenido del token
       setUser(decoded);
     }
   }, []);
