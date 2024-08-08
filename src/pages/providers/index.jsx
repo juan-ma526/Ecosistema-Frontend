@@ -82,8 +82,7 @@ function Providers(props) {
               margin: "12px 0px 0px 0px",
             }}
           >
-            {!loading && data[0].categoria.nombre}
-            {/* {loading && categoriaNombre[0].nombre} */}
+            {!loadingCategorias && categoriaNombre[0].nombre}
           </Typography>
           <br />
           <Typography
@@ -96,9 +95,9 @@ function Providers(props) {
               paddingTop: "25px",
             }}
           >
-            {!loading && `Encontrá desde productos cosméticos y de cuidado personal natural, servicios de salud, hasta terapias
+            {!loading && data.length != 0 && `Encontrá desde productos cosméticos y de cuidado personal natural, servicios de salud, hasta terapias
             holísticas y más.`}
-             {loading && !loadingCategorias && categoriaNombre.length != 0 &&(
+             {!loading && !loadingCategorias && data.length === 0 &&(
                 <p>No se encontraron proveedores para la categoría <b>{categoriaNombre[0].nombre}.</b></p>
               )
              }
