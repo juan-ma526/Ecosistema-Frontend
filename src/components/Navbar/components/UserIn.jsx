@@ -29,7 +29,7 @@ export const UserIn = ({ name, email }) => {
   const handleProfile = () => {
     handleCloseUserMenu();
     if (user.roles == "ADMIN") {
-      navigate("/admin");
+      navigate("/adminProviders");
     } else {
       navigate("/profile");
     }
