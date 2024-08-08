@@ -1,0 +1,10 @@
+.containerSelect{
+    margin-top: 10%;
+    margin-left: 20%;
+    margin-bottom: 20px;
+}
+.menuItemList{
+    border-radius: 50%;
+    width: 15px;
+    height: 15px
+}

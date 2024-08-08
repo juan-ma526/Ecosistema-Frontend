@@ -21,6 +21,10 @@ export default function ErrorAlert({ open, onClose, type }) {
         return {
           title: "Lo sentimos, los cambios no pudieron ser guardados.",
         };
+      case "feedback":
+        return {
+          title: "Lo sentimos, el estado no pudo ser modificado.",
+        };
       default:
         return {
           title: "Ha ocurrido un error inesperado."

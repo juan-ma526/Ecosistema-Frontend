@@ -20,6 +20,10 @@ export default function SuccessAlert({ open, onClose, type }) {
         return {
           title: "Cambios guardados con éxito",
         };
+      case "feedback":
+        return {
+          title: "Estado modificado con éxito.",
+        };
       default:
         return {
           title: "Operación realizada con éxito",

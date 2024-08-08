@@ -8,6 +8,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import './AdminProvidersPage.css';
+import { Link } from 'react-router-dom';
+import AdminProvidersDetail from "./components/AdminProvidersDetail"
+
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -41,7 +44,9 @@ function CustomTabPanel(props) {
 export default function AdminProvidersPage() {
   const [value, setValue] = useState(0);
   const [data, SetData] = useState([]);
+  const [cardProvider, SetCardProvider] = useState(true);
   const [loading, SetLoading] = useState(true);
+  const route = "/adminProvidersDetail/"
 
   useEffect(() => {
     const cargarDatos = async() => {
@@ -94,8 +99,21 @@ export default function AdminProvidersPage() {
     cargarDatos();
   }, [value]);
 
+  const handleClickCard = (event) => {
+    event.preventDefault();
+    SetCardProvider(false);
+    console.log(event);
+    // let providers = data.filter( (elem) => {
+    //   return (elem.id == idprovider);
+    // })
+    // SetData(providers);s
+};
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    if(cardProvider == false) {
+     SetCardProvider(true);
+    }
   };
 
   return (
@@ -135,31 +153,68 @@ export default function AdminProvidersPage() {
         </Box>
         <CustomTabPanel  value={value} index={0} >
           {data.map((elem, i) => {
-            return ( loading &&
-              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
-            );
-          })}
+            switch (cardProvider) {
+              case true: {
+                  return ( loading && <Box key={i} onClick={handleClickCard} data={elem.id}> 
+                  <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+                }
+              case false: {
+                return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
+              }
+              default:
+                return (<p>Cargando información ...</p>)
+            }
+          }
+          )}
         </CustomTabPanel>
         <CustomTabPanel  value={value} index={1} >
           {data.map((elem, i) => {
-            return ( loading &&
-              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
-            );
-          })}
+              switch (cardProvider) {
+                case true: {
+                    return ( loading && <Box key={i} onClick={handleClickCard}> 
+                    <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+                  }
+                case false: {
+                  return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
+                }
+                default:
+                  return (<p>Cargando información ...</p>)
+              }
+            }
+          )}
         </CustomTabPanel>
         <CustomTabPanel  value={value} index={2} >
-          {data.map((elem, i) => {
-            return ( loading &&
-              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
-            );
-          })}
+        {data.map((elem, i) => {
+              switch (cardProvider) {
+                case true: {
+                    return ( loading && <Box key={i} onClick={handleClickCard}> 
+                    <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+                  }
+                case false: {
+                  return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
+                }
+                default:{
+                  return (<p>Cargando información ...</p>)
+                }
+              }
+            }
+          )}
         </CustomTabPanel>
         <CustomTabPanel  value={value} index={3} >
-          {data.map((elem, i) => {
-            return ( loading &&
-              <CardProvidersAdmin item key={i} xs={6} elemento={elem}/>
-            );
-          })}
+        {data.map((elem, i) => {
+              switch (cardProvider) {
+                case true: {
+                    return ( loading && <Box key={i} onClick={handleClickCard}> 
+                    <CardProvidersAdmin  item  xs={6} elemento={elem}/></Box>)
+                  }
+                case false: {
+                  return ( loading && <AdminProvidersDetail item key={i} xs={6} elemento={elem}/>)
+                }
+                default:
+                  return (<p>Cargando información ...</p>)
+              }
+            }
+          )}
         </CustomTabPanel>
     </Box>
   );
