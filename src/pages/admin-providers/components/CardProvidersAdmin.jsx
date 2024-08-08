@@ -13,7 +13,8 @@ import { Box } from '@mui/material';
 export default function CardProvidersAdmin( props ) {
 
   return (
-    <Card className='cardStylesProvAdmin' sx={{ backgroundColor: 'customColors.grisClaro' }}>
+    <Card onClick={(event) => {props.onClick(event, props.idprovider)}
+    } className='cardStylesProvAdmin' sx={{ backgroundColor: 'customColors.grisClaro' }}>
       <Box className='BoxCardProvidersData' sx={{display:'inline-block'}} >
         <CardHeader
           sx={{
