@@ -24,7 +24,7 @@ export default function ProfilePage() {
     navigate("/profile/load");
   };
 
-  const stateMessages = (estado) => {
+  const stateMessages = (estado, feedback) => {
     switch (estado) {
       case "REVISION_INICIAL":
         return {
@@ -41,20 +41,13 @@ export default function ProfilePage() {
         };
 
       case "REQUIERE_CAMBIOS":
-        return {
-          firstParagraph: "Devolución de la administración:",
-          paragraph:
-            "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
-          footer: "",
-        };
-
       case "DENEGADO":
         return {
           firstParagraph: "Devolución de la administración:",
-          paragraph:
-            "Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. Worem ipsum dolor sit amet, consectetur adipiscing elit Worem ipsum dolor sit amet, consectetur adipiscing elit. olor sit amet, consectetur adipiscing elit.r sit amet, consectetur adipis.",
+          paragraph: feedback || "No se proporcionó feedback por parte de la administración.",
           footer: "",
         };
+
       default:
         return {
           firstParagraph: "",
@@ -72,10 +65,7 @@ export default function ProfilePage() {
             "Content-Type": "application/json",
           },
         });
-        console.log(response.data, "data");
-        console.log(user, "user");
         const filteredData = response.data.filter((item) => item.usuario.id === user?.usuarioId);
-        console.log(filteredData);
         setData(filteredData);
         setLoading(false);
       } catch (error) {
@@ -102,7 +92,7 @@ export default function ProfilePage() {
       <ProductsTitle />
 
       {data.map((item, index) => {
-        const messages = stateMessages(item.estado) || {};
+        const messages = stateMessages(item.estado, item.feedback) || {};
         const { firstParagraph = "" } = messages;
         const { paragraph } = messages;
         const { footer = "" } = messages;
