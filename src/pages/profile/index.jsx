@@ -141,12 +141,16 @@ export default function ProfilePage() {
               >
                 <CardProvider
                   category={item.categoria}
-                  nombre={item.nombre}
-                  tipoProveedor={item.tipoProveedor}
+                  nameProvider={item.nombre}
+                  typeProvider={item.tipoProveedor}
                   ciudad={item.ciudad}
                   provincia={item.provincia}
                   pais={item.pais}
                   description={item.descripcion}
+                  email = {item.email}
+                  facebook = {item.facebook}
+                  instagram = {item.instagram}
+                  telefono = {item.telefono}
                   images={item.imagenes || []}
                   key={`${item.nombre} + ${item.ciudad}`}
                 />

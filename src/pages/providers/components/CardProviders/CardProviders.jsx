@@ -12,7 +12,7 @@ import ProviderCardHeaderMin from '../ProviderCardHeaderMin';
 import ProviderCardMedia from '../ProviderCardMedia';
 import ProviderCardSocialNets from '../ProviderCardSocialNets';
 import ProviderCardDescription from '../ProviderCardDescription';
-//import Carousel from '../../../../components/Carousel/Carousel';
+// import Carousel from '../../../../components/Carousel/Carousel';
 import './CardProviders.css';
 import Carrousel from '../../../../components/Publications/components/Carrousel';
 
@@ -36,13 +36,12 @@ function CardProvider(props) {
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
-
     // Extraer el nombre de objetos si están presentes
-    const categoria = props.category ? props.category.nombre : "Categoría";
-    const provincia = props.provincia ? props.provincia.nombre : "Provincia";
-    const pais = props.pais ? props.pais.nombre : "País";
+    const categoria = props.category.nombre ? props.category.nombre : props.category;
+    const provincia = props.provincia.nombre ? props.provincia.nombre : props.provincia;
+    const pais = props.pais.nombre ? props.pais.nombre : props.pais;
     // eslint-disable-next-line no-unused-vars
-    const { images } = props;
+    const { image } = props;
 
     return (
       <Card className='cardStyles' sx={{
@@ -55,8 +54,8 @@ function CardProvider(props) {
               {/* <Carousel elements={props.images || []} styleradius='16px 0px 16px 16px' /> */}
             </Box>
             <ProviderCardMedia 
-                nameProvider={props.nombre || "Nombre Desconocido"} 
-                typeProvider={props.tipoProveedor || "Tipo Desconocido"}
+                nameProvider={props.nameProvider || "Nombre Desconocido"} 
+                typeProvider={props.typeProvider || "Tipo Desconocido"}
                 ciudad={props.ciudad || "Ciudad Desconocida"}
                 provincia={provincia}
                 pais={pais}
@@ -76,7 +75,7 @@ function CardProvider(props) {
                       email = {props.email}
                       facebook = {props.facebook}
                       instagram = {props.instagram}
-                      telefono = {props.telefono}
+                      telefono = {props.telefono.substring(1, props.telefono.length)}
                     />
                 </CardContent>
             </Collapse>

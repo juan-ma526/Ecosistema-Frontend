@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ title, estado, id, firstParagraph, paragraph, footer }) {
   const navigate = useNavigate();
-  console.log(id, "estado del productCard");
+  // console.log(id, "estado del productCard");
 
   const handleEditClick = () => {
     navigate(`/profile/edit/${id}`);
