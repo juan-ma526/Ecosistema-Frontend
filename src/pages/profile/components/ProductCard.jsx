@@ -19,13 +19,13 @@ export default function ProductCard({ title, estado, id, firstParagraph, paragra
 
   const getColor = (estado) => {
     switch (estado) {
-      case "REVISION_INICIAL":
+      case "Postulado":
         return "#505050";
-      case "ACEPTADO":
+      case "Aprobado":
         return "#1D9129";
-      case "REQUIERE_CAMBIOS":
+      case "En revisión":
         return "#B86B11";
-      case "DENEGADO":
+      case "Denegado":
         return "#BC1111";
       default:
         return "#505050";
@@ -33,13 +33,13 @@ export default function ProductCard({ title, estado, id, firstParagraph, paragra
   };
 
   const getCardHeight = (estado) => {
-    return estado === "DENEGADO" || estado === "REQUIERE_CAMBIOS" ? "328px" : "256px";
+    return estado === "Denegado" || estado === "En revisión" ? "328px" : "256px";
   };
 
   const getParagraphStyles = (estado) => {
     switch (estado) {
-      case "DENEGADO":
-      case "REQUIERE_CAMBIOS":
+      case "Denegado":
+      case "En revisión":
         return {
           fontWeight: 700,
           fontSize: "16px",
@@ -103,7 +103,7 @@ export default function ProductCard({ title, estado, id, firstParagraph, paragra
             aria-label="Editar"
             onClick={handleEditClick}
           >
-            {estado === "DENEGADO" ? (
+            {estado === "Denegado" ? (
               <></>
             ) : (
               <>
@@ -125,11 +125,10 @@ export default function ProductCard({ title, estado, id, firstParagraph, paragra
         </Box>
 
         {/* Párrafo violeta */}
-
         <Typography
           sx={{
             ...paragraphStyles,
-            textAlign: estado === "DENEGADO" || estado === "REQUIERE_CAMBIOS" ? "left" : "center",
+            textAlign: estado === "Denegado" || estado === "En revisión" ? "left" : "center",
           }}
         >
           {firstParagraph}
@@ -155,3 +154,4 @@ export default function ProductCard({ title, estado, id, firstParagraph, paragra
     </Card>
   );
 }
+

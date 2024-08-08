@@ -25,19 +25,32 @@ export default function ProfilePage() {
   };
 
   const stateMessages = (estado, feedback) => {
+    // Mapea los estados recibidos desde el backend a los estados visibles en el frontend
+    const visibleState = {
+      "REVISION_INICIAL": "Postulado",
+      "REQUIERE_CAMBIOS": "En revisión",
+      "ACEPTADO": "Aprobado",
+      "DENEGADO": "Denegado",
+    };
+
+    // Obtener el estado visible
+    const displayState = visibleState[estado] || estado; // Usa el estado transformado o el estado original si no está en el mapeo
+
     switch (estado) {
       case "REVISION_INICIAL":
         return {
           firstParagraph: "Gracias por querer formar parte de EcoSistema!",
-          paragraph: "La postulación de tu Producto/Servicio fue enviado correctamente.",
+          paragraph: "La postulación de tu Producto/Servicio fue enviada correctamente.",
           footer: "Pronto tendrás más novedades.",
+          displayState,
         };
 
       case "ACEPTADO":
         return {
           firstParagraph: "¡Felicitaciones! Sos parte de EcoSistema",
-          paragraph: "Tu Producto/Servicios está incluído dentro de nuestra Red de Impacto.",
+          paragraph: "Tu Producto/Servicio está incluido dentro de nuestra Red de Impacto.",
           footer: "",
+          displayState,
         };
 
       case "REQUIERE_CAMBIOS":
@@ -46,12 +59,14 @@ export default function ProfilePage() {
           firstParagraph: "Devolución de la administración:",
           paragraph: feedback || "No se proporcionó feedback por parte de la administración.",
           footer: "",
+          displayState,
         };
 
       default:
         return {
           firstParagraph: "",
           footer: "",
+          displayState,
         };
     }
   };
@@ -96,13 +111,14 @@ export default function ProfilePage() {
         const { firstParagraph = "" } = messages;
         const { paragraph } = messages;
         const { footer = "" } = messages;
+        const { displayState } = messages;
 
         return (
           <Box key={index} sx={{ paddingBottom: "20px" }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <ProductCard
                 title={item.nombre}
-                estado={item.estado}
+                estado={displayState} // Usa el estado transformado aquí
                 id={item.id}
                 firstParagraph={firstParagraph}
                 paragraph={paragraph}
