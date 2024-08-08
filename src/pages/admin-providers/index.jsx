@@ -46,7 +46,7 @@ export default function AdminProvidersPage() {
   useEffect(() => {
     const cargarDatos = async() => {
       try {
-        const urlProviders = import.meta.env.VITE_API_BASE_URL + "/buscar?query=";  
+        const urlProviders = "http://localhost:8080/buscar?query=";
         await axios.get(urlProviders)
             .then( respons =>{
               if(respons.status == 200) {

@@ -61,7 +61,7 @@ export default function LoadPublication() {
     const {
       userId = usuarioId,
       Nombre,
-      DescripcionDelProducto = "ES MUY BUENO",
+      DescripcionDelProducto = "Producto de prueba",
       Categoria,
       Correo,
       Telefono,
@@ -73,6 +73,8 @@ export default function LoadPublication() {
       Descripcion,
       images,
     } = formData;
+
+    console.log("Pais:", Pais);
 
     const formDataToSend = new FormData();
     formDataToSend.append("usuarioId", userId);
