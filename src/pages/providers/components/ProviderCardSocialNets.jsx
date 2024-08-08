@@ -19,7 +19,7 @@ function ProviderCardSocialNets(props){
                 Contactanos
             </Typography>
             <Box className='Flex'>
-                <a className="link-tag-categories" href={`https://api.whatsapp.com/send?phone=549${props.telefono}`} target="_blank" rel="noopener noreferrer">
+                <a className="link-tag-categories" href={`https://api.whatsapp.com/send?phone=${props.telefono}`} target="_blank" rel="noopener noreferrer">
                     <Box className='flexbox'> 
                         <IconButton aria-label="add to favorites" sx={{ textAlign: "center"}}>
                             <WhatsAppIcon sx={{ color: "customColors.violeta"}}/>

@@ -30,7 +30,7 @@ function Carousel( props ){
                 return (
                     <SwiperSlide key={i}>
                         <div>
-                            <img src={element}  alt={`Slide ${i}`} />
+                            <img src={element.url}  alt={`Slide ${i}`} />
                         </div>
                     </SwiperSlide>
                 )
