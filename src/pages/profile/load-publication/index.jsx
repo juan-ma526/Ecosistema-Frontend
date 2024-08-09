@@ -61,7 +61,7 @@ export default function LoadPublication() {
     const {
       userId = usuarioId,
       Nombre,
-      DescripcionDelProducto = "Producto de prueba",
+      Descripcion_del_producto,
       Categoria,
       Correo,
       Telefono,
@@ -80,7 +80,7 @@ export default function LoadPublication() {
     formDataToSend.append("usuarioId", userId);
     formDataToSend.append("nombre", Nombre);
     formDataToSend.append("tipoProveedor", Descripcion);
-    formDataToSend.append("descripcion", DescripcionDelProducto);
+    formDataToSend.append("descripcion", Descripcion_del_producto);
     formDataToSend.append("email", Correo);
     formDataToSend.append("telefono", Telefono);
     formDataToSend.append("facebook", Facebook);

@@ -85,7 +85,7 @@ export const fields = [
     type: "text",
   },
   {
-    id: "Descripcion del producto",
+    id: "Descripcion_del_producto",
     label: "Descripción del Producto/Servicio*",
     helperText: "Máximo 300 caracteres 0/300",
     type: "text",
