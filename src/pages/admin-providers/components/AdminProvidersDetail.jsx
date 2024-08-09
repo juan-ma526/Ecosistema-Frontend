@@ -21,6 +21,7 @@ export default function AdminProvidersDetail(props) {
     const [estado,SetEstado] = useState('REVISION_INICIAL');
     const [feedback,SetFeedback] = useState('');
     const [displayText, SetDisplayText] = useState('block')
+    const [displayButton, SetDisplayButton] = useState('block')
     const [showAlert, setShowAlert] = useState(false);
     const [alertType, setAlertType] = useState(null);
 
@@ -28,8 +29,12 @@ export default function AdminProvidersDetail(props) {
         SetEstado(event.target.value);
         if (event.target.value == 'ACEPTADO') {
             SetDisplayText('none');
+            SetDisplayButton('flex')
             SetFeedback(' ');
         } else {
+            if(event.target.value != 'REVISION_INICIAL'){
+                SetDisplayButton('flex')
+            }
             SetDisplayText('block');
             SetFeedback('');
         }
@@ -42,23 +47,28 @@ export default function AdminProvidersDetail(props) {
             switch (props.elemento.estado) {
                 case "REVISION_INICIAL":
                     SetEstado("REVISION_INICIAL")
-                    SetDisplayText('block');
+                    SetDisplayText('none');
+                    SetDisplayButton('none')
                     break;
                 case "CAMBIOS_REALIZADOS":
                     SetEstado("REVISION_INICIAL")
-                    SetDisplayText('block');
+                    SetDisplayText('none');
+                    SetDisplayButton('none')
                     break;
                 case "ACEPTADO":
                     SetEstado("ACEPTADO")
                     SetDisplayText('none');
+                    SetDisplayButton('flex')
                     break;
                 case "REQUIERE_CAMBIOS":
                     SetEstado("REQUIERE_CAMBIOS")
                     SetDisplayText('block');
+                    SetDisplayButton('flex')
                     break;
                 case "DENEGADO":
                     SetEstado("DENEGADO")
                     SetDisplayText('block');
+                    SetDisplayButton('flex')
                     break;
                 default:
                     break;
@@ -149,7 +159,7 @@ export default function AdminProvidersDetail(props) {
             </Box>
             <Box
             sx={{
-                display: "flex",
+                display: displayButton,
                 justifyContent: "center",
             }}
             >
