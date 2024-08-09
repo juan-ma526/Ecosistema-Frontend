@@ -15,12 +15,14 @@ import { useParams } from "react-router-dom";
 import { validateEmail, validatePhone } from "./utils/utils";
 import Form2 from "./components/Form2";
 
-export default function EditPublication() {
+export default function EditPublication(props) {
   const { user } = useContext(UserContext);
   const token = user?.token || JSON.parse(localStorage.getItem("token"));
   const usuarioId = user?.usuarioId || "defaultId";
-  const { proveedorId } = useParams();
-
+  let { proveedorId } = useParams();
+  if (!proveedorId) {
+    proveedorId = props.provider.id;
+  }
   const [showAlert, setShowAlert] = useState(false);
   const [alertType, setAlertType] = useState(null);
   const [values, setValues] = useState({
@@ -94,24 +96,24 @@ export default function EditPublication() {
             Authorization: `Bearer ${token}`,
           },
         });
-        const data = response.data;
+        
         setValues({
-          usuarioId: usuarioId || "",
-          proveedorId: proveedorId || "",
-          nombre: data.nombre || "",
-          tipoProveedor: data.tipoProveedor || "",
-          categoriaId: data.categoria.id || "",
-          email: data.email || "",
-          telefono: data.telefono || "",
-          facebook: data.facebook || "",
-          instagram: data.instagram || "",
-          paisId: data.pais.id || [],
-          provinciaId: data.provincia.id || [],
-          ciudad: data.ciudad || [],
-          descripcion: data.descripcion || "",
-          imagenes: data.imagenes || [],
+          usuarioId: response.data.usuario.id || "",
+          proveedorId: response.data.id || "",
+          nombre: response.data.nombre || "",
+          tipoProveedor: response.data.tipoProveedor || "",
+          categoriaId: response.data.categoria.id || "",
+          email: response.data.email || "",
+          telefono: response.data.telefono || "",
+          facebook: response.data.facebook || "",
+          instagram: response.data.instagram || "",
+          paisId: response.data.pais.id || [],
+          provinciaId: response.data.provincia.id || [],
+          ciudad: response.data.ciudad || [],
+          descripcion: response.data.descripcion || "",
+          imagenes: response.data.imagenes || [],
         });
-        setSelectedPaisId(data.paisId?.id || null); // Actualizar el país seleccionado
+        setSelectedPaisId(response.data.paisId?.id || null); // Actualizar el país seleccionado
       } catch (error) {
         console.error("Error al obtener los datos del proveedor:", error);
       }
@@ -161,6 +163,8 @@ export default function EditPublication() {
     if (isFormValid) {
       try {
         const updatedData = await editForm(values);
+        console.log(values);
+        
         setValues((prevValues) => ({
           ...prevValues,
           ...updatedData, // Actualiza los valores con la respuesta del backend
@@ -210,6 +214,8 @@ export default function EditPublication() {
 
     console.log("dataToEdit: ", dataToEdit);
     try {
+      console.log(dataToEdit);
+
       const response = await axios.put(
         `http://localhost:8080/editarProveedor/usuario/${usuarioId}/proveedor/${proveedorId}`,
         dataToEdit,
@@ -235,11 +241,11 @@ export default function EditPublication() {
 
   return (
     <Box>
+      {user.roles != "ADMIN" && (
       <section className="titles">
         <EditTitle />
         <EditSubtitle />
-      </section>
-
+      </section>)}
       <Form2
         initialValues={values}
         setValues={setValues}
@@ -250,6 +256,8 @@ export default function EditPublication() {
         provincias={provincias}
         onPaisChange={handlePaisChange}
         onProvinciaChange={handleProvinciaChange}
+        readOnly={user?.rol === "ADMIN"}
+        rol={user?.roles}
       />
 
       {/* <Form
@@ -264,6 +272,7 @@ export default function EditPublication() {
         onProvinciaChange={handleProvinciaChange}
       /> */}
       <StandardImageList images={values.imagenes || []} />
+      {user.roles != "ADMIN" && (
       <ButtonCharge
         sx={{
           marginTop: "40px",
@@ -274,6 +283,7 @@ export default function EditPublication() {
         }}
         onClick={handleButtonCharge}
       />
+      )}
       {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
       {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
     </Box>

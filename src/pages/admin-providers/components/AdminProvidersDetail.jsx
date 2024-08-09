@@ -13,6 +13,7 @@ import { UserContext } from '../../../context/userContext';
 import ErrorAlert from "../../../modals/ErrorAlert";
 import SuccessAlert from "../../../modals/SuccessAlert";
 import './AdminProvidersDetail.css';
+import EditPublication from '../../profile/edit-publication';
 
 export default function AdminProvidersDetail(props) {
     let idprovider = props.elemento.id;
@@ -27,7 +28,7 @@ export default function AdminProvidersDetail(props) {
         SetEstado(event.target.value);
         if (event.target.value == 'ACEPTADO') {
             SetDisplayText('none');
-            SetFeedback('Producto Aceptado');
+            SetFeedback(' ');
         } else {
             SetDisplayText('block');
             SetFeedback('');
@@ -37,21 +38,27 @@ export default function AdminProvidersDetail(props) {
     useEffect(() => {
         const cargarDatos = async() => {
           try {
+            SetFeedback(props.elemento.feedback);
             switch (props.elemento.estado) {
                 case "REVISION_INICIAL":
                     SetEstado("REVISION_INICIAL")
+                    SetDisplayText('block');
                     break;
                 case "CAMBIOS_REALIZADOS":
                     SetEstado("REVISION_INICIAL")
+                    SetDisplayText('block');
                     break;
                 case "ACEPTADO":
                     SetEstado("ACEPTADO")
+                    SetDisplayText('none');
                     break;
                 case "REQUIERE_CAMBIOS":
                     SetEstado("REQUIERE_CAMBIOS")
+                    SetDisplayText('block');
                     break;
                 case "DENEGADO":
                     SetEstado("DENEGADO")
+                    SetDisplayText('block');
                     break;
                 default:
                     break;
@@ -133,6 +140,7 @@ export default function AdminProvidersDetail(props) {
                     id="feedback_provider"
                     label="Devolución al Proveedor (Obligatorio)"
                     multiline
+                    value={feedback}
                     onChange={handleChangeTextField}
                     helperText="Máximo 300 caracteres"
                     rows={6}
@@ -164,6 +172,7 @@ export default function AdminProvidersDetail(props) {
                     <Typography sx={{ fontWeight: 700 }}>Enviar</Typography>
                 </Button>
             </Box>
+            <EditPublication provider = {props.elemento}/>
             {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} type="feedback" />}
             {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} type="feedback" />}
         </>
