@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect, useContext } from "react";
-import { Box } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import EditTitle from "./components/LoadTitle";
 import EditSubtitle from "./components/LoadSubtitle";
 import "./load.css";
@@ -27,22 +27,7 @@ export default function LoadPublication() {
   const [errors, setErrors] = useState({});
   const [hasErrors, setHasErrors] = useState(true);
   const [productsCreated, setProductsCreated] = useState(0);
-
-/*  TODO: useEffect(() => {
-  const fetchProductCount = async () => {
-    try {
-      const response = await axios.get('/api/product-count', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProductsCreated(response.data.count);
-    } catch (error) {
-      console.error("Error fetching product count:", error);
-    }
-  };
-  fetchProductCount();
-}, [token]); */
+  const [loading, setLoading] = useState(false); // Estado para manejar la carga
 
   useEffect(() => {
     const anyErrors = fields.some((field) => {
@@ -74,8 +59,6 @@ export default function LoadPublication() {
       images,
     } = formData;
 
-    console.log("Pais:", Pais);
-
     const formDataToSend = new FormData();
     formDataToSend.append("usuarioId", userId);
     formDataToSend.append("nombre", Nombre);
@@ -98,8 +81,6 @@ export default function LoadPublication() {
       });
     }
 
-    console.log(formDataToSend, "formDataToSend");
-
     try {
       const response = await axios.post(url, formDataToSend, {
         withCredentials: true,
@@ -117,18 +98,21 @@ export default function LoadPublication() {
 
   const handleSubmit = async (formData) => {
     try {
+      setLoading(true); // Mostrar indicador de carga
       await sendForm(formData);
       setAlertType("success");
       setProductsCreated((prev) => prev + 1);
     } catch (error) {
       setAlertType("error");
+    } finally {
+      setLoading(false); // Ocultar indicador de carga
+      setShowAlert(true);
     }
-    setShowAlert(true);
   };
 
-  const handleButtonCharge = () => {
+  const handleButtonCharge = async () => {
     let newErrors = {};
-    if (productsCreated >= 4) {
+    if (productsCreated >= 3) {
       setAlertType("error");
       setShowAlert(true);
       return;
@@ -146,7 +130,16 @@ export default function LoadPublication() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      handleSubmit(values);
+      try {
+        const formData = {
+          ...values,
+        };
+
+        await handleSubmit(formData);
+      } catch (error) {
+        setAlertType("error");
+        setShowAlert(true);
+      }
     } else {
       setAlertType("error");
       setShowAlert(true);
@@ -184,6 +177,30 @@ export default function LoadPublication() {
         onClick={handleButtonCharge}
         state={hasErrors ? "error" : "success"}
       />
+
+      {loading && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            padding: 2,
+            borderRadius: 1,
+          }}
+        >
+          <CircularProgress color="secondary" />
+          <Typography variant="h6" sx={{ color: "white", marginTop: 2 }}>
+            Cargando...
+          </Typography>
+        </Box>
+      )}
 
       {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} type="load" />}
       {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} type="load" />}

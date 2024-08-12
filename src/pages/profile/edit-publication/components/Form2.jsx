@@ -59,7 +59,7 @@ export const CustomTextField = ({ multiline, value, rows, error, helperText, ...
   />
 );
 
-const CustomSelectField = ({ options = [], error, helperText, value, ...props }) => (
+const CustomSelectField = ({ options = [], error, helperText, value, onChange, ...props }) => (
   <TextField
     {...props}
     select
@@ -70,6 +70,7 @@ const CustomSelectField = ({ options = [], error, helperText, value, ...props })
     helperText={helperText}
     sx={{ paddingX: "10px", marginBottom: "20px", width: "100%" }}
     value={value}
+    onChange={onChange}
     SelectProps={{
       MenuProps: {
         PaperProps: {
@@ -93,8 +94,18 @@ const CustomSelectField = ({ options = [], error, helperText, value, ...props })
   </TextField>
 );
 
-const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], paises = [], provincias = [] }) => {
-    const [localValues, setLocalValues] = useState(initialValues || {});
+const Form2 = ({
+  initialValues,
+  setValues,
+  errors,
+  setErrors,
+  categorias = [],
+  paises = [],
+  provincias = [],
+  onPaisChange,
+  onProvinciaChange,
+}) => {
+  const [localValues, setLocalValues] = useState(initialValues || {});
 
   useEffect(() => {
     setLocalValues(initialValues);
@@ -105,6 +116,14 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
     const updatedValues = { ...localValues, [id]: value };
     setLocalValues(updatedValues);
     setValues(updatedValues); // Actualizamos también el estado principal!!!
+
+    if (id === "paisId") {
+      onPaisChange(event); // Ejecuta la función para manejar el cambio de país
+    }
+
+    if (id === "provinciaId") {
+      onProvinciaChange(event); // Ejecuta la función para manejar el cambio de provincia
+    }
   };
 
   const handleBlur = (id) => () => {
@@ -173,11 +192,12 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
         <CustomTextField
           label="Ciudad"
           value={localValues.ciudad || ""}
-          onChange={handleChange("ciudadId")}
-          onBlur={handleBlur("ciudadId")}
-          helperText={errors.ciudadId || ""}
-          error={!!errors.ciudadId}
+          onChange={handleChange("ciudad")}
+          onBlur={handleBlur("ciudad")}
+          helperText={errors.ciudad || ""}
+          error={!!errors.ciudad}
           fullWidth
+          autoComplete="off" // Asegúrate de que el autocompletado esté desactivado
         />
         <CustomTextField
           label="Email"

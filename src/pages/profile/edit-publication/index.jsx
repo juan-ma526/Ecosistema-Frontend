@@ -96,7 +96,7 @@ export default function EditPublication(props) {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         setValues({
           usuarioId: response.data.usuario.id || "",
           proveedorId: response.data.id || "",
@@ -159,12 +159,12 @@ export default function EditPublication(props) {
 
   const handleButtonCharge = async () => {
     const isFormValid = handleSubmit();
-  
+
     if (isFormValid) {
       try {
         const updatedData = await editForm(values);
         console.log(values);
-        
+
         setValues((prevValues) => ({
           ...prevValues,
           ...updatedData, // Actualiza los valores con la respuesta del backend
@@ -242,10 +242,11 @@ export default function EditPublication(props) {
   return (
     <Box>
       {user.roles != "ADMIN" && (
-      <section className="titles">
-        <EditTitle />
-        <EditSubtitle />
-      </section>)}
+        <section className="titles">
+          <EditTitle />
+          <EditSubtitle />
+        </section>
+      )}
       <Form2
         initialValues={values}
         setValues={setValues}
@@ -273,16 +274,16 @@ export default function EditPublication(props) {
       /> */}
       <StandardImageList images={values.imagenes || []} />
       {user.roles != "ADMIN" && (
-      <ButtonCharge
-        sx={{
-          marginTop: "40px",
-          top: "-25px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        onClick={handleButtonCharge}
-      />
+        <ButtonCharge
+          sx={{
+            marginTop: "40px",
+            top: "-25px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={handleButtonCharge}
+        />
       )}
       {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
       {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
