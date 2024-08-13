@@ -13,7 +13,7 @@ function ProviderCardSocialNets(props){
         <>
             <Typography paragraph sx={{
                 fontSize: props.fontSizeSocialNets,
-                fontWeight: 500,
+                fontWeight: 600,
                 margin: '10px 5px'
             }}>
                 Contactanos
