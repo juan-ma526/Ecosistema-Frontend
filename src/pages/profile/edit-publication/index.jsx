@@ -257,10 +257,9 @@ export default function EditPublication(props) {
         provincias={provincias}
         onPaisChange={handlePaisChange}
         onProvinciaChange={handleProvinciaChange}
-        readOnly={user?.rol === "ADMIN"}
-        rol={user?.roles}
+        readOnlyForm={user.roles === "ADMIN"}
+        rol={user.roles}
       />
-
       {/* <Form
         initialValues={values}
         setValues={setValues}

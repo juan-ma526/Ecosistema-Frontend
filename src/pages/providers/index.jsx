@@ -21,9 +21,14 @@ function Providers(props) {
         const url = import.meta.env.VITE_API_BASE_URL + "/categorias" ;
         await axios.get(url)
             .then( respons =>{
-                let catNombres = respons.data.filter(element=> {
+                let catNombres=[];
+                if (idcategory) {
+                  catNombres = respons.data.filter(element=> {
                     return element.id == idcategory;
-                });
+                  });
+                } else{
+                  catNombres = respons.data
+                }
                 SetCategoriaNombre(catNombres);
                 SetLoadingCategorias(false);
             })
@@ -39,7 +44,9 @@ function Providers(props) {
         await axios.get(urlProviders)
             .then( respons =>{
               if(respons.status == 200) {
-                let providers = respons.data;
+                let providers = respons.data.filter(elem =>{
+                  return elem.estado == "ACEPTADO"
+                })
                 SetData(providers);
                 SetLoading(false);
               }
@@ -82,7 +89,7 @@ function Providers(props) {
               margin: "12px 0px 0px 0px",
             }}
           >
-            {!loadingCategorias && categoriaNombre[0].nombre}
+            {!loadingCategorias && idcategory && categoriaNombre[0].nombre}
           </Typography>
           <br />
           <Typography
