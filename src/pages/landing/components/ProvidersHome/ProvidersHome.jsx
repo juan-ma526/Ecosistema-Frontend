@@ -11,12 +11,22 @@ function ProvidersHome(props) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [locationAvailable, setLocationAvailable] = useState(false);
+  const [coordinates, setCoordinates] = useState({ lat: null, lon: null });
 
   useEffect(() => {
     const obtenerUbicacion = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-          () => setLocationAvailable(true),
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setLocationAvailable(true);
+            setCoordinates({ lat: latitude, lon: longitude });
+            // Agrega el console.log para verificar las coordenadas
+            console.log("Coordenadas del usuario:", {
+              lat: latitude,
+              lon: longitude,
+            });
+          },
           () => setLocationAvailable(false)
         );
       } else {
@@ -59,7 +69,7 @@ function ProvidersHome(props) {
     };
 
     cargarDatos();
-  }, [locationAvailable]);
+  }, [locationAvailable, coordinates]);
 
   return (
     <>
@@ -71,7 +81,6 @@ function ProvidersHome(props) {
       >
         <Grid container rowSpacing={1} columnSpacing={1}>
           {data.map((elem, i) => {
-            console.log(elem);
             return (
               <Grid item key={i} xs={6}>
                 <MiniCardProviders
