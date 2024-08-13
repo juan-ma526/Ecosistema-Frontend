@@ -46,20 +46,25 @@ function ProvidersHome(props) {
       try {
         const response = await axios.get(urlProviders);
         if (response.status === 200) {
-          let providers = response.data;
-
-          // Filtrar proveedores con imágenes
-          providers = providers.filter((provider) => provider.imagenes && provider.imagenes.length > 0);
-
+          let providersHome = [];
+          let providers = response.data.filter((elem) => {
+            return elem.estado == "ACEPTADO";
+          });
           if (!locationAvailable) {
-            // Seleccionar 4 proveedores aleatorios si no se obtuvo la ubicación
-            providers = providers.sort(() => 0.5 - Math.random()).slice(0, 4);
+            if (providers.length > 3) {
+              providers.map((elem, i) => {
+                if (i < 4) {
+                  providersHome.push(elem);
+                }
+              });
+            } else {
+              providersHome = providers;
+            }
           } else {
             // En caso de que la ubicación esté disponible, usa todos los proveedores cercanos
-            providers = providers.slice(0, 4);
+            providersHome = providers.slice(0, 4);
           }
-
-          setData(providers);
+          setData(providersHome);
         }
       } catch (error) {
         console.log(error);
