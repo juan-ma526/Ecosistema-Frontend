@@ -62,7 +62,7 @@ export const CustomTextField = ({ multiline, value, rows, error,readOnlyForm, he
   />
 );
 
-const CustomSelectField = ({ options = [], readOnlyForm,error, helperText, value, ...props }) => (
+const CustomSelectField = ({ options = [], readOnlyForm,error, helperText, value, onChange, ...props }) => (
   <TextField
     {...props}
     select
@@ -110,6 +110,7 @@ const Form2 = ({
   provincias = [],
   onPaisChange,
   onProvinciaChange,
+  ...props
 }) => {
   const [localValues, setLocalValues] = useState(initialValues || {});
 
