@@ -17,13 +17,21 @@ function ProvidersHome(props){
             await axios.get(urlProviders)
                 .then( respons =>{
                   if(respons.status == 200) {
-                    let providers = [];
-                    respons.data.map( (elem, i) => {
-                        if(i<4){
-                          providers.push(elem);
-                        }
+                    let providersHome = [];
+                    let providers = respons.data.filter(elem =>{
+                      return elem.estado == "ACEPTADO"
                     })
-                    SetData(providers);
+                    if(providers.length>3){
+                      providers.map( (elem, i) => {
+                        if(i<4){
+                          providersHome.push(elem);
+                        }
+                      })
+                    } else {
+                      providersHome = providers
+                    }
+                    console.log(providersHome);
+                    SetData(providersHome);
                     SetLoading(false);
                   }
                 })

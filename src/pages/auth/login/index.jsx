@@ -33,7 +33,6 @@ export default function Login() {
       const storedToken = localStorage.getItem("token");
       if (storedToken) {
         const decoded = jwtDecode(storedToken);
-        console.log(decoded.roles);
         if(decoded.roles === 'ADMIN'){
           navigate("/adminProviders")
         }
