@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { Category } from "./components/Category/Category";
 import ProvidersHomes from "./components/ProvidersHome/ProvidersHome";
 import { ChatBot } from "../../components/ChatBot/ChatBot";
+import { useContext } from "react";
+import { UserContext } from '../../context/userContext';
 
 const itemPublication = [
   {
@@ -54,11 +56,12 @@ const itemPublication = [
 ];
 
 export default function HomePage() {
+  const { user } = useContext(UserContext);
   return (
     <div>
       <HomeTitle />
       <ImpactCompanies />
-      <InvitationRedImpacto />
+      {user ==null ? <InvitationRedImpacto /> : <></>}
       <Box sx={{ marginTop: "48px" }}>
         <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones para vos</Typography>
         <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores ECO</Typography>

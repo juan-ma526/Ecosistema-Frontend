@@ -44,11 +44,14 @@ const theme = createTheme({
   },
 });
 
-export const CustomTextField = ({ multiline, value, rows, error, helperText, ...props }) => (
+export const CustomTextField = ({ multiline, value, rows, error,readOnlyForm, helperText, ...props }) => (
   <TextField
     {...props}
     InputLabelProps={{
       shrink: true, // Fuerza al label a estar en estado shrinked
+    }}
+    InputProps={{
+      readOnly: readOnlyForm, 
     }}
     multiline={multiline}
     rows={rows}
@@ -59,12 +62,15 @@ export const CustomTextField = ({ multiline, value, rows, error, helperText, ...
   />
 );
 
-const CustomSelectField = ({ options = [], error, helperText, value, ...props }) => (
+const CustomSelectField = ({ options = [], readOnlyForm,error, helperText, value, ...props }) => (
   <TextField
     {...props}
     select
     InputLabelProps={{
       shrink: true,
+    }}
+    InputProps={{
+      readOnly: readOnlyForm,  // Fuerza al label a estar en estado shrinked
     }}
     error={error}
     helperText={helperText}
@@ -93,7 +99,7 @@ const CustomSelectField = ({ options = [], error, helperText, value, ...props })
   </TextField>
 );
 
-const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], paises = [], provincias = [] }) => {
+const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], paises = [], provincias = [], ...props }) => {
     const [localValues, setLocalValues] = useState(initialValues || {});
 
   useEffect(() => {
@@ -133,6 +139,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.nombre || ""}
           error={!!errors.nombre}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomTextField
           label="Tipo de Proveedor"
@@ -142,6 +149,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.tipoProveedor || ""}
           error={!!errors.tipoProveedor}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomSelectField
           label="Categoría"
@@ -151,6 +159,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.categoriaId || ""}
           error={!!errors.categoriaId}
           options={categorias}
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomSelectField
           label="País"
@@ -160,6 +169,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.paisId || ""}
           error={!!errors.paisId}
           options={paises}
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomSelectField
           label="Provincia"
@@ -169,6 +179,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.provinciaId || ""}
           error={!!errors.provinciaId}
           options={provincias}
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomTextField
           label="Ciudad"
@@ -178,6 +189,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.ciudadId || ""}
           error={!!errors.ciudadId}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomTextField
           label="Email"
@@ -187,6 +199,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.email || ""}
           error={!!errors.email}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomTextField
           label="Teléfono"
@@ -196,6 +209,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.telefono || ""}
           error={!!errors.telefono}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomTextField
           label="Facebook"
@@ -205,6 +219,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.facebook || ""}
           error={!!errors.facebook}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomTextField
           label="Instagram"
@@ -214,6 +229,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.instagram || ""}
           error={!!errors.instagram}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
         <CustomTextField
           label="Descripción"
@@ -225,6 +241,7 @@ const Form2 = ({ initialValues, setValues, errors, setErrors, categorias = [], p
           helperText={errors.descripcion || ""}
           error={!!errors.descripcion}
           fullWidth
+          readOnlyForm = {props.readOnlyForm}
         />
       </Box>
     </ThemeProvider>
