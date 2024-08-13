@@ -13,6 +13,7 @@ import { validateEmail, validatePhone } from "./utils/utils";
 import ButtonImage from "./components/ButtonImage";
 import axios from "axios";
 import { UserContext } from "../../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export default function LoadPublication() {
   const { user } = useContext(UserContext);
@@ -28,6 +29,9 @@ export default function LoadPublication() {
   const [hasErrors, setHasErrors] = useState(true);
   const [productsCreated, setProductsCreated] = useState(0);
   const [loading, setLoading] = useState(false); // Estado para manejar la carga
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const anyErrors = fields.some((field) => {
@@ -102,8 +106,10 @@ export default function LoadPublication() {
       await sendForm(formData);
       setAlertType("success");
       setProductsCreated((prev) => prev + 1);
+      setFormSubmitted(true);
     } catch (error) {
       setAlertType("error");
+      setFormSubmitted(false);
     } finally {
       setLoading(false); // Ocultar indicador de carga
       setShowAlert(true);
@@ -150,6 +156,14 @@ export default function LoadPublication() {
     setShowAlert(false);
     setAlertType(null);
   };
+
+  // REDIRECCIÓN A PERFIL
+
+  useEffect(() => {
+    if (formSubmitted === true && alertType === null && !showAlert) {
+      navigate("/profile"); // Redirigir solo después de que el formulario haya sido enviado y la alerta cerrada
+    }
+  }, [formSubmitted, alertType, showAlert, navigate]);
 
   const handleImagesChange = (newImages) => {
     setValues((prevValues) => ({

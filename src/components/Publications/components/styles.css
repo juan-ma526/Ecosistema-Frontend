@@ -43,7 +43,7 @@
   width: 24px;
   height: 24px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(30%);
   /* Ocultar el contenido por defecto */
   display: flex;
   align-items: center;
