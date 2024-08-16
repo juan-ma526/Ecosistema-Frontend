@@ -34,7 +34,7 @@ export default function Login() {
       if (storedToken) {
         const decoded = jwtDecode(storedToken);
         if(decoded.roles === 'ADMIN'){
-          navigate("/adminProviders")
+          navigate("/dashboard")
         }
         if(decoded.roles === 'USUARIO'){
           navigate("/profile")
