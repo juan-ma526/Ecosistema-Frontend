@@ -10,7 +10,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ErrorAlert({ open, onClose, type }) {
-
   const getAlertContent = () => {
     switch (type) {
       case "load":
@@ -25,10 +24,14 @@ export default function ErrorAlert({ open, onClose, type }) {
         return {
           title: "Lo sentimos, el estado no pudo ser modificado.",
         };
+      case "fail":
+        return {
+          title: "Lo sentimos, hubo un error en la carga de datos",
+        };
       default:
         return {
-          title: "Ha ocurrido un error inesperado."
-        }
+          title: "Ha ocurrido un error inesperado.",
+        };
     }
   };
 
@@ -62,9 +65,7 @@ export default function ErrorAlert({ open, onClose, type }) {
             flexDirection: "column",
           }}
         >
-          <Typography sx={{ fontWeight: 400, fontSize: "18px", textAlign: "center" }}>
-            {title}
-          </Typography>
+          <Typography sx={{ fontWeight: 400, fontSize: "18px", textAlign: "center" }}>{title}</Typography>
 
           <Typography sx={{ fontWeight: 400, fontSize: "14px" }}>Por favor, volvé a intentarlo.</Typography>
         </DialogContent>
@@ -92,4 +93,3 @@ export default function ErrorAlert({ open, onClose, type }) {
     </React.Fragment>
   );
 }
-
