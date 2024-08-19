@@ -10,8 +10,11 @@ import { ChatBot } from "../../components/ChatBot/ChatBot";
 import { axiosClient } from "../../libs/network/axiosClient";
 import { useEffect, useState } from "react";
 import { transformPublications } from "./lib/transformPublications";
+import { useContext } from "react";
+import { UserContext } from "../../context/userContext";
 
 export default function HomePage() {
+  const { user } = useContext(UserContext);
   const [publications, setPublications] = useState([]);
 
   useEffect(() => {
@@ -33,7 +36,7 @@ export default function HomePage() {
     <div>
       <HomeTitle />
       <ImpactCompanies />
-      <InvitationRedImpacto />
+      {user == null ? <InvitationRedImpacto /> : <></>}
       <Box sx={{ marginTop: "48px" }}>
         <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones para vos</Typography>
         <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores ECO</Typography>

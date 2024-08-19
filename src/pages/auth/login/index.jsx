@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../../context/userContext";
 import { axiosClient } from "../../../libs/network/axiosClient";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const { token, setToken } = useContext(UserContext);
@@ -29,7 +30,18 @@ export default function Login() {
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", JSON.stringify(token));
-      navigate("/");
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        const decoded = jwtDecode(storedToken);
+        if(decoded.roles === 'ADMIN'){
+          navigate("/dashboard")
+        }
+        if(decoded.roles === 'USUARIO'){
+          navigate("/profile")
+        }
+      } else{
+        navigate("/");
+      }
     }
   }, [token, navigate]);
 

@@ -22,6 +22,7 @@ export default function AdminProvidersDetail(props) {
     const [feedback,SetFeedback] = useState('');
     const [displayText, SetDisplayText] = useState('block')
     const [displayButton, SetDisplayButton] = useState('block')
+    const [disabledButton, SetDisabledButton] = useState(true)
     const [showAlert, setShowAlert] = useState(false);
     const [alertType, setAlertType] = useState(null);
 
@@ -29,14 +30,16 @@ export default function AdminProvidersDetail(props) {
         SetEstado(event.target.value);
         if (event.target.value == 'ACEPTADO') {
             SetDisplayText('none');
-            SetDisplayButton('flex')
+            SetDisplayButton('flex');
             SetFeedback(' ');
+            SetDisabledButton(false);
         } else {
             if(event.target.value != 'REVISION_INICIAL'){
                 SetDisplayButton('flex')
             }
             SetDisplayText('block');
             SetFeedback('');
+            SetDisabledButton(true);
         }
     };
 
@@ -46,9 +49,9 @@ export default function AdminProvidersDetail(props) {
             SetFeedback(props.elemento.feedback);
             switch (props.elemento.estado) {
                 case "REVISION_INICIAL":
-                    SetEstado("REVISION_INICIAL")
+                    SetEstado("REVISION_INICIAL");
                     SetDisplayText('none');
-                    SetDisplayButton('none')
+                    SetDisplayButton('none');
                     break;
                 case "CAMBIOS_REALIZADOS":
                     SetEstado("REVISION_INICIAL")
@@ -58,7 +61,8 @@ export default function AdminProvidersDetail(props) {
                 case "ACEPTADO":
                     SetEstado("ACEPTADO")
                     SetDisplayText('none');
-                    SetDisplayButton('flex')
+                    SetDisplayButton('flex');
+                    SetDisabledButton(false);
                     break;
                 case "REQUIERE_CAMBIOS":
                     SetEstado("REQUIERE_CAMBIOS")
@@ -82,6 +86,11 @@ export default function AdminProvidersDetail(props) {
 
     const handleChangeTextField = (event) => {
         SetFeedback(event.target.value);
+        if (document.getElementById("feedback_provider").value.length === 0) {
+            SetDisabledButton(true);
+        } else{
+            SetDisabledButton(false);
+        }
     };
     const handleCloseAlert = () => {
         setShowAlert(false);
@@ -164,6 +173,7 @@ export default function AdminProvidersDetail(props) {
             }}
             >
                 <Button
+                    disabled={disabledButton}
                     onClick={handleSubmit}
                     sx={{
                     textTransform: "none",
@@ -172,8 +182,8 @@ export default function AdminProvidersDetail(props) {
                     height: "40px",
                     padding: "10px 8px 10px 8px",
                     borderRadius: "100px",
-                    backgroundColor: "customColors.violeta",
-                    color: "customColors.blanco",
+                    backgroundColor: (disabledButton==true) ? "customColors.gris":"customColors.violeta", 
+                    color: (disabledButton==true) ? "customColors.negro":"customColors.blanco",
                     margin: "18px 0",
                     alignItems: "center",
                     justifyContent: "center",
