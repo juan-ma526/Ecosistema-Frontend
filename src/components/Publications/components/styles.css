@@ -53,11 +53,13 @@
 .swiper-button-prev {
   background-image: url(../images/leftIcon.svg) !important;
   left: 10px; /* Ajustar el margen a la izquierda */
+  top: 75px;
 }
 
 .swiper-button-next {
   background-image: url(../images/rightIcon.svg) !important;
   right: 10px; /* Ajustar el margen a la derecha */
+  top: 75px;
 }
 
 .swiper-button-prev::after,

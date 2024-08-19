@@ -12,6 +12,8 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 
 import Carrousel from "./components/Carrousel";
+import CardMenu from "../../pages/admin-publications/components/CardMenu";
+import { useLocation } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   /* eslint-disable-next-line no-unused-vars */
@@ -27,8 +29,9 @@ const ExpandMore = styled((props) => {
   justifyContent: "center",
 }));
 
-export const PublicationsCard = ({ title, images, date, firstParagraph, paragraphs }) => {
+export const PublicationsCard = ({ item, title, images, date, firstParagraph, paragraphs }) => {
   const [expanded, setExpanded] = useState(false);
+  const location = useLocation();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -43,11 +46,29 @@ export const PublicationsCard = ({ title, images, date, firstParagraph, paragrap
         margin: "auto",
         backgroundColor: "customColors.grisClaro",
         borderRadius: "16px",
+        position: "relative",
       }}
     >
-      {/* Title */}
+      {location.pathname === "/adminPublications" ? (
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "22px" }}>
+          <Box sx={{ position: "absolute", right: "12px", top: "14px" }}>
+            <CardMenu item={item} />
+          </Box>
 
-      <CardHeader title={title} sx={{ textAlign: "center", fontSize: "18px", fontWeight: 600 }} />
+          <CardHeader
+            className="publications-title"
+            title={title}
+            sx={{ textAlign: "center", fontSize: "18px", fontWeight: 600, marginTop: 2 }}
+          />
+        </Box>
+      ) : (
+        <CardHeader
+          className="publications-title"
+          title={title}
+          sx={{ textAlign: "center", fontSize: "18px", fontWeight: 600, marginTop: 2 }}
+        />
+      )}
+      {/* Title */}
 
       {/* Container Carrousel */}
 
@@ -57,11 +78,11 @@ export const PublicationsCard = ({ title, images, date, firstParagraph, paragrap
 
       {/* Container not expanded */}
 
-      <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-        <Typography variant="body2" sx={{ fontSize: "16px" }}>
+      <CardContent sx={{ display: "flex", flexDirection: "column", marginTop: 3 }}>
+        <Typography variant="body2" sx={{ fontSize: "14px", fontWeight: 600 }}>
           {date}
         </Typography>
-        <Typography variant="body2" sx={{ fontSize: "16px" }}>
+        <Typography variant="body2" sx={{ fontWeight: 400, fontSize: "16px" }}>
           {firstParagraph}
         </Typography>
       </CardContent>
