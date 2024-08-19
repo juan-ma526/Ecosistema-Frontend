@@ -10,6 +10,9 @@ import EditPublication from "./pages/profile/edit-publication";
 import LoadPublication from "./pages/profile/load-publication";
 import CategoriesPage from "./pages/categories/index";
 import AdminProvidersPage from "./pages/admin-providers/index";
+import AdminPublications from "./pages/admin-publications";
+import CreatePublication from "./pages/admin-publications/createPublication";
+import EditAdminPublication from "./pages/admin-publications/editAdminPublication";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
         <Route path="/profile/load" element={<LoadPublication />} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/adminProviders" element={<AdminProvidersPage />} />
+        <Route path="/adminPublications" element={<AdminPublications />} />
+        <Route path="/admin/createPublication" element={<CreatePublication />} />
+        <Route path="/admin/editPublication" element={<EditAdminPublication />} />
       </Routes>
     </>
   );
