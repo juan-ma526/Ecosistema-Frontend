@@ -20,11 +20,11 @@ function ProvidersHome(props) {
           (position) => {
             const { latitude, longitude } = position.coords;
             setLocationAvailable(true);
-            setCoordinates({ lat: latitude, lon: longitude });
+            setCoordinates({ lat: latitude, lng: longitude });
             // Agrega el console.log para verificar las coordenadas
             console.log("Coordenadas del usuario:", {
               lat: latitude,
-              lon: longitude,
+              lng: longitude,
             });
           },
           () => setLocationAvailable(false)
@@ -40,7 +40,7 @@ function ProvidersHome(props) {
   useEffect(() => {
     const cargarDatos = async () => {
       const urlProviders = locationAvailable
-        ? `http://localhost:8080/buscarProveedoresCercanos`
+        ? `http://localhost:8080/proveedoresCercanos`
         : `http://localhost:8080/buscar?query=`;
 
       try {
@@ -60,6 +60,8 @@ function ProvidersHome(props) {
           }
 
           setData(providers);
+          console.log(urlProviders);
+          console.log(providers);
         }
       } catch (error) {
         console.log(error);

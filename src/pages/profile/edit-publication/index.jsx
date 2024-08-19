@@ -1,10 +1,9 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useContext, useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import EditTitle from "./components/EditTitle";
 import EditSubtitle from "./components/EditSubtitle";
 import "./edit.css";
-//import Form from "./components/Form";
 import ButtonCharge from "../components/ButtonCharge";
 import StandardImageList from "./components/ImageList";
 import ErrorAlert from "../../../modals/ErrorAlert";
@@ -37,8 +36,9 @@ export default function EditPublication(props) {
     provinciaId: null,
     ciudadId: null,
     descripcion: "",
-    images: [],
+    imagenes: [],
   });
+  const [pendingChanges, setPendingChanges] = useState([]); // Estado provisional para los cambios
   const [categorias, setCategorias] = useState([]);
   const [paises, setPaises] = useState([]);
   const [provincias, setProvincias] = useState([]);
@@ -124,22 +124,35 @@ export default function EditPublication(props) {
     }
   }, [token, proveedorId]);
 
+  const handleImageEdit = (newImageData) => {
+    setPendingChanges((prevChanges) => [
+      ...prevChanges,
+      { type: "edit", data: newImageData },
+    ]);
+  };
+
+  const handleImageDelete = (imageId) => {
+    setPendingChanges((prevChanges) => [
+      ...prevChanges,
+      { type: "delete", id: imageId },
+    ]);
+  };
+
   const handlePaisChange = (event) => {
     const selectedId = event.target.value;
     setSelectedPaisId(selectedId);
-    setValues({ ...values, paisId: selectedId });
+    setValues((prevValues) => ({ ...prevValues, paisId: selectedId }));
   };
 
   const handleProvinciaChange = (event) => {
     const selectedId = event.target.value;
-    setValues({ ...values, provinciaId: selectedId });
+    setValues((prevValues) => ({ ...prevValues, provinciaId: selectedId }));
   };
 
   const handleSubmit = () => {
     let newErrors = {};
     const { nombre, email, telefono } = values;
 
-    // Limpiar errores previos
     setErrors({});
 
     if (!nombre) {
@@ -162,13 +175,36 @@ export default function EditPublication(props) {
 
     if (isFormValid) {
       try {
-        const updatedData = await editForm(values);
-        console.log(values);
+        let finalImages = [...values.imagenes];
+
+        pendingChanges.forEach((change) => {
+          switch (change.type) {
+            case "edit":
+              finalImages = finalImages.map((image) => {
+                if (image.id === change.data.id) {
+                  return change.data;
+                }
+                return image;
+              });
+              break;
+            case "delete":
+              finalImages = finalImages.filter((image) => image.id !== change.id);
+              break;
+            default:
+              break;
+          }
+        });
 
         setValues((prevValues) => ({
           ...prevValues,
-          ...updatedData, // Actualiza los valores con la respuesta del backend
+          imagenes: finalImages,
         }));
+
+        await editForm({
+          ...values,
+          imagenes: finalImages, // Usar las imágenes finales
+        });
+
         setAlertType("success");
       } catch (error) {
         setAlertType("error");
@@ -212,10 +248,7 @@ export default function EditPublication(props) {
       imagenes,
     };
 
-    console.log("dataToEdit: ", dataToEdit);
     try {
-      console.log(dataToEdit);
-
       const response = await axios.put(
         `http://localhost:8080/editarProveedor/usuario/${usuarioId}/proveedor/${proveedorId}`,
         dataToEdit,
@@ -241,7 +274,7 @@ export default function EditPublication(props) {
 
   return (
     <Box>
-      {user.roles != "ADMIN" && (
+      {user.roles !== "ADMIN" && (
         <section className="titles">
           <EditTitle />
           <EditSubtitle />
@@ -257,23 +290,16 @@ export default function EditPublication(props) {
         provincias={provincias}
         onPaisChange={handlePaisChange}
         onProvinciaChange={handleProvinciaChange}
-        readOnly={user?.rol === "ADMIN"}
-        rol={user?.roles}
+        readOnlyForm={user.roles === "ADMIN"}
+        rol={user.roles}
       />
-
-      {/* <Form
-        initialValues={values}
-        setValues={setValues}
-        errors={errors}
-        setErrors={setErrors}
-        categorias={categorias}
-        paises={paises}
-        provincias={provincias}
-        onPaisChange={handlePaisChange}
-        onProvinciaChange={handleProvinciaChange}
-      /> */}
-      <StandardImageList images={values.imagenes || []} />
-      {user.roles != "ADMIN" && (
+      <StandardImageList
+        images={values.imagenes || []}
+        onEdit={handleImageEdit}
+        onDelete={handleImageDelete}
+        token={token}
+      />
+      {user.roles !== "ADMIN" && (
         <ButtonCharge
           sx={{
             marginTop: "40px",
