@@ -10,7 +10,7 @@ import ErrorAlert from "../../../modals/ErrorAlert";
 import SuccessAlert from "../../../modals/SuccessAlert";
 import axios from "axios";
 import { UserContext } from "../../../context/userContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { validateEmail, validatePhone } from "./utils/utils";
 import Form2 from "./components/Form2";
 
@@ -267,9 +267,14 @@ export default function EditPublication(props) {
     }
   };
 
+  const navigate = useNavigate();
+  
   const handleCloseAlert = () => {
     setShowAlert(false);
     setAlertType(null);
+    if (alertType === "success") {
+      navigate("/profile"); // Redirigir al perfil en caso de éxito
+    }
   };
 
   return (

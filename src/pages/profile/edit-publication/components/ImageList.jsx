@@ -55,6 +55,7 @@ export default function StandardImageList({ images = [], setImages, token }) {
         };
 
         setImageList((prevImages) => prevImages.map((img) => (img.id === selectedImage.id ? updatedImage : img)));
+        setImages((prevImages) => prevImages.map((img) => (img.id === selectedImage.id ? updatedImage : img)));
       } catch (error) {
         console.error("Error al actualizar la imagen:", error);
       } finally {
