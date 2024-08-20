@@ -10,23 +10,50 @@ import ProvidersStatusStatistics from './components/ProvidersStatesStatistics';
 import "./Dashboard.css"
 
 export default function DashboardAdministrador() {
-    const dataPublication = [
-        {
-            namePublication: '¿Que es el upciclynga asasa asdada adasd a?',
-            datePublication: '12/02/2024',
-            viewsPublication: 50
-        },
-        {
-            namePublication: '¿Que es asdasdad el upciclyng?',
-            datePublication: '12/02/2024',
-            viewsPublication: 50
-        },
-        {
-            namePublication: '¿Que esaaaaaaa aaaaa el upciclyng?',
-            datePublication: '12/02/2024',
-            viewsPublication: 50
-        },
-    ]
+    const [dataPublication,SetDataPublication] = useState([]);
+    const [loading,SetLoading] = useState(false);
+
+    // const dataPublication = [
+    //     {
+    //         namePublication: '¿Que es el upciclynga asasa asdada adasd a?',
+    //         datePublication: '12/02/2024',
+    //         viewsPublication: 50
+    //     },
+    //     {
+    //         namePublication: '¿Que es asdasdad el upciclyng?',
+    //         datePublication: '12/02/2024',
+    //         viewsPublication: 50
+    //     },
+    //     {
+    //         namePublication: '¿Que esaaaaaaa aaaaa el upciclyng?',
+    //         datePublication: '12/02/2024',
+    //         viewsPublication: 50
+    //     },
+    // ]
+    useEffect(() => {
+        const cargarDatos = async() => {
+          try {
+            const url = import.meta.env.VITE_API_BASE_URL + "/visualizaciones";
+            const token = JSON.parse(localStorage.getItem('token'));
+            const response = await axios.get(url, {
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                },
+            });
+            if(response.status == 200) {
+              SetDataPublication(response.data);
+              SetLoading(true);
+            } else {
+              console.log('error');
+            }
+          }
+          catch(error) {
+            console.log(error);
+          }
+        }
+        cargarDatos();
+      }, []);
 
     return(
         <>
@@ -52,9 +79,9 @@ export default function DashboardAdministrador() {
                 return(
                 <BoxVistasPorPublicacion 
                     key={i}
-                    namePublication={elem.namePublication} 
-                    datePublication={elem.datePublication}
-                    viewsPublication={elem.viewsPublication}
+                    namePublication={elem.titulo} 
+                    datePublication={new Date(elem.fechaDeCreacion).toLocaleDateString()}
+                    viewsPublication={elem.visualizaciones}
                 />)
             })}
         </>

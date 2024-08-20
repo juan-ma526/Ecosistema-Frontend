@@ -11,28 +11,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
-
-function createData(id, name, calories) {
-  return {
-    id,
-    name,
-    calories,
-  };
-}
-
-const rows = [
-  createData(1, 'Bienestar', 305),
-  createData(2, 'Capacitaciones', 452),
-  createData(3, 'Construcción', 262),
-  createData(4, 'Cultivos', 159),
-  createData(5, 'Gastronomía', 356),
-  createData(6, 'Indumentaria', 408),
-  createData(7, 'Merchandasing', 237),
-  createData(8, 'Muebles/Deco', 375),
-  createData(9, 'Reciclaje', 518),
-  createData(10, 'Tecnología', 392),
-  createData(11, 'Transporte', 318),
-];
+import axios from "axios";
+import { useState,useEffect } from "react";
 
 function EnhancedTableToolbar(props) {
   const { numSelected } = props;
@@ -71,8 +51,36 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable() {
   const [selected, setSelected] = React.useState([]);
+  const [rows,SetRows] = useState([]);
+  const [loading,SetLoading] = useState(false);
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  useEffect(() => {
+        const cargarDatos = async() => {
+          try {
+            const url = import.meta.env.VITE_API_BASE_URL + "/proveedoresPorCategoria";
+            const token = JSON.parse(localStorage.getItem('token'));
+            const response = await axios.get(url, {
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                },
+            });
+            if(response.status == 200) {
+              SetRows(Object.entries(response.data));
+              SetLoading(true);
+            } else {
+              console.log('error');
+            }
+          }
+          catch(error) {
+            console.log(error);
+          }
+        }
+        cargarDatos();
+      }, []);
+
 
   return (
     <Box sx={{ width: '90%', margin: '10px auto'}}>
@@ -96,8 +104,8 @@ export default function EnhancedTable() {
             size={'small'}
           >
             <TableBody>
-              {rows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
+              {loading && rows.map((row, index) => {
+                const isItemSelected = isSelected(row[0]);
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
@@ -106,7 +114,7 @@ export default function EnhancedTable() {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={index}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
@@ -121,14 +129,14 @@ export default function EnhancedTable() {
                         color: 'customColor.negro'
                       }}
                     >
-                      {row.name}
+                      {row[0]}
                     </TableCell>
                     <TableCell align="right" sx={{fontSize: '16px',
                        fontWeight: '700', 
                        lineHeight: '25px',
                        color: 'customColor.negro'
                        }}>
-                        {row.calories}
+                        {row[1]}
                     </TableCell>
                   </TableRow>
                 );
