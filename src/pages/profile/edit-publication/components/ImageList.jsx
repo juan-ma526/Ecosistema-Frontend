@@ -1,87 +1,65 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import { useState } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { Box, IconButton, Dialog, DialogActions, DialogContent, Button, Typography, Input, CircularProgress, Backdrop } from "@mui/material";
-import axios from "axios";
+import { Box, IconButton, Dialog, DialogActions, DialogContent, Button, Typography, Input } from "@mui/material";
 
-export default function StandardImageList({ images = [], setImages, token }) {
+export default function StandardImageList({ images = [], onEdit, onDelete, onImageListChange }) {
   const [imageList, setImageList] = React.useState(images);
+  const [newImages, setNewImages] = React.useState([]);
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogType, setDialogType] = React.useState(null);
-  const [loading, setLoading] = React.useState(false); // Estado para controlar la carga
   const fileInputRef = React.useRef(null);
+  const [hasChanges, setHasChanges] = useState(false);
 
   React.useEffect(() => {
     setImageList(images);
-  }, [images]);
+    if (hasChanges) {
+      onImageListChange([...images, ...newImages]); // Llamada a la función pasada como prop
+      setHasChanges(false);
+    }
+  }, [images, newImages, onImageListChange, hasChanges]);
 
   const handleEdit = (image) => {
+    onEdit(image.id);
     setSelectedImage(image);
     setDialogType("edit");
     setDialogOpen(true);
+    setHasChanges(true);
   };
 
   const handleDelete = (image) => {
+    onDelete(image);
     setSelectedImage(image);
     setDialogType("delete");
     setDialogOpen(true);
+    setHasChanges(true);
   };
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        setDialogOpen(false); // Cerrar el diálogo de edición/eliminación
-        setLoading(true); // Mostrar indicador de carga
-
-        const imagenId = selectedImage.id;
-        const response = await axios.put(`http://localhost:8080/actualizar/${imagenId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const updatedImage = {
-          ...selectedImage,
-          url: response.data.url,
-        };
-
-        setImageList((prevImages) => prevImages.map((img) => (img.id === selectedImage.id ? updatedImage : img)));
-        setImages((prevImages) => prevImages.map((img) => (img.id === selectedImage.id ? updatedImage : img)));
-      } catch (error) {
-        console.error("Error al actualizar la imagen:", error);
-      } finally {
-        setLoading(false); // Ocultar indicador de carga
+      setDialogOpen(false);
+      if (selectedImage && selectedImage.file) {
+        setNewImages((prevNewImages) =>
+          prevNewImages.map((img) => (img.id === selectedImage.id ? { ...img, file } : img))
+        );
+      } else {
+        setImageList((prevImages) => prevImages.map((img) => (img.id === selectedImage.id ? { ...img, file } : img)));
       }
     }
   };
 
-  const confirmDelete = async () => {
-    try {
-      setDialogOpen(false); // Cerrar el diálogo de edición/eliminación
-      setLoading(true); // Mostrar indicador de carga
-
-      await axios.delete(`http://localhost:8080/eliminarImagen/${selectedImage.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
-
+  const confirmDelete = () => {
+    setDialogOpen(false);
+    if (selectedImage && selectedImage.file) {
+      setNewImages((prevNewImages) => prevNewImages.filter((img) => img.id !== selectedImage.id));
+    } else {
       setImageList((prevImages) => prevImages.filter((img) => img.id !== selectedImage.id));
-      setImages((prevImages) => prevImages.filter((img) => img.id !== selectedImage.id));
-    } catch (error) {
-      console.error("Error al eliminar la imagen:", error);
-    } finally {
-      setLoading(false); // Ocultar indicador de carga
     }
   };
 
@@ -100,10 +78,10 @@ export default function StandardImageList({ images = [], setImages, token }) {
         cols={3}
         rowHeight={90}
       >
-        {imageList.map((item) => (
-          <ImageListItem key={item.id} sx={{ position: "relative" }}>
+        {[...imageList, ...newImages].map((item, index) => (
+          <ImageListItem key={index} sx={{ position: "relative" }}>
             <img
-              src={item.url}
+              src={item.file ? URL.createObjectURL(item.file) : item.url}
               alt={item.title || "Imagen"}
               loading="lazy"
               style={{ borderRadius: "4px", width: "128px", height: "100px", objectFit: "cover" }}
@@ -188,10 +166,6 @@ export default function StandardImageList({ images = [], setImages, token }) {
           </Button>
         </DialogActions>
       </Dialog>
-
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </>
   );
 }

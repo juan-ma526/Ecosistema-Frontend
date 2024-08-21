@@ -44,6 +44,7 @@ export default function EditPublication(props) {
   const [provincias, setProvincias] = useState([]);
   const [selectedPaisId, setSelectedPaisId] = useState(null);
   const [errors, setErrors] = useState({});
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const urlCategorias = "http://localhost:8080/categorias";
   const urlPaises = "http://localhost:8080/ubicacion/paises";
@@ -96,7 +97,7 @@ export default function EditPublication(props) {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
         setValues({
           usuarioId: response.data.usuario.id || "",
           proveedorId: response.data.id || "",
@@ -111,32 +112,53 @@ export default function EditPublication(props) {
           provinciaId: response.data.provincia.id || [],
           ciudad: response.data.ciudad || [],
           descripcion: response.data.descripcion || "",
-          imagenes: response.data.imagenes || [],
+          imagenes: response.data.imagenes || [], // Store the images in the values state
         });
         setSelectedPaisId(response.data.paisId?.id || null); // Actualizar el país seleccionado
       } catch (error) {
         console.error("Error al obtener los datos del proveedor:", error);
       }
     };
-
+  
     if (token && proveedorId) {
       fetchProviderData();
     }
   }, [token, proveedorId]);
 
-  const handleImageEdit = (newImageData) => {
-    setPendingChanges((prevChanges) => [
-      ...prevChanges,
-      { type: "edit", data: newImageData },
-    ]);
+  const handleImageEdit = (imageId) => {
+    try {
+      const imageToEdit = values.imagenes.find((img) => img.id === imageId);
+      axios.put(`http://localhost:8080/actualizar/${imageId}`, imageToEdit, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPendingChanges((prevPendingChanges) => [...prevPendingChanges, { type: "edit", data: imageToEdit }]);
+    } catch (error) {
+      console.error("Error al editar la imagen:", error);
+    }
   };
 
-  const handleImageDelete = (imageId) => {
-    setPendingChanges((prevChanges) => [
-      ...prevChanges,
-      { type: "delete", id: imageId },
-    ]);
+  const handleImageDelete = (newImageData) => {
+    try {
+      axios.delete(`http://localhost:8080/eliminarImagen/${newImageData.id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPendingChanges((prevPendingChanges) => [...prevPendingChanges, { type: "delete", id: newImageData.id }]);
+    } catch (error) {
+      console.error("Error al eliminar la imagen:", error);
+    }
   };
+
+  const handleImageChange = (newImageData) => {
+    // Actualizar el estado `pendingChanges` con los cambios en las imágenes
+    setPendingChanges((prevPendingChanges) => [...prevPendingChanges, newImageData]);
+  };
+  
 
   const handlePaisChange = (event) => {
     const selectedId = event.target.value;
@@ -171,12 +193,16 @@ export default function EditPublication(props) {
   };
 
   const handleButtonCharge = async () => {
+    if (isImageModalOpen) {
+      return; // No hacer nada si el modal de imagen está abierto
+    }
+  
     const isFormValid = handleSubmit();
-
+  
     if (isFormValid) {
       try {
         let finalImages = [...values.imagenes];
-
+  
         pendingChanges.forEach((change) => {
           switch (change.type) {
             case "edit":
@@ -194,17 +220,17 @@ export default function EditPublication(props) {
               break;
           }
         });
-
+  
         setValues((prevValues) => ({
           ...prevValues,
           imagenes: finalImages,
         }));
-
+  
         await editForm({
           ...values,
-          imagenes: finalImages, // Usar las imágenes finales
+          imagenes: finalImages, // Use the final images
         });
-
+  
         setAlertType("success");
       } catch (error) {
         setAlertType("error");
@@ -213,6 +239,7 @@ export default function EditPublication(props) {
       setAlertType("error");
     }
     setShowAlert(true);
+    setIsImageModalOpen(false); // Restablecer el estado del modal
   };
 
   const editForm = async (formData) => {
@@ -268,7 +295,7 @@ export default function EditPublication(props) {
   };
 
   const navigate = useNavigate();
-  
+
   const handleCloseAlert = () => {
     setShowAlert(false);
     setAlertType(null);
@@ -302,7 +329,7 @@ export default function EditPublication(props) {
         images={values.imagenes || []}
         onEdit={handleImageEdit}
         onDelete={handleImageDelete}
-        token={token}
+        onImageListChange={handleImageChange}
       />
       {user.roles !== "ADMIN" && (
         <ButtonCharge
