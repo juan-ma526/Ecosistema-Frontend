@@ -19,9 +19,9 @@
     font-size: 13px !important;
 }
 .cardStyles{
-    width: 100%;
+    width: 90%;
     border-radius: 4px;
-    margin: 16px 0px;
+    margin: 16px auto;
     padding-top: 16px;
 }
 .cardHeaderStyles{

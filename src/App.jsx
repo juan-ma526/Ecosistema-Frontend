@@ -14,6 +14,7 @@ import DashboardAdministrador from "./pages/admin-dashboard/index";
 import AdminPublications from "./pages/admin-publications";
 import CreatePublication from "./pages/admin-publications/createPublication";
 import EditAdminPublication from "./pages/admin-publications/editAdminPublication";
+import ResultsSearchBar from "./pages/resultsSearchBar";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/auth/register" element={<Register />} />
         <Route path="/providers" element={<Providers />} />
         <Route path="/providers/:idcategory" element={<Providers />} />
+        <Route path="/findProviders/:queryString" element={<ResultsSearchBar />} />
         <Route path="/publications" element={<PublicationsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/profile/edit/:proveedorId" element={<EditPublication />} />
