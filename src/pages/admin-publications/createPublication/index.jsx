@@ -6,7 +6,6 @@ import { axiosClient } from "../../../libs/network/axiosClient";
 import { UserContext } from "../../../context/userContext";
 import SuccessAlert from "../../../modals/SuccessAlert";
 import ErrorAlert from "../../../modals/ErrorAlert";
-
 import { Result } from "./components/Result";
 import "./createPublication.css";
 import { ManageImagen } from "../components/ManageImagen";
@@ -86,10 +85,12 @@ export default function CreatePublication() {
     setShowAlert(false);
     setStatus("initial");
   };
+
   const deleteImage = (image) => {
     const filterImage = [...imagen].filter((file) => file.name != image.name);
     setImagen(filterImage);
   };
+
   const editImage = (index) => {
     setEditingIndex(index);
   };

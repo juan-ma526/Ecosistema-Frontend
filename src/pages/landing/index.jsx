@@ -55,6 +55,7 @@ export default function HomePage() {
         {transformPubli.map((item, index) => (
           /* Card */
           <PublicationsCard
+            item={item}
             key={index}
             title={item.title}
             date={item.date}

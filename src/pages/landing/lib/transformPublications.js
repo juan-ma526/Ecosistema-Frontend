@@ -12,7 +12,10 @@ export const transformPublications = (publications) => {
       id: publication.id,
       descripcion: descripcion,
       title: publication.titulo,
-      images: publication.imagenes.map((imagen) => imagen.url),
+      images: publication.imagenes.map((imagen) => ({
+        id: imagen.id,
+        url: imagen.url,
+      })),
       date: date,
       firstParagraph: firstParagraph,
       paragraphs: paragraphs,
