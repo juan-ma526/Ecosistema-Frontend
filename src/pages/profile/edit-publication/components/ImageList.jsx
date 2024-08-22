@@ -7,59 +7,66 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { Box, IconButton, Dialog, DialogActions, DialogContent, Button, Typography, Input } from "@mui/material";
 
-export default function StandardImageList({ images = [], onEdit, onDelete, onImageListChange }) {
-  const [imageList, setImageList] = React.useState(images);
-  const [newImages, setNewImages] = React.useState([]);
-  const [selectedImage, setSelectedImage] = React.useState(null);
-  const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [dialogType, setDialogType] = React.useState(null);
+export default function StandardImageList({ images = [], onImageListChange, getImagePendingChanges }) {
+  const [imageList, setImageList] = useState(images);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState(null);
   const fileInputRef = React.useRef(null);
-  const [hasChanges, setHasChanges] = useState(false);
+  let selectedId = React.useRef(null);
 
   React.useEffect(() => {
     setImageList(images);
-    if (hasChanges) {
-      onImageListChange([...images, ...newImages]); // Llamada a la función pasada como prop
-      setHasChanges(false);
-    }
-  }, [images, newImages, onImageListChange, hasChanges]);
+  }, [images]);
 
-  const handleEdit = (image) => {
-    onEdit(image.id);
-    setSelectedImage(image);
+  React.useEffect(() => {
+    return () => {
+      // Limpia los URLs creados para evitar pérdidas de memoria
+      imageList.forEach(item => {
+        if (item.file) {
+          URL.revokeObjectURL(item.url);
+        }
+      });
+    };
+  }, [imageList]);
+
+  /*   React.useEffect(() => {
+    selectedId.current = null;
+  }, [imageList]); */
+
+  const handleEdit = (imageId) => {
+    selectedId.current = imageId;
     setDialogType("edit");
     setDialogOpen(true);
-    setHasChanges(true);
   };
 
-  const handleDelete = (image) => {
-    onDelete(image);
-    setSelectedImage(image);
+  const handleDelete = (imageId) => {
+    selectedId.current = imageId;
     setDialogType("delete");
     setDialogOpen(true);
-    setHasChanges(true);
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
+  const confirmEdit = (event) => {
+    const fileData = event.target.files[0];
+    if (fileData && selectedId.current !== null) {
       setDialogOpen(false);
-      if (selectedImage && selectedImage.file) {
-        setNewImages((prevNewImages) =>
-          prevNewImages.map((img) => (img.id === selectedImage.id ? { ...img, file } : img))
-        );
-      } else {
-        setImageList((prevImages) => prevImages.map((img) => (img.id === selectedImage.id ? { ...img, file } : img)));
-      }
+      const formData = new FormData();
+      formData.append('file', fileData);
+      const pendingChanges = [...getImagePendingChanges(), { data: formData, type: "edit", id: selectedId.current }]; // TEMPORAL
+      onImageListChange(pendingChanges);
+      setImageList((prevList) =>
+        prevList.map((image) =>
+          image.id === selectedId.current ? { ...image, file: fileData, url: URL.createObjectURL(fileData) } : image
+        )
+      );
     }
   };
 
   const confirmDelete = () => {
     setDialogOpen(false);
-    if (selectedImage && selectedImage.file) {
-      setNewImages((prevNewImages) => prevNewImages.filter((img) => img.id !== selectedImage.id));
-    } else {
-      setImageList((prevImages) => prevImages.filter((img) => img.id !== selectedImage.id));
+    if (selectedId.current !== null) {
+      const pendingChanges = [...getImagePendingChanges(), { data: null, type: "delete", id: selectedId.current }]; // TEMPORAL
+      onImageListChange(pendingChanges);
+      setImageList(imageList.filter((image) => image.id !== selectedId));
     }
   };
 
@@ -78,11 +85,11 @@ export default function StandardImageList({ images = [], onEdit, onDelete, onIma
         cols={3}
         rowHeight={90}
       >
-        {[...imageList, ...newImages].map((item, index) => (
+        {imageList.map((item, index) => (
           <ImageListItem key={index} sx={{ position: "relative" }}>
             <img
               src={item.file ? URL.createObjectURL(item.file) : item.url}
-              alt={item.title || "Imagen"}
+              alt={item.nombre || "Imagen"}
               loading="lazy"
               style={{ borderRadius: "4px", width: "128px", height: "100px", objectFit: "cover" }}
             />
@@ -114,7 +121,7 @@ export default function StandardImageList({ images = [], onEdit, onDelete, onIma
                     backgroundColor: "darkgrey",
                   },
                 }}
-                onClick={() => handleEdit(item)}
+                onClick={() => handleEdit(item.id)}
               >
                 <EditOutlinedIcon sx={{ fontSize: "16px" }} />
               </IconButton>
@@ -133,7 +140,7 @@ export default function StandardImageList({ images = [], onEdit, onDelete, onIma
                     backgroundColor: "darkgrey",
                   },
                 }}
-                onClick={() => handleDelete(item)}
+                onClick={() => handleDelete(item.id)}
               >
                 <DeleteOutlinedIcon sx={{ fontSize: "16px" }} />
               </IconButton>
@@ -151,7 +158,7 @@ export default function StandardImageList({ images = [], onEdit, onDelete, onIma
               : "¿Estás seguro de que deseas eliminar esta imagen?"}
           </Typography>
           {dialogType === "edit" && (
-            <Input type="file" inputRef={fileInputRef} onChange={handleFileChange} sx={{ display: "none" }} />
+            <Input type="file" inputRef={fileInputRef} onChange={confirmEdit} sx={{ display: "none" }} />
           )}
         </DialogContent>
         <DialogActions>
