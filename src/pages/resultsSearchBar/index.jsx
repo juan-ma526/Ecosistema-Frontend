@@ -28,7 +28,7 @@ export default function ResultsSearchBar() {
                     })
                     SetData(providers);
                     SetLoading(true);
-                    if (response.data.length > 0) {
+                    if (providers.length > 0) {
                         SetResults(true);
                     } else {
                         SetResults(false);
