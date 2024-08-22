@@ -8,10 +8,13 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
 export default function Carrousel({ images = [] }) {
   // Verificar si images es un array y tiene elementos
-  if (!Array.isArray(images) || images.length === 0) {
+  const defaultImageUrl =
+    "https://img.freepik.com/vector-premium/no-hay-foto-disponible-icono-vector-simbolo-imagen-predeterminado-imagen-proximamente-sitio-web-o-aplicacion-movil_87543-10639.jpg?w=900";
+  /* if (!Array.isArray(images) || images.length === 0) {
     console.error("images prop is not an array or it is empty:", images);
     return null;
-  }
+  } */
+  const imagesToShow = Array.isArray(images) && images.length > 0 ? images : [{ url: defaultImageUrl }];
 
   return (
     <>
@@ -23,7 +26,7 @@ export default function Carrousel({ images = [] }) {
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         className="mySwiper"
       >
-        {images.map((image, index) => (
+        {imagesToShow.map((image, index) => (
           /* Item Slide */
           <SwiperSlide key={index}>
             <img
