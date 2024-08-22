@@ -21,16 +21,18 @@ export default function ResultsSearchBar() {
             try {
                 const url = import.meta.env.VITE_API_BASE_URL + "/buscar?query=" + queryString;
                 const response = await axios.get(url);
-                console.log(response.status);
-                
                 if (response.status ===200) {
-                  SetData(response.data);
-                  SetLoading(true);
-                  if (response.data.length > 0) {
-                    SetResults(true);
-                  } else {
-                    SetResults(false);
-                  }
+                    let providers = [];
+                    providers = response.data.filter(elem => {
+                        return elem.estado === 'ACEPTADO'
+                    })
+                    SetData(providers);
+                    SetLoading(true);
+                    if (response.data.length > 0) {
+                        SetResults(true);
+                    } else {
+                        SetResults(false);
+                    }
                 } else{
                   console.log('Error en la peticion. Consulte al Administrador');
                 }
