@@ -24,6 +24,10 @@ export default function SuccessAlert({ open, onClose, type }) {
         return {
           title: "Estado modificado con éxito.",
         };
+      case "success":
+        return {
+          title: "Publicación creada con éxito.",
+        };
       default:
         return {
           title: "Operación realizada con éxito",

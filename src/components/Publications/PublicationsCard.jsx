@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import "./PublicationsCard.css";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -12,6 +12,10 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 
 import Carrousel from "./components/Carrousel";
+import CardMenu from "../../pages/admin-publications/components/CardMenu";
+import { useLocation } from "react-router-dom";
+import { axiosClient } from "../../libs/network/axiosClient";
+import { UserContext } from "../../context/userContext";
 
 const ExpandMore = styled((props) => {
   /* eslint-disable-next-line no-unused-vars */
@@ -27,11 +31,26 @@ const ExpandMore = styled((props) => {
   justifyContent: "center",
 }));
 
-export const PublicationsCard = ({ title, images, date, firstParagraph, paragraphs }) => {
+export const PublicationsCard = ({ item, title, images, date, firstParagraph, paragraphs }) => {
+  const { token } = useContext(UserContext);
   const [expanded, setExpanded] = useState(false);
+  const location = useLocation();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleUpdateVisuals = async (idPubli) => {
+    try {
+      await axiosClient.get(`/incrementarVisualizaciones/${idPubli}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,11 +62,29 @@ export const PublicationsCard = ({ title, images, date, firstParagraph, paragrap
         margin: "auto",
         backgroundColor: "customColors.grisClaro",
         borderRadius: "16px",
+        position: "relative",
       }}
     >
-      {/* Title */}
+      {location.pathname === "/adminPublications" ? (
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "22px" }}>
+          <Box sx={{ position: "absolute", right: "12px", top: "14px" }}>
+            <CardMenu item={item} />
+          </Box>
 
-      <CardHeader title={title} sx={{ textAlign: "center", fontSize: "18px", fontWeight: 600 }} />
+          <CardHeader
+            className="publications-title"
+            title={title}
+            sx={{ textAlign: "center", fontSize: "18px", fontWeight: 600, marginTop: 2 }}
+          />
+        </Box>
+      ) : (
+        <CardHeader
+          className="publications-title"
+          title={title}
+          sx={{ textAlign: "center", fontSize: "18px", fontWeight: 600, marginTop: 2 }}
+        />
+      )}
+      {/* Title */}
 
       {/* Container Carrousel */}
 
@@ -57,11 +94,11 @@ export const PublicationsCard = ({ title, images, date, firstParagraph, paragrap
 
       {/* Container not expanded */}
 
-      <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-        <Typography variant="body2" sx={{ fontSize: "16px" }}>
+      <CardContent sx={{ display: "flex", flexDirection: "column", marginTop: 3 }}>
+        <Typography variant="body2" sx={{ fontSize: "14px", fontWeight: 600 }}>
           {date}
         </Typography>
-        <Typography variant="body2" sx={{ fontSize: "16px" }}>
+        <Typography variant="body2" sx={{ fontWeight: 400, fontSize: "16px" }}>
           {firstParagraph}
         </Typography>
       </CardContent>
@@ -70,7 +107,15 @@ export const PublicationsCard = ({ title, images, date, firstParagraph, paragrap
 
       {!expanded && (
         <CardActions disableSpacing sx={{ display: "flex", justifyContent: "center" }}>
-          <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+          <ExpandMore
+            expand={expanded}
+            onClick={(e) => {
+              handleExpandClick(e);
+              handleUpdateVisuals(item.id);
+            }}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
             <Typography sx={{ fontWeight: 500, color: "customColors.violeta" }}>Ver más</Typography>
           </ExpandMore>
         </CardActions>

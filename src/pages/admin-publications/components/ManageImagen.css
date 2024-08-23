@@ -1,0 +1,17 @@
+.uploaded-img {
+  border-radius: 4px;
+  width: 350px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+.container-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-right: 8px;
+}
