@@ -16,6 +16,7 @@ import { UserContext } from "../../context/userContext";
 export default function HomePage() {
   const { user } = useContext(UserContext);
   const [publications, setPublications] = useState([]);
+  const [locationAvailable, setLocationAvailable] = useState(false);
 
   useEffect(() => {
     try {
@@ -24,6 +25,15 @@ export default function HomePage() {
         const data = response.data;
         setPublications(data);
       };
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLocationAvailable(true);
+          },
+        );
+      } else {
+        setLocationAvailable(false);
+      }
       getPublications();
     } catch (error) {
       console.log(error);
@@ -38,8 +48,17 @@ export default function HomePage() {
       <ImpactCompanies />
       {user == null ? <InvitationRedImpacto /> : <></>}
       <Box sx={{ marginTop: "48px" }}>
-        <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones para vos</Typography>
-        <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores ECO</Typography>
+        {locationAvailable ? 
+        <>        
+          <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones locales para vos</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores cerca tuyo ECO</Typography>
+        </>
+        :
+        <>
+          <Typography sx={{ fontWeight: 600, marginLeft: "18px" }}>Recomendaciones para vos</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: "22px", marginLeft: "18px" }}>Proveedores ECO</Typography>
+        </>
+        }
       </Box>
       <ProvidersHomes />
 
