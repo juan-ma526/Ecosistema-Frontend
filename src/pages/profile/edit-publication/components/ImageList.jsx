@@ -66,7 +66,7 @@ export default function StandardImageList({ images = [], onImageListChange, getI
     if (selectedId.current !== null) {
       const pendingChanges = [...getImagePendingChanges(), { data: null, type: "delete", id: selectedId.current }]; // TEMPORAL
       onImageListChange(pendingChanges);
-      setImageList(imageList.filter((image) => image.id !== selectedId));
+      setImageList(imageList.filter((image) => image.id !== selectedId.current));
     }
   };
 
