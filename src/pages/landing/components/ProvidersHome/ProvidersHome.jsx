@@ -22,12 +22,9 @@ function ProvidersHome(props) {
             setLocationAvailable(true);
             setCoordinates({ lat: latitude, lng: longitude });
             // Agrega el console.log para verificar las coordenadas
-            console.log("Coordenadas del usuario:", {
-              lat: latitude,
-              lng: longitude,
-            });
+            
           },
-          () => setLocationAvailable(false)
+          //() => setLocationAvailable(false)
         );
       } else {
         setLocationAvailable(false);
@@ -44,13 +41,16 @@ function ProvidersHome(props) {
         : `http://localhost:8080/buscar?query=`;
 
       try {
-        const response = await axios.get(urlProviders);
+        const response = await axios.get(urlProviders, {params:{
+          lat: coordinates.lat,
+          lng: coordinates.lng
+        }});
         if (response.status === 200) {
           let providersHome = [];
           let providers = response.data.filter((elem) => {
             return elem.estado == "ACEPTADO";
           });
-          if (!locationAvailable) {
+          if (locationAvailable) {
             if (providers.length > 3) {
               providers.map((elem, i) => {
                 if (i < 4) {
@@ -61,7 +61,7 @@ function ProvidersHome(props) {
               providersHome = providers;
             }
           } else {
-            // En caso de que la ubicación esté disponible, usa todos los proveedores cercanos
+            // En caso de que la ubicación no esté disponible, usa todos los proveedores cercanos
             providersHome = providers.slice(0, 4);
           }
           setData(providersHome);
