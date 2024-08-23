@@ -1,17 +1,16 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useContext, useEffect, useState } from "react";
-import { Box } from "@mui/material";
+/* eslint-disable react/prop-types */
+import { useContext, useEffect, useState } from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import EditTitle from "./components/EditTitle";
 import EditSubtitle from "./components/EditSubtitle";
 import "./edit.css";
-//import Form from "./components/Form";
 import ButtonCharge from "../components/ButtonCharge";
 import StandardImageList from "./components/ImageList";
 import ErrorAlert from "../../../modals/ErrorAlert";
 import SuccessAlert from "../../../modals/SuccessAlert";
 import axios from "axios";
 import { UserContext } from "../../../context/userContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { validateEmail, validatePhone } from "./utils/utils";
 import Form2 from "./components/Form2";
 
@@ -37,14 +36,16 @@ export default function EditPublication(props) {
     provinciaId: null,
     ciudadId: null,
     descripcion: "",
-    images: [],
+    imagenes: [],
   });
+
   const [categorias, setCategorias] = useState([]);
   const [paises, setPaises] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [selectedPaisId, setSelectedPaisId] = useState(null);
   const [errors, setErrors] = useState({});
-
+  const [loading, setLoading] = useState(false);
+  let imagesChanges = [];
   const urlCategorias = "http://localhost:8080/categorias";
   const urlPaises = "http://localhost:8080/ubicacion/paises";
 
@@ -127,19 +128,18 @@ export default function EditPublication(props) {
   const handlePaisChange = (event) => {
     const selectedId = event.target.value;
     setSelectedPaisId(selectedId);
-    setValues({ ...values, paisId: selectedId });
+    setValues((prevValues) => ({ ...prevValues, paisId: selectedId }));
   };
 
   const handleProvinciaChange = (event) => {
     const selectedId = event.target.value;
-    setValues({ ...values, provinciaId: selectedId });
+    setValues((prevValues) => ({ ...prevValues, provinciaId: selectedId }));
   };
 
   const handleSubmit = () => {
     let newErrors = {};
     const { nombre, email, telefono } = values;
 
-    // Limpiar errores previos
     setErrors({});
 
     if (!nombre) {
@@ -157,21 +157,47 @@ export default function EditPublication(props) {
     return Object.keys(newErrors).length === 0;
   };
 
+  // EVENTO QUE PERMITE LEER LAS IMAGENES ENVIADAS AL HIJO (GETTER):
+  const getImagePendingChanges = () => {
+    return imagesChanges;
+  };
+
+  // EVENTO QUE LE MANDA AL HIJO, CUANDO TIENE QUE ENVIAR LOS DATOS (SETTER):
+  const setImagePendingChanges = (imagePendingChanges) => {
+    imagesChanges = imagePendingChanges;
+    console.log(imagesChanges);
+  };
+
   const handleButtonCharge = async () => {
     const isFormValid = handleSubmit();
-
     if (isFormValid) {
+      setLoading(true);
       try {
-        const updatedData = await editForm(values);
-        console.log(values);
-
-        setValues((prevValues) => ({
-          ...prevValues,
-          ...updatedData, // Actualiza los valores con la respuesta del backend
-        }));
+        for (const change of imagesChanges) {
+          if (change.type === "edit") {
+            await axios.put(`http://localhost:8080/actualizar/${change.id}`, change.data, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          } else if (change.type === "delete") {
+            await axios.delete(`http://localhost:8080/eliminarImagen/${change.id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          }
+        }
+        // Update the form with the final data
+        await editForm(values);
         setAlertType("success");
+        imagesChanges = [];
       } catch (error) {
+        console.error("Error processing changes:", error);
         setAlertType("error");
+      } finally {
+        setLoading(false);
       }
     } else {
       setAlertType("error");
@@ -192,30 +218,30 @@ export default function EditPublication(props) {
       provinciaId,
       ciudad,
       descripcion,
-      imagenes,
     } = formData;
 
-    const dataToEdit = {
-      usuarioId,
-      proveedorId,
-      nombre,
-      descripcion,
-      tipoProveedor,
-      telefono,
-      email,
-      facebook,
-      instagram,
-      ciudad,
-      paisId,
-      provinciaId,
-      categoriaId,
-      imagenes,
-    };
+    const dataToEdit = new FormData();
+    dataToEdit.append("usuarioId", usuarioId);
+    dataToEdit.append("proveedorId", proveedorId);
+    dataToEdit.append("nombre", nombre);
+    dataToEdit.append("descripcion", descripcion);
+    dataToEdit.append("tipoProveedor", tipoProveedor);
+    dataToEdit.append("telefono", telefono);
+    dataToEdit.append("email", email);
+    dataToEdit.append("facebook", facebook);
+    dataToEdit.append("instagram", instagram);
+    dataToEdit.append("ciudad", ciudad);
+    dataToEdit.append("paisId", paisId);
+    dataToEdit.append("provinciaId", provinciaId);
+    dataToEdit.append("categoriaId", categoriaId);
 
-    console.log("dataToEdit: ", dataToEdit);
+    imagesChanges.forEach((imagen, index) => {
+      if (imagen.data) {
+        dataToEdit.append(`imagenes[${index}]`, imagen.data);
+      }
+    });
+
     try {
-      console.log(dataToEdit);
-
       const response = await axios.put(
         `http://localhost:8080/editarProveedor/usuario/${usuarioId}/proveedor/${proveedorId}`,
         dataToEdit,
@@ -234,14 +260,19 @@ export default function EditPublication(props) {
     }
   };
 
+  const navigate = useNavigate();
+
   const handleCloseAlert = () => {
     setShowAlert(false);
     setAlertType(null);
+    if (alertType === "success") {
+      navigate("/profile"); // Redirigir al perfil en caso de éxito
+    }
   };
 
   return (
     <Box>
-      {user.roles != "ADMIN" && (
+      {user.roles !== "ADMIN" && (
         <section className="titles">
           <EditTitle />
           <EditSubtitle />
@@ -260,19 +291,12 @@ export default function EditPublication(props) {
         readOnlyForm={user.roles === "ADMIN"}
         rol={user.roles}
       />
-      {/* <Form
-        initialValues={values}
-        setValues={setValues}
-        errors={errors}
-        setErrors={setErrors}
-        categorias={categorias}
-        paises={paises}
-        provincias={provincias}
-        onPaisChange={handlePaisChange}
-        onProvinciaChange={handleProvinciaChange}
-      /> */}
-      <StandardImageList images={values.imagenes || []} />
-      {user.roles != "ADMIN" && (
+      <StandardImageList
+        images={values.imagenes || []}
+        onImageListChange={setImagePendingChanges}
+        getImagePendingChanges={getImagePendingChanges}
+      />
+      {user.roles !== "ADMIN" && (
         <ButtonCharge
           sx={{
             marginTop: "40px",
@@ -283,6 +307,41 @@ export default function EditPublication(props) {
           }}
           onClick={handleButtonCharge}
         />
+      )}
+      {loading && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo oscuro
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress sx={{ color: "#4E169D" }} />
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#ffffff", // Texto blanco
+                marginTop: "16px",
+              }}
+            >
+              Enviando el formulario...
+            </Typography>
+          </Box>
+        </Box>
       )}
       {showAlert && alertType === "error" && <ErrorAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
       {showAlert && alertType === "success" && <SuccessAlert open={showAlert} onClose={handleCloseAlert} type="edit" />}
