@@ -170,6 +170,7 @@ export default function EditPublication(props) {
 
   const handleButtonCharge = async () => {
     const isFormValid = handleSubmit();
+
     if (isFormValid) {
       setLoading(true);
       try {
@@ -189,6 +190,7 @@ export default function EditPublication(props) {
             });
           }
         }
+
         // Update the form with the final data
         await editForm(values);
         setAlertType("success");
@@ -236,7 +238,7 @@ export default function EditPublication(props) {
     dataToEdit.append("categoriaId", categoriaId);
 
     imagesChanges.forEach((imagen, index) => {
-      if (imagen.data) {
+      if (imagen.data && imagen.type === "edit") {
         dataToEdit.append(`imagenes[${index}]`, imagen.data);
       }
     });
