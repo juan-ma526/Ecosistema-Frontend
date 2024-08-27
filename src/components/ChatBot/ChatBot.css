@@ -1,0 +1,51 @@
+.not-expanded-icon {
+  color: white !important;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+.not-expanded-icon:hover {
+  background-color: black;
+}
+.card-body {
+  width: 390px;
+  height: 650px;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+}
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1;
+  gap: 6;
+}
+
+.warning-msg {
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+  margin-top: 2;
+}
+.input-chat-box {
+  padding: 8px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+.icon-chat-box {
+  width: 48px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+}

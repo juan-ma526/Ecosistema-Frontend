@@ -1,0 +1,25 @@
+.item-category-container {
+  background-color: #eaeaea;
+  width: 152px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.image-text-container {
+  width: 134px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.link-tag-categories {
+  text-decoration: none;
+}
+
+.link-tag-categories:active {
+  text-decoration: none;
+}

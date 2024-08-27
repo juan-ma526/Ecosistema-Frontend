@@ -1,0 +1,9 @@
+.container-publications-cards {
+  width: 100%;
+  height: 100%;
+  background-color: #00a364;
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  border-top-right-radius: 100%;
+}

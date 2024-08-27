@@ -1,0 +1,18 @@
+.MuiDialog-paper{
+    border-radius: 28px !important;
+    width: 328px;
+    height: 208px;
+    padding-top: 16px;
+}
+
+.MuiDialog-paper-success{
+    border-radius: 28px !important;
+    width: 328px;
+    height: 152px;
+    padding-top: 16px;
+}
+
+.alert .MuiSvgIcon-root{
+    width: 40px !important;
+    height: 40px !important;
+}

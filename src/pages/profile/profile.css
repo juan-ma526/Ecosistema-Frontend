@@ -1,0 +1,9 @@
+.MuiCardHeader-title {
+    font-size: 15px !important;
+    line-height: 24px !important;
+    font-weight: 700 !important;
+}
+
+.title-button{
+    height: 170px;
+}

@@ -1,0 +1,9 @@
+.container-home {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../images/fondoPublications.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 53% center;
+  height: 488px;
+  opacity: 1;
+  position: relative;
+}
